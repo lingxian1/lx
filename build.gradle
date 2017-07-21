@@ -1,0 +1,58 @@
+group 'com.exam'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'idea'
+
+
+
+springBoot {
+    mainClass = 'com.exam.Application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+//create a single Jar with all dependencies
+//task fatJar(type: Jar) {
+//    manifest {
+//        Attributes 'Implementation-Title': 'Gradle Jar File Example',
+//                'Implementation-Version': version,
+//                'Main-Class': 'com.ticknick.server.Application'
+//    }
+//    baseName = project.name + '-all'
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//    with Jar
+//}
+
+
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile('org.springframework.boot:spring-boot-starter-aop')
+    compile('com.google.code.gson:gson:2.8.0')
+    compile 'com.alibaba:fastjson:1.2.31'
+    runtime('mysql:mysql-connector-java')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
