@@ -13,11 +13,11 @@ public enum ErrorCode {
     PHONE_OR_PASSWORD_ERROR(90004, "用户名或者密码不正确"),
     USER_REGISTER_DEP_PHONE(90009, "手机号已经存在"),
 
-    ORDER_CANCEL_CANNOT(20006, "此时无法取消订单"),
-    ORDER_OPERATION_LOG_PUBLISH_ERROR(20014, "订单操作表创建异常", false),
+    ORDER_CANCEL_CANNOT(20006, ""),
+    ORDER_OPERATION_LOG_PUBLISH_ERROR(20014, "", false),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYSTEM_NULL_OBJECT(3, "为空的对象"),
-    CREDIT_SAVE_RECORD_ERROR(80001, "信用记录保存失败"),
+    CREDIT_SAVE_RECORD_ERROR(80001, ""),
    ;
 
     String description;

@@ -97,6 +97,7 @@ public abstract class AbstractReadDao<T>  {
         if (id == null || id.trim().equals("")) {
             return null;
         }
+
         HashMap<String, String> idAndValue = new HashMap<>();
         idAndValue.put(getId(), id);
         return findByIds(idAndValue);

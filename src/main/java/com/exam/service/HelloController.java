@@ -16,4 +16,8 @@ public class HelloController {
     public String hello2(){
         return "signin";
     }
+    @RequestMapping("/maininfo")
+    public String hello3(){
+        return "maininfo";
+    }
 }
