@@ -7,10 +7,7 @@ import com.exam.common.util.Md5Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.exam.common.ErrorCode.PHONE_OR_PASSWORD_ERROR;
 
@@ -24,6 +21,7 @@ public class SigninController {
     ExamineeDao examineeDao;
     private Logger logger = LoggerFactory.getLogger(SigninController.class);
 
+
     @PostMapping
     public Response login(
             @RequestParam(defaultValue = "") String phone,
@@ -35,7 +33,6 @@ public class SigninController {
         if(enpass.equals(password)){
             examExamineeEntity.setPassword("");//不返回密码
             logger.info(examExamineeEntity.getExamineeId());
-            logger.info(examExamineeEntity.toString());
             return Response.ok(examExamineeEntity);
         }
         else

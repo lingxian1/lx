@@ -10,10 +10,10 @@ public enum ErrorCode {
      */
     DEFAULT_ERROR(500, "error"),
 
-    PHONE_OR_PASSWORD_ERROR(90004, "用户名或者密码不正确"),
+    PHONE_OR_PASSWORD_ERROR(10001, "用户名或者密码不正确"),
     USER_REGISTER_DEP_PHONE(90009, "手机号已经存在"),
 
-    ORDER_CANCEL_CANNOT(20006, ""),
+    USER_ERROR(10002, "错误的用户"),
     ORDER_OPERATION_LOG_PUBLISH_ERROR(20014, "", false),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYSTEM_NULL_OBJECT(3, "为空的对象"),

@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by LX on 2017/7/20.
  */
 @Controller
-public class HelloController {
+public class ManagerController {
     @RequestMapping("/")
     public String hello(){
         return "hello";
     }
     @RequestMapping("/signin")
     public String hello2(){
-        return "signin";
+        return "/signin";
     }
-    @RequestMapping("/maininfo")
+    @RequestMapping("/examinfo")
     public String hello3(){
-        return "maininfo";
+        return "/examinfo";
     }
 }
