@@ -7,7 +7,10 @@ import com.exam.common.util.Md5Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.exam.common.ErrorCode.PHONE_OR_PASSWORD_ERROR;
 
@@ -19,6 +22,7 @@ import static com.exam.common.ErrorCode.PHONE_OR_PASSWORD_ERROR;
 public class SigninController {
     @Autowired
     ExamineeDao examineeDao;
+
     private Logger logger = LoggerFactory.getLogger(SigninController.class);
 
 

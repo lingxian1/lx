@@ -1,0 +1,33 @@
+.question{
+    padding: 0 2em 0 2em;
+}
+.top-left{
+    padding: 2em 0 0 2em;
+}
+.top{
+    padding-top: 1em;
+}
+.color1{
+    background-color: #EDEFF1;
+}
+.color-nav{
+    background-color: #edeff1;
+}
+.select{
+    color: #0269c2;
+}
+.go-right{
+    float: right;
+}
+.title-length{
+    width:90%;
+}
+.hide{
+    display: none;
+}
+.isSelected{
+    color: #2aabd2;
+}
+.fonts{
+    font-size: 20px;
+}

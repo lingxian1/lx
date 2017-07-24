@@ -25,8 +25,8 @@ public class ExamInfoController {
     private Logger logger = LoggerFactory.getLogger(ExamInfoController.class);
 
     @GetMapping
-    public Response findExam(String examineeId) {
-        logger.info(examineeId);
+    public Response findExams(String examineeId) {
+        logger.info("findExam"+examineeId);
         if ("".equals(examineeId)||examineeId==null) {
             return Response.error(USER_ERROR);
         }
@@ -35,5 +35,16 @@ public class ExamInfoController {
             logger.info(iterator.next().getExaminationId());
         }
         return Response.ok(examinationDao.findAll().iterator());
+    }
+
+    @GetMapping("/examinfo2")
+    public Response findExam(String examineeId,String examinationId) {
+        logger.info("findExam"+examineeId);
+        logger.info("findExam"+examinationId);
+        if ("".equals(examineeId)||examineeId==null) {
+            return Response.error(USER_ERROR);
+        }
+        ExamExaminationEntity examExaminationEntity=examinationDao.findById(examinationId);
+        return Response.ok(examExaminationEntity);
     }
 }

@@ -27,28 +27,29 @@ var data;
 //初始化
 $(function(){
     //获取考试信息
-    // $.ajax({
-    //     type: "get",
-    //     url: "/examinfo1",             //向springboot请求数据的url
-    //     data: {"examinationId":getCookie("examinationId")},
-    //     success: function (result) {
-    //         var data=result;
-    //         console.log(JSON.stringify(result));
-    //         msg_display(data.data);
-    //     }
-    // });
-    $.get('./exam.json',function (result) {
-        //考试时间
-        var sumtime=result.answer_time;
-        questionCount=result.question_count;
-        setTime(sumtime);
+    $.ajax({
+        type: "get",
+        url: "/examinfo1/examinfo2",             //向springboot请求数据的url
+        data: {"examineeId":getCookie("examineeId"),"examinationId":getCookie("examinationId")},
+        success: function (result) {
+            //考试时间
+            console.log(JSON.stringify(result));
+            var sumtime=result.data.answerTime;
+            questionCount=result.data.questionCount;
+            setTime(sumtime);
+        }
     }),
-    $.get('./question.json',function (datas) {  //获取全部题目信息
-        data=datas;
-        setAnswer(0);
-        setQuestion();
-        setSelects();
-    }),
+        $.ajax({
+            type: "get",
+            url: "/question",             //向springboot请求数据的url
+            data: {"examineeId":getCookie("examineeId"),"examinationId":getCookie("examinationId")},
+            success: function (result) {
+                data=result.data;
+                setAnswer(0);
+                setQuestion();
+                setSelects();
+            }
+        }),
         initAnswer()
 });
 
@@ -59,26 +60,18 @@ function initAnswer(){
 
 //设置答案
 function setAnswer(index) {
-    questionID=data[index].question_ID;
-    question=data[index].question_text;
-    questionType=data[index].question_type;
-    selectCount=data[index].question_choose_count;
-    answerA=data[index].question_chooseA;
-    answerB=data[index].question_chooseB;
-    answerC=data[index].question_chooseC;
-    answerD=data[index].question_chooseD;
+    questionID=data[index].questionId;
+    question=data[index].questionText;
+    questionType=data[index].questionType;
+    selectCount=data[index].questionChooseCount;
+    answerA=data[index].questionChooseA;
+    answerB=data[index].questionChooseB;
+    answerC=data[index].questionChooseC;
+    answerD=data[index].questionChooseD;
     // console.log(questionIndex);
 }
 //计时器
 function setTime(sumtime){
-    /**
-     * 注意：
-     * localStorage保存时长为永久，必须自己removeItem
-     * 所以建议使用sessionStorage(关闭会话自动清除)
-     * 也可以先检测一下然后手动removeItem毕竟sessionStorage关了会话就没了也有弊端
-     * 所以用哪个视情况而定
-     */
-    //localStorage获取
     var starttime = localStorage.getItem('starttime');
     if(!starttime){ //没有就new一个并扔进去(Date会自动toString)
         starttime = new Date();
@@ -198,10 +191,16 @@ function submitAnswer() {
 function ansToJson() {
     var json = {}, json_sorted = {}, keys = [];
     localStorage.removeItem("starttime")
+
+    json["examineeID"]=getCookie("examineeId");
+
+    json["examinationID"]=getCookie("examinationId");
+
     for(var k in localStorage) {
-        keys.push(k);
+        // keys.push(k);
         json[""+k] = localStorage[k];
     }
+
     console.log(json);
     json_sorted = JSON.stringify(json);
     return json_sorted;
@@ -212,7 +211,8 @@ function saveAnswer() {
     //todo ajax上传服务器
     console.log("上传成功");
     localStorage.clear();//清空本地存储
-    //todo 结果界面
+    // alert("提交成功");
+    // location="/exam/examinfo"
 }
 
 //退出答题
