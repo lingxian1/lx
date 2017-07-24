@@ -27,7 +27,7 @@ public class ExamInfoController {
     @GetMapping
     public Response findExam(String examineeId) {
         logger.info(examineeId);
-        if (examineeId.equals("")) {
+        if ("".equals(examineeId)||examineeId==null) {
             return Response.error(USER_ERROR);
         }
         Iterator<ExamExaminationEntity> iterator = examinationDao.findAll().iterator();

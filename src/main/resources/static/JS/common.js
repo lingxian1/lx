@@ -1,4 +1,13 @@
-
+function exit() {
+    var msg = "退出当前登陆";
+    if (confirm(msg)==true){
+        delCookie("examineeId");
+        delCookie("areaId");
+        localStorage.clear();
+    }else{
+        return false;
+    }
+}
 //毫秒转换
 function getDateAndTime(ms) {
     var d = new Date(ms);
