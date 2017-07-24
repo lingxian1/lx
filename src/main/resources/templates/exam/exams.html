@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <link rel="icon" href="#"/>
+    <title>考试系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../../css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="../../../../css/signin.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="row ">
+        <nav class="navbar navbar-default color-nav">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand" id="time"></div>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active" onclick="exitExam()"><a href="#">退出 <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+    </div>
+
+    <div class="row ">
+        <div class="col-md-6 color1">
+            <div class="row question">
+                <h2 class="title-length" id="questionType"></h2>
+                <hr> </hr>
+                <div class="fonts" id="question"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6 top">
+            <div class="panel panel-default panel-primary" id="selectA" onclick="isSelected(this)">
+                <div class="panel-body">
+                    <div>
+                        <strong class="select">A.</strong>
+                        <span id="answerA">1</span>
+                        <span class="glyphicon glyphicon-ok go-right" id="OK_A" ></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel panel-default panel-primary" id="selectB" onclick="isSelected(this)">
+                <div class="panel-body">
+                    <div>
+                        <strong class="select">B.</strong>
+                        <span id="answerB">1</span>
+                        <span class="glyphicon glyphicon-ok go-right" id="OK_B"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default panel-primary" id="selectC" onclick="isSelected(this)">
+                <div class="panel-body">
+                    <div>
+                        <strong class="select">C.</strong>
+                        <span id="answerC">1</span>
+                        <span class="glyphicon glyphicon-ok go-right" id="OK_C"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default panel-primary" id="selectD" onclick="isSelected(this)" >
+                <div class="panel-body" onclick="">
+                    <div>
+                        <strong class="select">D.</strong>
+                        <span id="answerD">1</span>
+                        <span class="glyphicon glyphicon-ok go-right" id="OK_D"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-2">
+            <!--<button class="btn btn-primary btn-block" type="button" id="before" onclick="before()"><span class="glyphicon glyphicon-chevron-up"></span>上一题</button>-->
+        </div>
+        <div class="col-md-2"><br> </br></div>
+        <div class="col-md-2">
+            <button class="btn btn-primary btn-block" type="button" id="after" onclick="after()"><span class="glyphicon glyphicon-chevron-down"></span>下一题</button>
+        </div>
+    </div>
+
+</div>
+<script src="../../../../js/jquery-3.1.1.js"></script>
+<script src="../../../../js/bootstrap.js"></script>
+<script src="../../../../js/common.js"></script>
+<script src="../../../../js/exam.js"></script>
+
+</body>
+</html>

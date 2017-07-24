@@ -16,8 +16,12 @@ public class ManagerController {
     public String hello2(){
         return "/signin";
     }
-    @RequestMapping("/examinfo")
+    @RequestMapping("/exam/examinfo")
     public String hello3(){
-        return "/examinfo";
+        return "/exam/examinfo";
+    }
+    @RequestMapping("/exam/exams")
+    public String hello4(){
+        return "/exam/exams";
     }
 }

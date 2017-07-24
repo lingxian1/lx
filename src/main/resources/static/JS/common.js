@@ -4,6 +4,7 @@ function exit() {
         delCookie("examineeId");
         delCookie("areaId");
         localStorage.clear();
+        location="/signin";
     }else{
         return false;
     }

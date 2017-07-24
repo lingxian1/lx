@@ -17,7 +17,7 @@ function signal() {
                 console.log(result.data.examineeId);
                 setCookie("examineeId",result.data.examineeId);
                 setCookie("areaId",result.data.areaId);
-                location = "/examinfo";        //跳转
+                location = "/exam/examinfo";        //跳转
             } else{
                 alert(result.message);
             }
