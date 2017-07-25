@@ -1,4 +1,5 @@
 import com.exam.Application;
+import com.exam.common.dao.AnswerLogDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.GradeDao;
 import com.exam.service.ExamController;
@@ -28,6 +29,11 @@ public class DaoTest {
     @Autowired
     GradeDao gradeDao;
 
+    @Autowired
+    AnswerLogDao answerLogDao;
+
+    @Autowired
+    ExaminationDao examinationDao;
     @Test
     public void get(){
         System.out.println(creditDao.findAll().size());
@@ -47,4 +53,16 @@ public class DaoTest {
     public void test4(){
         System.out.println(gradeDao.findGrade("11111","22222").getGrade());
     }
+
+    @Test
+    public void test5(){
+        System.out.println(answerLogDao.getGrade("1000012345","2017070701"));
+    }
+
+
+//    public void test6(){
+//        System.out.println(examinationDao.addExamineeCount("2017070701"));
+//    }
 }
+
+

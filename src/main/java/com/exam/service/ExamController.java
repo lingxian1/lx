@@ -1,9 +1,7 @@
 package com.exam.service;
 
 import com.exam.common.Response;
-import com.exam.common.dao.ExamPaperDao;
-import com.exam.common.dao.GradeDao;
-import com.exam.common.dao.QuestionDao;
+import com.exam.common.dao.*;
 import com.exam.common.entity.ExamAnswerLogEntity;
 import com.exam.common.entity.ExamExaminationPaperEntity;
 import com.exam.common.entity.ExamGradeEntity;
@@ -11,8 +9,10 @@ import com.exam.common.entity.ExamQuestionEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +27,9 @@ import static com.exam.common.ErrorCode.USER_ERROR;
 @RequestMapping("/question")
 public class ExamController {
     @Autowired
+    ExaminationDao examinationDao;
+
+    @Autowired
     ExamPaperDao examPaperDao;
 
     @Autowired
@@ -35,7 +38,10 @@ public class ExamController {
     @Autowired
     GradeDao gradeDao;
 
-    private Logger logger = LoggerFactory.getLogger(SigninController.class);
+    @Autowired
+    AnswerLogDao answerLogDao;
+
+    private Logger logger = LoggerFactory.getLogger(ExamController.class);
 
     /**
      * 获取某考试试题
@@ -68,8 +74,38 @@ public class ExamController {
     }
 
     @PostMapping("/answer")
+    @Transactional(rollbackFor = Exception.class)
     public Response getAnswer(@RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys){
-        System.out.println("it is a "+examAnswerLogEntitys.get(0).getQuestionId());
+        Iterator<ExamAnswerLogEntity> iterator= examAnswerLogEntitys.iterator();
+        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+        //TODO 空值判断，错误值判断 验证
+        //保存每小题分值
+        while (iterator.hasNext()){
+            ExamAnswerLogEntity temp=iterator.next();
+            int score=examPaperDao.findScore(temp.getExaminationId(),temp.getQuestionId()).getScore();
+            String answer=questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer();
+            int realScore=0;
+            System.out.println(temp.getQuestionId()+"sorce:"+score+"  answer:"+answer);
+            if(answer.equals(temp.getExamineeAnswer())){
+                realScore=score;
+            }
+            temp.setScoreReal(realScore);
+            temp.setSubmitTime(timestamp);
+            answerLogDao.save(temp);
+        }
+
+        String examineeId=examAnswerLogEntitys.get(0).getExamineeId();
+        String examinationId=examAnswerLogEntitys.get(0).getExaminationId();
+        //保存成绩
+//        ExamGradeEntity gradeEntity=new ExamGradeEntity();
+//        int grade =answerLogDao.getGrade(examineeId,examinationId);
+//        gradeEntity.setExamineeId(examineeId);
+//        gradeEntity.setExaminationId(examinationId);
+//        gradeEntity.setGrade(grade);
+//        gradeEntity.setExaminationState("00");
+
+        //考试人数+1
+        examinationDao.addExamineeCount(examinationId);
         return Response.ok();
     }
 }

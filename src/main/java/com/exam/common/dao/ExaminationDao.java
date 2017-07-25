@@ -34,4 +34,13 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         }
         return exam;
     }
+    public void addExamineeCount(String examinationId){
+        ExamExaminationEntity examExaminationEntity=findById(examinationId);
+        int count=0;
+        if(examExaminationEntity.getExamineeCount()!=null){
+            count=examExaminationEntity.getExamineeCount();
+        }
+        examExaminationEntity.setExamineeCount(count+1);
+        update(examExaminationEntity);
+    }
 }

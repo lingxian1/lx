@@ -31,7 +31,7 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
      */
     public ExamExaminationPaperEntity findScore(String examintionId,String questionId){
         Map<String,String> str =new HashMap<>();
-        str.put("examintionId",examintionId);
+        str.put("examinationId",examintionId);
         str.put("questionId",questionId);
         return findByIds(str);
     }
