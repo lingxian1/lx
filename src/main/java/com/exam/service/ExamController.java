@@ -78,6 +78,7 @@ public class ExamController {
     public Response getAnswer(@RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys){
         Iterator<ExamAnswerLogEntity> iterator= examAnswerLogEntitys.iterator();
         Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+        int grade=0;
         //TODO 空值判断，错误值判断 验证
         //保存每小题分值
         while (iterator.hasNext()){
@@ -89,21 +90,21 @@ public class ExamController {
             if(answer.equals(temp.getExamineeAnswer())){
                 realScore=score;
             }
+            grade+=realScore;
             temp.setScoreReal(realScore);
             temp.setSubmitTime(timestamp);
             answerLogDao.save(temp);
         }
-
+        System.out.println("grade:"+grade);
         String examineeId=examAnswerLogEntitys.get(0).getExamineeId();
         String examinationId=examAnswerLogEntitys.get(0).getExaminationId();
-        //保存成绩
-//        ExamGradeEntity gradeEntity=new ExamGradeEntity();
-//        int grade =answerLogDao.getGrade(examineeId,examinationId);
-//        gradeEntity.setExamineeId(examineeId);
-//        gradeEntity.setExaminationId(examinationId);
-//        gradeEntity.setGrade(grade);
-//        gradeEntity.setExaminationState("00");
-
+        //设置状态
+        ExamGradeEntity gradeEntity=new ExamGradeEntity();
+        gradeEntity.setExamineeId(examineeId);
+        gradeEntity.setExaminationId(examinationId);
+        gradeEntity.setGrade(grade);
+        gradeEntity.setExaminationState("00");
+        gradeDao.save(gradeEntity);
         //考试人数+1
         examinationDao.addExamineeCount(examinationId);
         return Response.ok();

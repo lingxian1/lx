@@ -34,6 +34,11 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         }
         return exam;
     }
+
+    /**
+     * 修改考试人数计数器
+     * @param examinationId
+     */
     public void addExamineeCount(String examinationId){
         ExamExaminationEntity examExaminationEntity=findById(examinationId);
         int count=0;

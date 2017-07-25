@@ -1,6 +1,8 @@
 package com.exam.common.dao;
 
 import com.exam.common.entity.ExamGradeEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +15,7 @@ import java.util.Map;
 @Component
 @Repository
 public class GradeDao extends AbstractDao<ExamGradeEntity>{
+    private Logger logger = LoggerFactory.getLogger(GradeDao.class);
     /**
      * 获取分数及状态
      * @param examineeId
@@ -23,6 +26,13 @@ public class GradeDao extends AbstractDao<ExamGradeEntity>{
         Map<String,String> str =new HashMap<>();
         str.put("examineeId",examineeId);
         str.put("examinationId",examinationId);
-        return findByIds(str); //可能为NULL
+        ExamGradeEntity grade=findByIds(str);
+        //空值处理
+        if(grade==null){
+            grade=new ExamGradeEntity();
+            grade.setExaminationState("is null");
+            logger.info("grade state is null,you can exam");
+        }
+        return grade;
     }
 }
