@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,5 +35,14 @@ public class GradeDao extends AbstractDao<ExamGradeEntity>{
             logger.info("grade state is null,you can exam");
         }
         return grade;
+    }
+
+    /**
+     * 获取所有考试成绩
+     * @param examineeId
+     * @return
+     */
+    public List<ExamGradeEntity> findGrades(String examineeId){
+        return findBy("examineeId",examineeId);
     }
 }

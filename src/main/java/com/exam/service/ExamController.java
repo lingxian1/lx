@@ -61,11 +61,10 @@ public class ExamController {
         if(temp!=null&&temp.getExaminationState().equals("00")){
             return Response.error(EXAM_FINISHED);
         }
+
         Iterator<ExamExaminationPaperEntity> iterator = examPaperDao.findByexam(examinationId).iterator();
         while (iterator.hasNext()) {
             ExamExaminationPaperEntity paper=iterator.next();
-            logger.info(paper.getQuestionId());
-
             ExamQuestionEntity question=questionDao.findById(paper.getQuestionId());
             question.setQuestionAnswer("");//答案置空
             questionEntities.add(question);
@@ -76,9 +75,11 @@ public class ExamController {
     @PostMapping("/answer")
     @Transactional(rollbackFor = Exception.class)
     public Response getAnswer(@RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys){
+        String examineeId=examAnswerLogEntitys.get(0).getExamineeId();
+        String examinationId=examAnswerLogEntitys.get(0).getExaminationId();
         Iterator<ExamAnswerLogEntity> iterator= examAnswerLogEntitys.iterator();
         Timestamp timestamp=new Timestamp(System.currentTimeMillis());
-        int grade=0;
+        int grade=0; //统计总分
         //TODO 空值判断，错误值判断 验证
         //保存每小题分值
         while (iterator.hasNext()){
@@ -86,7 +87,7 @@ public class ExamController {
             int score=examPaperDao.findScore(temp.getExaminationId(),temp.getQuestionId()).getScore();
             String answer=questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer();
             int realScore=0;
-            System.out.println(temp.getQuestionId()+"sorce:"+score+"  answer:"+answer);
+//            System.out.println(temp.getQuestionId()+"sorce:"+score+"  answer:"+answer);
             if(answer.equals(temp.getExamineeAnswer())){
                 realScore=score;
             }
@@ -95,9 +96,7 @@ public class ExamController {
             temp.setSubmitTime(timestamp);
             answerLogDao.save(temp);
         }
-        System.out.println("grade:"+grade);
-        String examineeId=examAnswerLogEntitys.get(0).getExamineeId();
-        String examinationId=examAnswerLogEntitys.get(0).getExaminationId();
+//        System.out.println("grade:"+grade);
         //设置状态
         ExamGradeEntity gradeEntity=new ExamGradeEntity();
         gradeEntity.setExamineeId(examineeId);

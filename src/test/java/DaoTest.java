@@ -4,6 +4,7 @@ import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.GradeDao;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
+import com.exam.service.GradeController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class DaoTest {
 
     @Autowired
     ExaminationDao examinationDao;
+    @Autowired
+    GradeController gradeController;
     @Test
     public void get(){
         System.out.println(creditDao.findAll().size());
@@ -59,10 +62,10 @@ public class DaoTest {
         System.out.println(answerLogDao.getGrade("1000012345","2017070701"));
     }
 
-
-//    public void test6(){
-//        System.out.println(examinationDao.addExamineeCount("2017070701"));
-//    }
+    @Test
+    public void test6(){
+        System.out.println(gradeController.findGrades("1000012347"));
+    }
 }
 
 

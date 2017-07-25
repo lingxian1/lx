@@ -215,8 +215,8 @@ function saveAnswer() {
     }),
     console.log("上传成功");
     localStorage.clear();//清空本地存储
-    // alert("提交成功");
-    // location="/exam/examinfo"
+    alert("提交成功");
+    location="/exam/examinfo"
 }
 
 //退出答题

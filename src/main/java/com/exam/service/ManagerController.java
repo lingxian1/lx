@@ -25,4 +25,8 @@ public class ManagerController {
     public String hello4(){
         return "/exam/exams";
     }
+    @RequestMapping("/exam/grade")
+    public String hello5(){
+        return "/exam/grade";
+    }
 }
