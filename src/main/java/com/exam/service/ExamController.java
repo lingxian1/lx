@@ -4,15 +4,14 @@ import com.exam.common.Response;
 import com.exam.common.dao.ExamPaperDao;
 import com.exam.common.dao.GradeDao;
 import com.exam.common.dao.QuestionDao;
+import com.exam.common.entity.ExamAnswerLogEntity;
 import com.exam.common.entity.ExamExaminationPaperEntity;
 import com.exam.common.entity.ExamGradeEntity;
 import com.exam.common.entity.ExamQuestionEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,6 +37,12 @@ public class ExamController {
 
     private Logger logger = LoggerFactory.getLogger(SigninController.class);
 
+    /**
+     * 获取某考试试题
+     * @param examineeId
+     * @param examinationId
+     * @return
+     */
     @GetMapping
     public Response findExamQuestion(String examineeId,String examinationId) {
         List<ExamQuestionEntity> questionEntities=new ArrayList<>();
@@ -60,5 +65,11 @@ public class ExamController {
             questionEntities.add(question);
         }
         return Response.ok(questionEntities);
+    }
+
+    @PostMapping("/answer")
+    public Response getAnswer(@RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys){
+        System.out.println("it is a "+examAnswerLogEntitys.get(0).getQuestionId());
+        return Response.ok();
     }
 }

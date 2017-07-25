@@ -13,7 +13,12 @@ import java.util.Map;
 @Component
 @Repository
 public class GradeDao extends AbstractDao<ExamGradeEntity>{
-    //获取分数及状态
+    /**
+     * 获取分数及状态
+     * @param examineeId
+     * @param examinationId
+     * @return
+     */
     public ExamGradeEntity findGrade(String examineeId,String examinationId){
         Map<String,String> str =new HashMap<>();
         str.put("examineeId",examineeId);

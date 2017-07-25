@@ -25,7 +25,12 @@ public class SigninController {
 
     private Logger logger = LoggerFactory.getLogger(SigninController.class);
 
-
+    /**
+     * 考生登录
+     * @param phone
+     * @param password
+     * @return
+     */
     @PostMapping
     public Response login(
             @RequestParam(defaultValue = "") String phone,

@@ -24,6 +24,11 @@ public class ExamInfoController {
     ExaminationDao examinationDao;
     private Logger logger = LoggerFactory.getLogger(ExamInfoController.class);
 
+    /**
+     * 获取当前可参加所有考试
+     * @param examineeId
+     * @return
+     */
     @GetMapping
     public Response findExams(String examineeId) {
         logger.info("findExam"+examineeId);
@@ -37,6 +42,12 @@ public class ExamInfoController {
         return Response.ok(examinationDao.findAll().iterator());
     }
 
+    /**
+     * 获取某场考试
+     * @param examineeId
+     * @param examinationId
+     * @return
+     */
     @GetMapping("/examinfo2")
     public Response findExam(String examineeId,String examinationId) {
         logger.info("findExam"+examineeId);

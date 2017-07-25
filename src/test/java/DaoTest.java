@@ -33,10 +33,10 @@ public class DaoTest {
         System.out.println(creditDao.findAll().size());
     }
 
-    @Test
-    public void test2(){
-        System.out.println(examInfoController.findExam("111"));
-    }
+//    @Test
+//    public void test2(){
+//        System.out.println(examInfoController.findExam("111"));
+//    }
 
     @Test
     public void test3(){

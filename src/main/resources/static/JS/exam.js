@@ -186,29 +186,33 @@ function submitAnswer() {
     }
 }
 
-
 //答案包装为JSON
 function ansToJson() {
-    var json = {}, json_sorted = {}, keys = [];
+    var jsons = [];
     localStorage.removeItem("starttime")
-
-    json["examineeID"]=getCookie("examineeId");
-
-    json["examinationID"]=getCookie("examinationId");
-
+    var examineeId=getCookie("examineeId");
+    var examinationId=getCookie("examinationId");
+    var i=0;
     for(var k in localStorage) {
-        // keys.push(k);
-        json[""+k] = localStorage[k];
+        var temp={"examineeId":examineeId,"examinationId":examinationId,"questionId":localStorage.key(i),"examineeAnswer":localStorage[k]};
+        jsons[i] = temp;
+        i++;
     }
-
-    console.log(json);
-    json_sorted = JSON.stringify(json);
+    var json_sorted = JSON.stringify(jsons);
+    console.log(json_sorted);
     return json_sorted;
 }
 //上传答案
 function saveAnswer() {
-    ansToJson();
-    //todo ajax上传服务器
+    $.ajax({
+        type: "post",
+        url: "/question/answer",             //向springboot请求数据的url
+        data: ansToJson(),
+        success: function (result) {
+            console.log(result);
+        },
+        contentType: "application/json",
+    }),
     console.log("上传成功");
     localStorage.clear();//清空本地存储
     // alert("提交成功");
