@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ManagerController {
     @RequestMapping("/")
     public String hello(){
-        return "hello";
+        return "test";
     }
     @RequestMapping("/signin")
-    public String hello2(){
+    public String signin(){
         return "/signin";
     }
     @RequestMapping("/exam/examinfo")
-    public String hello3(){
+    public String examinfo(){
         return "/exam/examinfo";
     }
     @RequestMapping("/exam/exams")
-    public String hello4(){
+    public String exams(){
         return "/exam/exams";
     }
     @RequestMapping("/exam/grade")
-    public String hello5(){
+    public String grade(){
         return "/exam/grade";
     }
 }

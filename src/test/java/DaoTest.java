@@ -1,4 +1,6 @@
 import com.exam.Application;
+import com.exam.common.EasyToken.EasyToken;
+import com.exam.common.EasyToken.Token;
 import com.exam.common.dao.AnswerLogDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.GradeDao;
@@ -65,6 +67,13 @@ public class DaoTest {
     @Test
     public void test6(){
         System.out.println(gradeController.findGrades("1000012347"));
+    }
+
+    @Test
+    public void test7(){
+        System.out.println(new EasyToken().getToken("123456","123456"));
+//        System.out.println(new EasyToken().getToken("1235663","123456"));
+        System.out.println(new EasyToken().checkToken(new Token("123456","123456")));
     }
 }
 
