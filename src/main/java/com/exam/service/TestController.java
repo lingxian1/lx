@@ -20,13 +20,14 @@ public class TestController {
     @PostMapping("/del")
     public Response login(
             @RequestParam(defaultValue = "") String oper,
-            @RequestParam String examineeId,
-            @RequestParam String name,
-            @RequestParam String phone,
-            @RequestParam String areaId,
-            @RequestParam String sex){
-//        logger.info(id);
-        logger.info(examineeId);
+            @RequestParam(defaultValue = "") String id,
+            @RequestParam(defaultValue = "") String examineeId,
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "") String phone,
+            @RequestParam(defaultValue = "") String areaId,
+            @RequestParam(defaultValue = "") String sex){
+        logger.info("id"+id);
+        logger.info("exid"+examineeId);
         logger.info(name);
         logger.info(phone);
         logger.info(areaId);

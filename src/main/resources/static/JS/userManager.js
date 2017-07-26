@@ -29,14 +29,13 @@ jQuery(function($) {
             {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
                 formatter:'actions',
                 formatoptions:{
-
                     delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
                     //editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
                 }
             },
             // {name:'id',index:'id', width:60, sorttype:"int", editable: false},
 //                {name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
-            {name:'examineeId',index:'examineeId', width:200,editable: false,keys:true,editoptions:{size:"20",maxlength:"30"}},
+            {name:'examineeId',index:'examineeId', width:200,editable: false,key:true},
             {name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
             {name:'phone',index:'phone', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 //                {name:'phone',index:'phone', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
