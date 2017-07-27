@@ -4,6 +4,7 @@ import com.exam.common.EasyToken.Token;
 import com.exam.common.dao.AnswerLogDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.GradeDao;
+import com.exam.service.AdminLoginController;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
 import com.exam.service.GradeController;
@@ -39,6 +40,8 @@ public class DaoTest{
     ExaminationDao examinationDao;
     @Autowired
     GradeController gradeController;
+    @Autowired
+    AdminLoginController adminLoginController;
     @Test
     public void get(){
         System.out.println(creditDao.findAll().size());
@@ -71,18 +74,25 @@ public class DaoTest{
 
     @Test
     public void test7(){
-        System.out.println(new EasyToken().getToken("123456","123456"));
+        System.out.println(new EasyToken().createToken("123456","123456"));
 //        System.out.println(new EasyToken().getToken("1235663","123456"));
         System.out.println(new EasyToken().checkToken(new Token("123456","123456")));
     }
 
     @Test
     public void test8(){
-        System.out.println(new EasyToken().getToken("10001","123456"));
+        System.out.println(new EasyToken().createToken("10001","123456"));
 //        System.out.println(new EasyToken().getToken("1235663","123456"));
         System.out.println(new EasyToken().checkToken(new Token("10001","123456")));
-        System.out.println(new EasyToken().getToken("10002","123456"));
+        System.out.println(new EasyToken().createToken("10002","123456"));
         System.out.println(new EasyToken().checkToken(new Token("10001","123456")));
+    }
+
+    @Test
+    public void test9(){
+        System.out.println(adminLoginController.AdminLogin("10000000","5555555"));
+        System.out.println(adminLoginController.AdminLogin("10001","5555555"));
+        System.out.println(adminLoginController.AdminLogin("10002","123456"));
     }
 
 }

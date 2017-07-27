@@ -35,7 +35,7 @@ public class EasyToken implements Runnable {
     }
 
     //登陆获取
-    public Token getToken(String uid,String ups){
+    public Token createToken(String uid,String ups){
         String tokenStr= Md5Utils.stringMD5(uid+ups+System.currentTimeMillis());
         Token token=new Token(uid,tokenStr);
         tokens.put(token,System.currentTimeMillis()+outTimes);

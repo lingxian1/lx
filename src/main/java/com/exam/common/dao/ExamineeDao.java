@@ -29,7 +29,6 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
             return null;
         }
         return examExamineeEntities.get(0);
-
     }
 
     /**
