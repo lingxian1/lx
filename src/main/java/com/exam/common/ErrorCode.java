@@ -14,7 +14,7 @@ public enum ErrorCode {
     DEFAULT_ERROR(500, "error"),
 
     PHONE_OR_PASSWORD_ERROR(10001, "用户名或者密码不正确"),
-    USER_ERROR(10002, "用户未登陆请返回登陆页面signin"),
+    USER_ERROR(10002, "用户未登陆请返回登陆页面"),
     EXAM_FINISHED(10004, "考试已完成"),
     USER_EMPTY(10003, "用户不存在"),
     DATA_ERROR(10005, "数据字段格式或长度错误"),

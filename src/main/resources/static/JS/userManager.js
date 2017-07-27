@@ -13,6 +13,8 @@ $(function(){
             }
             else{
                 alert(result.message);
+                //TODO 跳转
+                location="/";
             }
         }
     })

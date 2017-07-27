@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by LX on 2017/7/26.
  * 考生信息管理
@@ -40,7 +43,13 @@ public class UserManagerController {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-            return Response.ok(examineeDao.findAll());
+            List<ExamExamineeEntity> examExaminationEntities=examineeDao.findAllMessage();
+            Iterator<ExamExamineeEntity> iterator=examExaminationEntities.iterator();
+            while(iterator.hasNext()){
+                ExamExamineeEntity examExamineeEntity=iterator.next();
+                examExamineeEntity.setPassword("");
+            }
+            return Response.ok(examExaminationEntities);
         }
     }
 
@@ -99,6 +108,7 @@ public class UserManagerController {
         if(!examineeDao.updateById(examineeId,name,phone,areaId,sex)){
             return false;
         }
+        System.out.println("dosomething");
         return true;
     }
 

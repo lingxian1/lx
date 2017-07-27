@@ -6,8 +6,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -36,22 +34,22 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
      * 查找所有考生信息 但是不返回密码
      * @return
      */
-    public List<ExamExamineeEntity> findAll(){
-        List<ExamExamineeEntity> entities=new ArrayList<>();
+    public List<ExamExamineeEntity> findAllMessage(){
+//        List<ExamExamineeEntity> examExaminationEntities=super.findAll();
+//        Iterator<ExamExamineeEntity> iterator=examExaminationEntities.iterator();
+//        while(iterator.hasNext()){
+//           ExamExamineeEntity examExamineeEntity=iterator.next();
+//           examExamineeEntity.setPassword("");
+//        }
+//        return examExaminationEntities;
         List<ExamExamineeEntity> examExaminationEntities=super.findAll();
-        Iterator<ExamExamineeEntity> iterator=examExaminationEntities.iterator();
-        while(iterator.hasNext()){
-           ExamExamineeEntity examExamineeEntity=iterator.next();
-           examExamineeEntity.setPassword("");
-           entities.add(examExamineeEntity);
-        }
-        return entities;
+        return examExaminationEntities;
     }
 
     /**
      * 获取新的用户ID
      * @return
-     */
+    */
     public String newUsersId() {
         Session session = sessionFactory.getCurrentSession();
         SQLQuery l = session.createSQLQuery("SELECT MAX(examinee_ID) FROM exam_examinee");

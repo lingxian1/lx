@@ -19,7 +19,6 @@ function signal() {
                 location = "/test";        //跳转
             } else{
                 alert(result.message);
-
             }
         }
     });
