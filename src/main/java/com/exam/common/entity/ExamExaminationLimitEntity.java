@@ -3,7 +3,7 @@ package com.exam.common.entity;
 import javax.persistence.*;
 
 /**
- * Created by LX on 2017/7/20.
+ * Created by LX on 2017/7/27.
  */
 @Entity
 @Table(name = "exam_examination_limit", schema = "exam", catalog = "")

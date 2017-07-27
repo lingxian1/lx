@@ -13,7 +13,7 @@ public class Constant {
 //    private static OrderEntity defaultOrderEntity;
 
     public static int TOKEN_EXPIRES_HOUR = 10;
-    private static ExamExamineeEntity  defaultUserEntity;
+    private static ExamExamineeEntity defaultUserEntity;
 
 
 }

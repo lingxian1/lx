@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * Created by LX on 2017/7/20.
+ * Created by LX on 2017/7/27.
  */
 public class ExamGradeEntityPK implements Serializable {
     private String examineeId;

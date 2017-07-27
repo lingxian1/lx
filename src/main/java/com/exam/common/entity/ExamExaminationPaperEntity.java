@@ -3,7 +3,7 @@ package com.exam.common.entity;
 import javax.persistence.*;
 
 /**
- * Created by LX on 2017/7/20.
+ * Created by LX on 2017/7/27.
  */
 @Entity
 @Table(name = "exam_examination_paper", schema = "exam", catalog = "")
@@ -59,13 +59,13 @@ public class ExamExaminationPaperEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ExamExaminationPaperEntity that = (ExamExaminationPaperEntity) o;
+        ExamExaminationPaperEntity entity = (ExamExaminationPaperEntity) o;
 
-        if (examinationId != null ? !examinationId.equals(that.examinationId) : that.examinationId != null)
+        if (examinationId != null ? !examinationId.equals(entity.examinationId) : entity.examinationId != null)
             return false;
-        if (questionId != null ? !questionId.equals(that.questionId) : that.questionId != null) return false;
-        if (score != null ? !score.equals(that.score) : that.score != null) return false;
-        if (accuracy != null ? !accuracy.equals(that.accuracy) : that.accuracy != null) return false;
+        if (questionId != null ? !questionId.equals(entity.questionId) : entity.questionId != null) return false;
+        if (score != null ? !score.equals(entity.score) : entity.score != null) return false;
+        if (accuracy != null ? !accuracy.equals(entity.accuracy) : entity.accuracy != null) return false;
 
         return true;
     }
