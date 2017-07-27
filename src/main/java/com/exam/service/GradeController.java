@@ -21,6 +21,7 @@ import static com.exam.common.ErrorCode.USER_ERROR;
 
 /**
  * Created by LX on 2017/7/25.
+ * 获取考试成绩
  */
 @RestController
 @RequestMapping("/grade")

@@ -1,4 +1,4 @@
-package com.exam.service;
+package com.exam.service.Manager;
 
 import com.exam.common.EasyToken.EasyToken;
 import com.exam.common.Response;
@@ -18,6 +18,7 @@ import static com.exam.common.ErrorCode.USER_EMPTY;
 
 /**
  * Created by LX on 2017/7/27.
+ * 管理员登陆
  */
 @RestController
 @RequestMapping("/manager")
@@ -25,9 +26,14 @@ public class AdminLoginController {
     @Autowired
     SysUserDao sysUserDao;
 
-
     private Logger logger = LoggerFactory.getLogger(AdminLoginController.class);
 
+    /**
+     * 登陆检查
+     * @param userId
+     * @param userPassword
+     * @return
+     */
     @PostMapping
     public Response AdminLogin( @RequestParam(defaultValue = "") String userId,
                             @RequestParam String userPassword) {

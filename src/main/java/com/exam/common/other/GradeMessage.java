@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by LX on 2017/7/25.
+ * 考试成绩信息 entity
  */
 public class GradeMessage {
     private String examineeId;

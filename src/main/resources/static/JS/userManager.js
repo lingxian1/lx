@@ -3,12 +3,17 @@ var grid_data;
 $(function(){
     $.ajax({
         type: "get",
-        url: "/test",             //向springboot请求数据的url
-        data: {}, //发送登陆ID及Token
+        url: "/users",             //向springboot请求数据的url
+        data: {"userId":getCookie("userId"),"token":getCookie("token")}, //发送登陆ID及Token
         async:false,
         success: function (result) {
-            console.log(JSON.stringify(result));
-            grid_data=result.data;
+            if(result.status==200){
+                console.log(JSON.stringify(result));
+                grid_data=result.data;
+            }
+            else{
+                alert(result.message);
+            }
         }
     })
 });
@@ -60,10 +65,9 @@ jQuery(function($) {
             }, 0);
         },
 
-        editurl: $path_base+"test/handle",//nothing is saved
+        editurl: $path_base+"users/handle",//nothing is saved
         caption: "用户信息",
         autowidth: true
-
     });
 
     //enable search/filter toolbar
@@ -122,6 +126,10 @@ jQuery(function($) {
                 var form = $(e[0]);
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                 style_edit_form(form);
+            },
+            afterComplete:function (data,postdata) {
+                alert(data.responseText);
+                location.reload(true);
             }
         },
         {

@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by LX on 2017/7/20.
+ * 考生信息管理
  */
 @Component
 @Repository
@@ -58,5 +59,44 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
         Integer idd = Integer.valueOf(id);
         String newid = String.valueOf(idd + 1);
         return newid;
+    }
+
+    /**
+     * 根据Id删除用户
+     * @param examineeId
+     * @return
+     */
+    public boolean deleteById(String examineeId){
+        ExamExamineeEntity entity=findById(examineeId);
+        System.out.println(entity.getName());
+        if(entity==null){
+            System.out.println(false);
+            return false;
+        }
+        delete(entity);
+        return true;
+    }
+
+    /**
+     * 更新记录
+     * @param examineeId
+     * @param name
+     * @param phone
+     * @param areaId
+     * @param sex
+     * @return
+     */
+    public boolean updateById(String examineeId,String name,String phone,String areaId,String sex){
+        ExamExamineeEntity entity=findById(examineeId);
+        if(entity==null){
+            return false;
+        }
+
+        entity.setName(name);
+        entity.setPhone(phone);
+        entity.setAreaId(areaId);
+        entity.setSex(sex);
+        update(entity);
+        return true;
     }
 }

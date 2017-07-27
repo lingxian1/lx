@@ -2,7 +2,9 @@ package com.exam.common.EasyToken;
 
 import com.google.gson.Gson;
 
-
+/**
+ * Token entity
+ */
 public class Token {
 
     private String uid;

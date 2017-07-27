@@ -4,7 +4,7 @@ import com.exam.common.EasyToken.Token;
 import com.exam.common.dao.AnswerLogDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.GradeDao;
-import com.exam.service.AdminLoginController;
+import com.exam.service.Manager.AdminLoginController;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
 import com.exam.service.GradeController;

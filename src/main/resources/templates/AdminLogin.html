@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <link rel="icon" href="#"/>
+    <title>signin</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../../css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="../../../../css/signin.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="container">
+
+        <div class="form-signin">
+            <h2 class="form-signin-heading">考试管理系统</h2>
+            <!--<label class="sr-only">Email address</label>-->
+            <input name="uid" id="inputEmail" class="form-control" placeholder="用户名"  autofocus="autofocus"/>
+            <!--<label for="inputPassword" class="sr-only">Password</label>-->
+            <input name="password" type="password" id="inputPassword" class="form-control" placeholder="密码" />
+            <!--<div class="checkbox">-->
+            <!--<label>-->
+            <!--<input type="checkbox" value="remember-me"> Remember me-->
+            <!--</label>-->
+            <!--</div>-->
+            <button id="loginButton" class="btn btn-lg btn-primary btn-block" onclick="signal()">登陆</button>
+        </div>
+
+    </div> <!-- /container -->
+        <script src="../../../../js/jquery-3.1.1.js"></script>
+        <script src="../../../../js/bootstrap.js"></script>
+        <script src="../../../../js/common.js"></script>
+        <script src="../../../../js/md5.js"></script>
+        <script src="../../../../js/adminLogin.js"></script>
+</body>
+</html>

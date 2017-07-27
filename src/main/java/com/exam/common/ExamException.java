@@ -1,5 +1,8 @@
 package com.exam.common;
 
+/**
+ * 异常处理
+ */
 public class ExamException extends RuntimeException {
     private int status = 500;
 

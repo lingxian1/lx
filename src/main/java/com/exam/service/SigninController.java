@@ -17,6 +17,7 @@ import static com.exam.common.ErrorCode.USER_EMPTY;
 
 /**
  * Created by LX on 2017/7/21.
+ * 考生登录
  */
 @RestController
 @RequestMapping("/signin")

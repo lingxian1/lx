@@ -10,20 +10,11 @@ import java.util.List;
 
 /**
  * Created by LX on 2017/7/25.
+ * 用于操作考生提交的答案
  */
 @Component
 @Repository
 public class AnswerLogDao extends AbstractDao<ExamAnswerLogEntity> {
-//    public void saveAll(List<ExamAnswerLogEntity> list){
-//        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
-//        Iterator<ExamAnswerLogEntity> iterator= list.iterator();
-//        while (iterator.hasNext()){
-//            ExamAnswerLogEntity temp=iterator.next();
-//            temp.setSubmitTime(timestamp);
-//            save(temp);
-//        }
-//    }
-
     /**
      * 总分计算
      * @param examineeId

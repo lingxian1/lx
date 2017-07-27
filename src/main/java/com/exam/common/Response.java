@@ -2,6 +2,9 @@ package com.exam.common;
 
 import com.google.gson.Gson;
 
+/**
+ * 返回数据包装
+ */
 public class Response {
     //状态码
     private int status;

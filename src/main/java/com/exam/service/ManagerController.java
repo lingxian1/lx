@@ -4,14 +4,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 主控制器
  * Created by LX on 2017/7/20.
+ * 主控制器,URL
  */
 @Controller
 public class ManagerController {
     @RequestMapping("/")
     public String hello(){
-        return "test";
+        return "AdminLogin";
+    }
+    @RequestMapping("/test")
+    public String UserManager(){
+        return "/test";
     }
     @RequestMapping("/signin")
     public String signin(){

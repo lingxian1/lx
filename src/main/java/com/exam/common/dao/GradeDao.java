@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * Created by LX on 2017/7/24.
+ * 考试成绩状态管理
  */
 @Component
 @Repository

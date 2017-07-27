@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * 数据库配置
+ */
 @Configuration
 @PropertySource(value = "classpath:/exam_jdbc.properties")
 @Profile({"default","exam"})

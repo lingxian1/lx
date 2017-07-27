@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by LX on 2017/7/27.
+ * 管理员登陆
  */
 @Component
 @Repository
@@ -28,6 +29,10 @@ public class SysUserDao extends AbstractDao<SysUserEntity>{
         return list.get(0);
     }
 
+    /**
+     * 新的Id
+     * @return
+     */
     public String newUsersId() {
         Session session = sessionFactory.getCurrentSession();
         SQLQuery l = session.createSQLQuery("SELECT MAX(user_ID) FROM sys_user");

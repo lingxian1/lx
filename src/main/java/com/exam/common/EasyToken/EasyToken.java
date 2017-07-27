@@ -18,7 +18,9 @@ public class EasyToken implements Runnable {
 //    final static long outTimes=1;//毫秒
     private Logger logger = LoggerFactory.getLogger(EasyToken.class);
 
-    //检测移除过期token
+    /**
+     * 检测移除过期token,新的登入产生时在子线程触发
+     */
     public void checkAll(){
         logger.info("token check now");
         Long nowTime=System.currentTimeMillis();
@@ -34,7 +36,12 @@ public class EasyToken implements Runnable {
         }
     }
 
-    //登陆获取
+    /**
+     * 登陆获取
+     * @param uid
+     * @param ups
+     * @return
+     */
     public Token createToken(String uid,String ups){
         String tokenStr= Md5Utils.stringMD5(uid+ups+System.currentTimeMillis());
         Token token=new Token(uid,tokenStr);
@@ -43,7 +50,11 @@ public class EasyToken implements Runnable {
         return token;
     }
 
-    //请求验证
+    /**
+     * 请求验证
+     * @param token
+     * @return
+     */
     public String checkToken(Token token){
         for (Map.Entry<Token, Long> entry : tokens.entrySet()) {
             if(entry.getKey().equals(token)){ //重写了equals
