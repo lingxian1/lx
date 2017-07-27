@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @SpringBootTest(classes = Application.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class DaoTest {
+public class DaoTest{
 
     String userid = "213124128";
 
@@ -75,6 +75,16 @@ public class DaoTest {
 //        System.out.println(new EasyToken().getToken("1235663","123456"));
         System.out.println(new EasyToken().checkToken(new Token("123456","123456")));
     }
+
+    @Test
+    public void test8(){
+        System.out.println(new EasyToken().getToken("10001","123456"));
+//        System.out.println(new EasyToken().getToken("1235663","123456"));
+        System.out.println(new EasyToken().checkToken(new Token("10001","123456")));
+        System.out.println(new EasyToken().getToken("10002","123456"));
+        System.out.println(new EasyToken().checkToken(new Token("10001","123456")));
+    }
+
 }
 
 
