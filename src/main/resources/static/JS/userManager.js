@@ -41,7 +41,7 @@ jQuery(function($) {
             },
             {name:'examineeId',index:'examineeId', width:200,editable: false,key:true},
             {name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-            {name:'phone',index:'phone', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+            {name:'phone',index:'phone', width:150,editable: true,editoptions:{size:"20",maxlength:"11"}},
             {name:'areaId',index:'areaId', width:90, editable: true,edittype:"select",editoptions:{value:"00:市局;01:定海;02:普陀;03:岱山;04:六横;05:金塘;06:新城;07:嵊泗"}},
             {name:'sex',index:'sex', width:90, editable: true,edittype:"select",editoptions:{value:"男:男;女:女"}}
         ],
@@ -73,7 +73,7 @@ jQuery(function($) {
     });
 
     //enable search/filter toolbar
-    //jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+    // jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
 
     //switch element when editing inline
     function aceSwitch( cellvalue, options, cell ) {
@@ -143,7 +143,6 @@ jQuery(function($) {
 
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                 style_delete_form(form);
-
                 form.data('styled', true);
             },
             onClick : function(e) {
