@@ -14,6 +14,8 @@ import java.util.List;
 @Component
 @Repository
 public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
+
+
     /**
      * 找出所有在有效时间的考试
      * @return

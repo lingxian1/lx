@@ -14,7 +14,8 @@ public enum ErrorCode {
 
 
     USER_ERROR(10002, "用户未登陆请返回登陆页面signin"),
-    EXAM_FINISHED(10003, "考试已完成"),
+    EXAM_FINISHED(10004, "考试已完成"),
+    USER_EMPTY(10003, "用户不存在"),
     ORDER_OPERATION_LOG_PUBLISH_ERROR(20002, "", false),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYSTEM_NULL_OBJECT(3, "为空的对象"),

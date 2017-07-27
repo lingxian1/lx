@@ -4,7 +4,7 @@ $(function(){
     $.ajax({
         type: "get",
         url: "/test",             //向springboot请求数据的url
-        data: {},
+        data: {}, //发送登陆ID及Token
         async:false,
         success: function (result) {
             console.log(JSON.stringify(result));
@@ -30,17 +30,12 @@ jQuery(function($) {
                 formatter:'actions',
                 formatoptions:{
                     delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-                    //editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
                 }
             },
-            // {name:'id',index:'id', width:60, sorttype:"int", editable: false},
-//                {name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
             {name:'examineeId',index:'examineeId', width:200,editable: false,key:true},
             {name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
             {name:'phone',index:'phone', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-//                {name:'phone',index:'phone', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
             {name:'areaId',index:'areaId', width:90, editable: true,edittype:"select",editoptions:{value:"00:市局;01:定海;02:普陀;03:岱山;04:六横;05:金塘;06:新城;07:嵊泗"}},
-//                {name:'sex',index:'sex', width:70, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
             {name:'sex',index:'sex', width:90, editable: true,edittype:"select",editoptions:{value:"男:男;女:女"}}
         ],
 
@@ -65,8 +60,8 @@ jQuery(function($) {
             }, 0);
         },
 
-        editurl: $path_base+"test/del",//nothing is saved
-        caption: "jqGrid with inline editing",
+        editurl: $path_base+"test/handle",//nothing is saved
+        caption: "用户信息",
         autowidth: true
 
     });

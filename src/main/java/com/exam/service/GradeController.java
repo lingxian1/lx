@@ -53,7 +53,7 @@ public class GradeController {
             gradeMessage.setGrade(examGradeEntity.getGrade());
             gradeMessage.setExamineeId(examineeId);
             gradeMessage.setExaminationName(examinationEntity.getExaminationName());
-            gradeMessage.setExaminationEnd(examinationEntity.getExaminationEnd());
+            gradeMessage.setExaminationEnd(examGradeEntity.getExaminationTime());
             gradeMessage.setExaminationScoreAll(examinationEntity.getExaminationScoreAll());
             messages.add(gradeMessage);
         }

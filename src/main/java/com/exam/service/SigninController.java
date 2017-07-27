@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.exam.common.ErrorCode.PHONE_OR_PASSWORD_ERROR;
+import static com.exam.common.ErrorCode.USER_EMPTY;
 
 /**
  * Created by LX on 2017/7/21.
@@ -37,7 +38,10 @@ public class SigninController {
             @RequestParam String password){
         logger.info(phone);
         logger.info(password);
-        ExamExamineeEntity examExamineeEntity=examineeDao.findBy("phone",phone).get(0);
+        ExamExamineeEntity examExamineeEntity=examineeDao.findByStr("phone",phone);
+        if(examExamineeEntity==null){
+            return Response.error(USER_EMPTY);
+        }
         String enpass= Md5Utils.stringMD5(examExamineeEntity.getPassword()); //数据库获取密码并获取其MD5值
         if(enpass.equals(password)){
             examExamineeEntity.setPassword("");//不返回密码

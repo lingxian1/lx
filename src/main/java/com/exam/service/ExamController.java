@@ -87,7 +87,6 @@ public class ExamController {
             int score=examPaperDao.findScore(temp.getExaminationId(),temp.getQuestionId()).getScore();
             String answer=questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer();
             int realScore=0;
-//            System.out.println(temp.getQuestionId()+"sorce:"+score+"  answer:"+answer);
             if(answer.equals(temp.getExamineeAnswer())){
                 realScore=score;
             }
@@ -96,14 +95,16 @@ public class ExamController {
             temp.setSubmitTime(timestamp);
             answerLogDao.save(temp);
         }
-//        System.out.println("grade:"+grade);
-        //设置状态
+
+        //设置成绩状态及时间
         ExamGradeEntity gradeEntity=new ExamGradeEntity();
         gradeEntity.setExamineeId(examineeId);
         gradeEntity.setExaminationId(examinationId);
         gradeEntity.setGrade(grade);
+        gradeEntity.setExaminationTime(timestamp);
         gradeEntity.setExaminationState("00");
         gradeDao.save(gradeEntity);
+
         //考试人数+1
         examinationDao.addExamineeCount(examinationId);
         return Response.ok();
