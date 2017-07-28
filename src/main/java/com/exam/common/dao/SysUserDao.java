@@ -41,4 +41,6 @@ public class SysUserDao extends AbstractDao<SysUserEntity>{
         String newid = String.valueOf(idd + 1);
         return newid;
     }
+
+
 }

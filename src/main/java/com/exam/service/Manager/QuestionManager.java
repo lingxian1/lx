@@ -5,13 +5,19 @@ import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
 import com.exam.common.dao.QuestionDao;
+import com.exam.common.entity.ExamQuestionEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by LX on 2017/7/28.
+ * 问题管理
  */
 @RestController
 @RequestMapping("/questionsManager")
@@ -21,12 +27,22 @@ public class QuestionManager {
 
     private Logger logger = LoggerFactory.getLogger(QuestionManager.class);
 
+    /**
+     * 问题分类获取
+     * @param userId
+     * @param token
+     * @param str 字段名
+     * @param info
+     * @return
+     */
     @GetMapping
     public Response getUser(@RequestParam(defaultValue = "") String userId,
                             @RequestParam(defaultValue = "")String token,
+                            @RequestParam(defaultValue = "")String str,
                             @RequestParam(defaultValue = "")String info){
         logger.info(userId);
         logger.info(token);
+        logger.info(str);
         logger.info(info);
         Token token1=new Token(userId,token);
         String status=new EasyToken().checkToken(token1);
@@ -35,11 +51,37 @@ public class QuestionManager {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-            return Response.ok(questionDao.findQuestionClass(info));
+         List<ExamQuestionEntity> entities= questionDao.findQuestionClass(str,info);
+         if(entities==null){
+             return Response.ok("该类型不存在");
+         }
+            Iterator<ExamQuestionEntity> iterator=entities.iterator();
+            while (iterator.hasNext()){
+                ExamQuestionEntity entity=iterator.next();
+                if(entity.getIsDel().equals("01")){
+                    iterator.remove(); //去掉已删除的
+                }
+            }
+            return Response.ok(entities);
         }
     }
 
-
+    /**
+     * 处理增删改请求
+     * @param oper
+     * @param id
+     * @param questionId
+     * @param questionText
+     * @param questionType
+     * @param questionChooseA
+     * @param questionChooseB
+     * @param questionChooseC
+     * @param questionChooseD
+     * @param questionAnswer
+     * @param questionClassification
+     * @param questionOther
+     * @return
+     */
     @PostMapping("/handle")
     public String login(
             @RequestParam(defaultValue = "") String oper,
@@ -64,81 +106,111 @@ public class QuestionManager {
         logger.info(questionClassification+"");
         logger.info(questionOther+"");
         logger.info(oper);
+        int count=2;
         boolean state=false;
-        return "ss";
-//        switch(oper){
-//            case "add":
-//                state=addUser(name,phone,areaId,sex);
-//                break;
-//            case "del":
-//                System.out.println("ss");
-//                state=delUser(id);
-//                break;
-//            case "edit":
-//                state=editUser(examineeId,name,phone,areaId,sex);
-//                break;
-//            default:
-//        }
-//        if(state){
-//            return "操作成功";
-//        }else {
-//            return "操作失败，字段为空";
-//        }
-//    }
-//
-//    /**
-//     * 更新用户
-//     * @param examineeId
-//     * @param name
-//     * @param phone
-//     * @param areaId
-//     * @param sex
-//     * @return
-//     */
-//    private boolean editUser(String examineeId,String name,String phone,String areaId,String sex) {
-//        if("".equals(phone)||phone.length()>11||"".equals(name)){
-//            return false;
-//        }
-//        if(!examineeDao.updateById(examineeId,name,phone,areaId,sex)){
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    /**
-//     * 删除用户
-//     * @param id
-//     * @return
-//     */
-//    private boolean delUser(String id) {
-//        if(!examineeDao.deleteById(id)){
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    /**
-//     * 添加用户
-//     * @param name
-//     * @param phone
-//     * @param areaId
-//     * @param sex
-//     * @return
-//     */
-//    private boolean addUser(String name,String phone,String areaId,String sex) {
-//        if("".equals(phone)||phone.length()>11||"".equals(name)){
-//            return false;
-//        }
-//        ExamExamineeEntity examinee=new ExamExamineeEntity();
-//        examinee.setExamineeId(examineeDao.newUsersId());
-//        examinee.setName(name);
-//        examinee.setPassword("123456");
-//        examinee.setPhone(phone);
-//        examinee.setIdentity("1");
-//        examinee.setSex(sex);
-//        examinee.setAreaId(areaId);
-//        examineeDao.save(examinee);
-//        return true;
+
+        if(!"".equals(questionChooseC)){
+            count++;
+        }
+        if(!"".equals(questionChooseD)){
+            count++;
+        }
+
+        System.out.println(count);
+        switch(oper){
+            case "add":
+                state= addQuestion(questionText,questionType,count,questionChooseA,questionChooseB,
+                        questionChooseC,questionChooseD,questionAnswer,questionClassification,questionOther);
+                break;
+            case "del":
+                state= delQuestion(id);
+                break;
+            case "edit":
+                state= editQuestion(questionId,questionText,questionType,count,questionChooseA,questionChooseB,
+                        questionChooseC,questionChooseD,questionAnswer,questionClassification,questionOther);
+                break;
+            default:
+        }
+        if(state){
+            return "操作成功";
+        }else {
+            return "操作失败，字段为空";
+        }
     }
+
+    /**
+     * 编辑试题
+     * @param questionId
+     * @param questionText
+     * @param questionType
+     * @param count
+     * @param questionChooseA
+     * @param questionChooseB
+     * @param questionChooseC
+     * @param questionChooseD
+     * @param questionAnswer
+     * @param questionClassification
+     * @param questionOther
+     * @return
+     */
+    private boolean editQuestion(String questionId,String questionText,String questionType,int count,
+                                 String questionChooseA,String questionChooseB,String questionChooseC,String questionChooseD,
+                                 String questionAnswer,String questionClassification,String questionOther) {
+        if(!questionDao.updateById(questionId,questionText,questionType,count,questionChooseA,
+                questionChooseB,questionChooseC,questionChooseD,questionAnswer,questionClassification,
+                questionOther)){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 删除试题
+     * @param id
+     * @return
+     */
+    private boolean delQuestion(String id) {
+        if(!questionDao.deleteById(id)){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 添加试题
+     * @param questionText
+     * @param questionType
+     * @param questionChooseCount
+     * @param questionChooseA
+     * @param questionChooseB
+     * @param questionChooseC
+     * @param questionChooseD
+     * @param questionAnswer
+     * @param questionClassification
+     * @param questionOther
+     * @return
+     */
+    private boolean addQuestion(String questionText,String questionType,int questionChooseCount,
+                                String questionChooseA,String questionChooseB,String questionChooseC,String questionChooseD,
+                                String questionAnswer,String questionClassification,String questionOther) {
+        ExamQuestionEntity questionEntity=new ExamQuestionEntity();
+        String id= questionDao.newQuestionId();
+        questionEntity.setQuestionId(id);
+        questionEntity.setQuestionText(questionText);
+        questionEntity.setQuestionType(questionType);
+        questionEntity.setQuestionChooseCount(questionChooseCount);
+        questionEntity.setQuestionChooseA(questionChooseA);
+        questionEntity.setQuestionChooseB(questionChooseB);
+        questionEntity.setQuestionChooseC(questionChooseC);
+        questionEntity.setQuestionChooseD(questionChooseD);
+        questionEntity.setQuestionAnswer(questionAnswer);
+        questionEntity.setQuestionClassification(questionClassification);
+        questionEntity.setIsDel("00");
+        questionEntity.setQuestionCreateTime(new Timestamp(System.currentTimeMillis()));
+        questionEntity.setQuestionOther(questionOther);
+        questionDao.save(questionEntity);
+        return true;
+    }
+
 }
 

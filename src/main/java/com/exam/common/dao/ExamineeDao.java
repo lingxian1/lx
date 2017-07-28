@@ -31,17 +31,10 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
     }
 
     /**
-     * 查找所有考生信息 但是不返回密码
+     * 查找所有考生信息
      * @return
      */
     public List<ExamExamineeEntity> findAllMessage(){
-//        List<ExamExamineeEntity> examExaminationEntities=super.findAll();
-//        Iterator<ExamExamineeEntity> iterator=examExaminationEntities.iterator();
-//        while(iterator.hasNext()){
-//           ExamExamineeEntity examExamineeEntity=iterator.next();
-//           examExamineeEntity.setPassword("");
-//        }
-//        return examExaminationEntities;
         List<ExamExamineeEntity> examExaminationEntities=super.findAll();
         return examExaminationEntities;
     }
@@ -68,7 +61,6 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
         ExamExamineeEntity entity=findById(examineeId);
         System.out.println(entity.getName());
         if(entity==null){
-            System.out.println(false);
             return false;
         }
         delete(entity);

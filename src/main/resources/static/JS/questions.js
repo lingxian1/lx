@@ -1,13 +1,14 @@
 var $path_base = "/";//this will be used in gritter alerts containing images
 var grid_data;
-
+var grid_selector = "#grid-table";
+var flag=0;
 function query(){
     var info = $("[name='info']").val();
     console.log(info);
     $.ajax({
         type: "get",
         url: "/questionsManager",             //向springboot请求数据的url
-        data: {"userId":getCookie("userId"),"token":getCookie("token"),"info":info}, //发送登陆ID及Token
+        data: {"userId":getCookie("userId"),"token":getCookie("token"),"str":"questionClassification","info":info}, //发送登陆ID及Token
         // async:false,
         success: function (result) {
             if(result.status==200){
@@ -25,62 +26,131 @@ function query(){
 }
 
 function createform() {
-    var grid_selector = "#grid-table";
+    console.log(flag);
     var pager_selector = "#grid-pager";
+    if(flag==0) {
+        flag++;
+        jQuery(grid_selector).jqGrid({
+            //direction: "rtl",
+            // url:$path_base+"test",
+            data: grid_data,
+            datatype: "local",
+            mtype: "POST",
+            height: 250,
+            colNames: [' ', '编号', '题目', '类型',
+                '选项A', '选项B', '选项C', '选项D',
+                '答案', '分类'],
+            colModel: [
+                {
+                    name: 'myac', index: '', width: 80, fixed: true, sortable: false, resize: false,
+                    formatter: 'actions',
+                    formatoptions: {
+                        delOptions: {recreateForm: true, beforeShowForm: beforeDeleteCallback},
+                    }
+                },
+                {name: 'questionId', index: 'questionId', width: 80, editable: false, key: true},
+                {
+                    name: 'questionText',
+                    index: 'questionText',
+                    width: 150,
+                    sortable: false,
+                    editable: true,
+                    edittype: "textarea",
+                    editoptions: {maxlength: "255"}
+                },
+                {
+                    name: 'questionType',
+                    index: 'questionType',
+                    width: 60,
+                    editable: true,
+                    edittype: "select",
+                    editoptions: {value: "signal:单选;multiple:多选"}
+                },
+                {
+                    name: 'questionChooseA',
+                    index: 'questionChooseA',
+                    width: 150,
+                    sortable: false,
+                    editable: true,
+                    edittype: "textarea",
+                    editoptions: {maxlength: "255"}
+                },
+                {
+                    name: 'questionChooseB',
+                    index: 'questionChooseB',
+                    width: 150,
+                    sortable: false,
+                    editable: true,
+                    edittype: "textarea",
+                    editoptions: {maxlength: "255"}
+                },
+                {
+                    name: 'questionChooseC',
+                    index: 'questionChooseC',
+                    width: 150,
+                    sortable: false,
+                    editable: true,
+                    edittype: "textarea",
+                    editoptions: {maxlength: "255"}
+                },
+                {
+                    name: 'questionChooseD',
+                    index: 'questionChooseD',
+                    width: 150,
+                    sortable: false,
+                    editable: true,
+                    edittype: "textarea",
+                    editoptions: {maxlength: "255"}
+                },
+                {
+                    name: 'questionAnswer',
+                    index: 'questionAnswer',
+                    width: 40,
+                    editable: true,
+                    editoptions: {maxlength: "4"}
+                },
+                {
+                    name: 'questionClassification',
+                    index: 'questionClassification',
+                    width: 60,
+                    sortable: false,
+                    editable: true,
+                    edittype: "textarea"
+                }],
 
-    jQuery(grid_selector).jqGrid({
-        //direction: "rtl",
-        // url:$path_base+"test",
-        data: grid_data,
-        datatype: "local",
-        mtype:"POST",
-        height: 250,
-            colNames:[' ','编号','题目','类型',
-                 '选项A', '选项B', '选项C', '选项D',
-                 '答案','分类'],
-        colModel:[
-            {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-                formatter:'actions',
-                formatoptions:{
-                    delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-                }
+            viewrecords: true,
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            pager: pager_selector,
+            altRows: true,
+            //toppager: true,
+
+            multiselect: false,
+            //multikey: "ctrlKey",
+            multiboxonly: true,
+
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    styleCheckbox(table);
+                    updateActionIcons(table);
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
             },
-            {name:'questionId',index:'questionId', width:80,editable: false,key:true},
-            {name:'questionText',index:'questionText', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
-            {name:'questionType',index:'questionType', width:60, editable: true,edittype:"select",editoptions:{value:"signal:单选;multiple:多选"}},
-            {name:'questionChooseA',index:'questionChooseA', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
-            {name:'questionChooseB',index:'questionChooseB', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
-            {name:'questionChooseC',index:'questionChooseC', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
-            {name:'questionChooseD',index:'questionChooseD', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
-            {name:'questionAnswer',index:'questionAnswer', width:40,editable: true,editoptions:{maxlength:"4"}},
-            {name:'questionClassification',index:'questionClassification', width:60, sortable:false,editable: true,edittype:"textarea"}],
 
-        viewrecords : true,
-        rowNum:10,
-        rowList:[10,20,30],
-        pager : pager_selector,
-        altRows: true,
-        //toppager: true,
-
-        multiselect: false,
-        //multikey: "ctrlKey",
-        multiboxonly: true,
-
-        loadComplete : function() {
-            var table = this;
-            setTimeout(function(){
-                styleCheckbox(table);
-                updateActionIcons(table);
-                updatePagerIcons(table);
-                enableTooltips(table);
-            }, 0);
-        },
-
-        editurl: $path_base+"questionsManager/handle",//nothing is saved
-        caption: "问题分类查询结果",
-        autowidth: false
-    });
-
+            editurl: $path_base + "questionsManager/handle",//nothing is saved
+            caption: "问题分类查询结果",
+            autowidth: false
+        });
+    }
+    else{
+        $(grid_selector).jqGrid('clearGridData');  //清空表格
+        $(grid_selector).jqGrid('setGridParam',{  // 重新加载数据
+            datatype:'local',
+            data : grid_data,   //  newdata 是符合格式要求的需要重新加载的数据
+        }).trigger("reloadGrid");
+    }
     //enable search/filter toolbar
     // jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
 
@@ -140,7 +210,7 @@ function createform() {
             },
             afterComplete:function (data,postdata) {
                 alert(data.responseText);
-                location.reload(true);
+                // location.reload(true);
             }
         },
         {

@@ -52,7 +52,7 @@ public class ExamController {
      */
     @GetMapping
     public Response findExamQuestion(String examineeId,String examinationId) {
-        List<ExamQuestionEntity> questionEntities=new ArrayList<>();
+
         logger.info("findExamQ"+examineeId);
         if ("".equals(examineeId)||examineeId==null) {
             return Response.error(USER_ERROR);
@@ -62,7 +62,7 @@ public class ExamController {
         if(temp!=null&&temp.getExaminationState().equals("00")){
             return Response.error(EXAM_FINISHED);
         }
-
+        List<ExamQuestionEntity> questionEntities=new ArrayList<>();
         Iterator<ExamExaminationPaperEntity> iterator = examPaperDao.findByexam(examinationId).iterator();
         while (iterator.hasNext()) {
             ExamExaminationPaperEntity paper=iterator.next();
@@ -76,6 +76,9 @@ public class ExamController {
     @PostMapping("/answer")
     @Transactional(rollbackFor = Exception.class)
     public Response getAnswer(@RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys){
+        if(examAnswerLogEntitys==null){
+            return Response.error();
+        }
         String examineeId=examAnswerLogEntitys.get(0).getExamineeId();
         String examinationId=examAnswerLogEntitys.get(0).getExaminationId();
         Iterator<ExamAnswerLogEntity> iterator= examAnswerLogEntitys.iterator();
