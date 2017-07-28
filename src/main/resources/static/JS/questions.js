@@ -1,15 +1,19 @@
 var $path_base = "/";//this will be used in gritter alerts containing images
 var grid_data;
-$(function(){
+
+function query(){
+    var info = $("[name='info']").val();
+    console.log(info);
     $.ajax({
         type: "get",
-        url: "/users",             //向springboot请求数据的url
-        data: {"userId":getCookie("userId"),"token":getCookie("token")}, //发送登陆ID及Token
-        async:false,
+        url: "/questionsManager",             //向springboot请求数据的url
+        data: {"userId":getCookie("userId"),"token":getCookie("token"),"info":info}, //发送登陆ID及Token
+        // async:false,
         success: function (result) {
             if(result.status==200){
                 console.log(JSON.stringify(result));
                 grid_data=result.data;
+                createform();
             }
             else{
                 alert(result.message);
@@ -18,9 +22,9 @@ $(function(){
             }
         }
     })
-});
+}
 
-jQuery(function($) {
+function createform() {
     var grid_selector = "#grid-table";
     var pager_selector = "#grid-pager";
 
@@ -31,7 +35,9 @@ jQuery(function($) {
         datatype: "local",
         mtype:"POST",
         height: 250,
-        colNames:[' ','考生Id','姓名','手机','区域', '性别'],
+            colNames:[' ','编号','题目','类型',
+                 '选项A', '选项B', '选项C', '选项D',
+                 '答案','分类'],
         colModel:[
             {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
                 formatter:'actions',
@@ -39,12 +45,15 @@ jQuery(function($) {
                     delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
                 }
             },
-            {name:'examineeId',index:'examineeId', width:120,editable: false,key:true},
-            {name:'name',index:'name', width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
-            {name:'phone',index:'phone', width:100,editable: true,editoptions:{size:"20",maxlength:"11"}},
-            {name:'areaId',index:'areaId', width:90, editable: true,edittype:"select",editoptions:{value:"00:市局;01:定海;02:普陀;03:岱山;04:六横;05:金塘;06:新城;07:嵊泗"}},
-            {name:'sex',index:'sex', width:60, editable: true,edittype:"select",editoptions:{value:"男:男;女:女"}}
-        ],
+            {name:'questionId',index:'questionId', width:80,editable: false,key:true},
+            {name:'questionText',index:'questionText', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
+            {name:'questionType',index:'questionType', width:60, editable: true,edittype:"select",editoptions:{value:"signal:单选;multiple:多选"}},
+            {name:'questionChooseA',index:'questionChooseA', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
+            {name:'questionChooseB',index:'questionChooseB', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
+            {name:'questionChooseC',index:'questionChooseC', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
+            {name:'questionChooseD',index:'questionChooseD', width:150, sortable:false,editable: true,edittype:"textarea",editoptions:{maxlength:"255"}},
+            {name:'questionAnswer',index:'questionAnswer', width:40,editable: true,editoptions:{maxlength:"4"}},
+            {name:'questionClassification',index:'questionClassification', width:60, sortable:false,editable: true,edittype:"textarea"}],
 
         viewrecords : true,
         rowNum:10,
@@ -67,9 +76,9 @@ jQuery(function($) {
             }, 0);
         },
 
-        editurl: $path_base+"users/handle",//nothing is saved
-        caption: "用户信息",
-        autowidth: true
+        editurl: $path_base+"questionsManager/handle",//nothing is saved
+        caption: "问题分类查询结果",
+        autowidth: false
     });
 
     //enable search/filter toolbar
@@ -295,4 +304,4 @@ jQuery(function($) {
     }
 
     //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
-});
+}

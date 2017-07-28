@@ -68,7 +68,7 @@ public class UserManagerController {
 //        logger.info(name);
 //        logger.info(phone);
 //        logger.info(areaId);
-//        logger.info(sex);
+        logger.info(sex);
 //        logger.info(oper);
         boolean state=false;
 
@@ -88,7 +88,7 @@ public class UserManagerController {
         if(state){
             return "操作成功";
         }else {
-            return "操作失败，字段为空或长度过长";
+            return "操作失败，字段为空";
         }
     }
 
@@ -108,7 +108,6 @@ public class UserManagerController {
         if(!examineeDao.updateById(examineeId,name,phone,areaId,sex)){
             return false;
         }
-        System.out.println("dosomething");
         return true;
     }
 

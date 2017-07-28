@@ -4,6 +4,7 @@ import com.exam.common.EasyToken.Token;
 import com.exam.common.dao.AnswerLogDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.GradeDao;
+import com.exam.common.dao.QuestionDao;
 import com.exam.service.Manager.AdminLoginController;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
@@ -32,6 +33,9 @@ public class DaoTest{
 
     @Autowired
     GradeDao gradeDao;
+
+    @Autowired
+    QuestionDao questionDao;
 
     @Autowired
     AnswerLogDao answerLogDao;
@@ -93,6 +97,14 @@ public class DaoTest{
         System.out.println(adminLoginController.AdminLogin("10000000","5555555"));
         System.out.println(adminLoginController.AdminLogin("10001","5555555"));
         System.out.println(adminLoginController.AdminLogin("10002","123456"));
+    }
+
+    @Test
+    public void test10(){
+        System.out.println(questionDao.findQuestionClass("A").size());
+        System.out.println(questionDao.findQuestionClass("BB").size());
+        System.out.println(questionDao.findQuestionClass("C").size());
+        System.out.println(questionDao.findQuestionClass("D"));
     }
 
 }

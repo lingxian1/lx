@@ -33,4 +33,8 @@ public class ManagerController {
     public String grade(){
         return "/exam/grade";
     }
+    @RequestMapping("/questionmanager")
+    public String question(){
+        return "/manager/questionmanager";
+    }
 }
