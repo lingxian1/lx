@@ -9,6 +9,17 @@ function exit() {
         return false;
     }
 }
+function exitadmin() {
+    var msg = "退出当前登陆";
+    if (confirm(msg)==true){
+        delCookie("userId");
+        delCookie("token");
+        localStorage.clear();
+        location="/";
+    }else{
+        return false;
+    }
+}
 //毫秒转换
 function getDateAndTime(ms) {
     var d = new Date(ms);

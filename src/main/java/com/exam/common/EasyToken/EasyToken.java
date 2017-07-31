@@ -18,7 +18,7 @@ public class EasyToken implements Runnable {
     public static long checkTime=0;//检查点
     final static long blankTime=600000; //10分钟检查一次
     final static long outTimes=7200000;//毫秒
-//    final static long outTimes=1;//毫秒
+//    final static long outTimes=10000;//毫秒
     private Logger logger = LoggerFactory.getLogger(EasyToken.class);
 
     /**
@@ -70,7 +70,7 @@ public class EasyToken implements Runnable {
                 Long outTime= entry.getValue().longValue();
                 Long nowTime=System.currentTimeMillis();
                 if(nowTime>outTime){
-                    return "TIME_OUT";
+                    return "TIMEOUT";
                 }
                 return "TRUE";
             }

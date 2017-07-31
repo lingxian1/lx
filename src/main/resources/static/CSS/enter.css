@@ -4,3 +4,7 @@
     vertical-align:text-top;
     padding-top:2px;
 }
+
+.nomargin{
+   margin: 0;
+}
