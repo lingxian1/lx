@@ -140,8 +140,8 @@ function createform() {
             },
 
             editurl: $path_base + "questionsManager/handle",//nothing is saved
-            caption: "问题分类查询结果",
-            autowidth: false
+            caption: "试题分类查询结果",
+            autowidth: true
         });
     }
     else{
