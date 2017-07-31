@@ -16,7 +16,7 @@ function signal() {
                 // GLOBAL.token = json.data.token;
                 setCookie("userId",result.data.uid);
                 setCookie("token",result.data.token);
-                location = "/test";        //跳转
+                location = "/manager";        //跳转
             } else{
                 alert(result.message);
             }

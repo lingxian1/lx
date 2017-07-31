@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <link rel="icon" href="#"/>
-    <title>Question</title>
+    <title>user manager</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.css" rel="stylesheet"/>
@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="/css/jquery-ui-1.10.3.full.min.css" />
     <link rel="stylesheet" href="/css/datepicker.css" />
     <link rel="stylesheet" href="/css/ui.jqgrid.css" />
-    <link rel="stylesheet" href="/css/enter.css" />
 
     <!-- ace styles -->
 
@@ -30,13 +29,7 @@
 <body>
 <div class="container">
     <div class="row">
-
-            <input name="info" type="text" placeholder="Enter class"/>
-            <button class='btn btn-info' onclick="query()">提交</button>
-
-    </div>
-    <div class="row">
-        <div class="col-xs-12" >
+        <div class="col-xs-12">
             <!-- PAGE CONTENT BEGINS -->
             <table id="grid-table"></table>
             <div id="grid-pager"></div>
@@ -55,6 +48,6 @@
             jQuery.jgrid.useJSON = true;
         </script>
         <script src="/js/jqGrid/jquery.jqGrid.min.js"></script>
-        <script src="/js/questions.js"></script>
+        <script src="/js/userManager.js"></script>
 </body>
 </html>

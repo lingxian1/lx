@@ -13,9 +13,9 @@ public class ManagerController {
     public String hello(){
         return "AdminLogin";
     }
-    @RequestMapping("/test")
+    @RequestMapping("/usermanager")
     public String UserManager(){
-        return "/test";
+        return "/manager/user";
     }
     @RequestMapping("/signin")
     public String signin(){
@@ -36,5 +36,9 @@ public class ManagerController {
     @RequestMapping("/questionmanager")
     public String question(){
         return "/manager/questionmanager";
+    }
+    @RequestMapping("/manager")
+    public String manager(){
+        return "/manager/manager";
     }
 }
