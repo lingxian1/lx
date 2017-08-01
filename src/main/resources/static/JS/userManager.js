@@ -30,7 +30,7 @@ jQuery(function($) {
         data: grid_data,
         datatype: "local",
         mtype:"POST",
-        height: 250,
+        height: 450,
         colNames:[' ','考生Id','姓名','手机','区域', '性别'],
         colModel:[
             {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,

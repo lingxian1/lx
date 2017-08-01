@@ -36,7 +36,7 @@ function createform() {
             data: grid_data,
             datatype: "local",
             mtype: "POST",
-            height: 250,
+            height: 450,
             colNames: [' ', '编号', '题目', '类型',
                 '选项A', '选项B', '选项C', '选项D',
                 '答案', '分类'],

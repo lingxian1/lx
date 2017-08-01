@@ -106,7 +106,7 @@ public class ExamManager {
                 default:
             }
             if(state){
-                return Response.ok();
+                return Response.ok("操作成功");
             }else {
                 return Response.error();
             }

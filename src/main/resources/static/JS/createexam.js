@@ -1,12 +1,12 @@
 var $path_base = "/";//this will be used in gritter alerts containing images
 var grid_data;
 var newDate = new Date();
-var t       = newDate.toJSON();
+var t= newDate.toJSON();
 $(function(){
     $.ajax({
         type: "get",
-        url: "/examManager",             //向springboot请求数据的url
-        data: {"test":123}, //发送登陆ID及Token  "userId":getCookie("userId"),"token":getCookie("token")
+        url: "/examManager",
+        data: {},
         async:false,
         success: function (result) {
             if(result.status==200){
@@ -27,12 +27,10 @@ jQuery(function($) {
     var pager_selector = "#grid-pager";
 
     jQuery(grid_selector).jqGrid({
-        //direction: "rtl",
-        // url:$path_base+"test",
         data: grid_data,
         datatype: "local",
         mtype:"POST",
-        height: 250,
+        height: 450,
         colNames:[' ','编号','考试名称','时长（分钟）','类型','试题数量','总分', '考试说明','起始日期', '截止日期','是否可用'],
         colModel:[
             {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
@@ -43,13 +41,13 @@ jQuery(function($) {
             },
             {name:'examinationId',index:'examinationId', width:60,editable: false,key:true},
             {name:'examinationName',index:'examinationName', width:100,editable: true,edittype: "textarea",editoptions:{maxlength:"255"}},
-            {name:'answerTime',index:'answerTime', width:80,editable: true,editoptions:{number:true}},
-            {name:'examinationType',index:'examinationType', width:90, editable:true},
-            {name:'questionCount',index:'questionCount', width:60, editable: true,editoptions:{number:true}},
-            {name:'examinationScoreAll',index:'questionCount', width:60, editable: true,editoptions:{number:true}},
+            {name:'answerTime',index:'answerTime', width:80,editable: true,editrules:{number:true}},
+            {name:'examinationType',index:'examinationType', width:90, editable:true,editoptions:{maxlength:"10"}},
+            {name:'questionCount',index:'questionCount', width:60, editable: true,editrules:{number:true}},
+            {name:'examinationScoreAll',index:'questionCount', width:60, editable: true,editrules:{number:true}},
             {name:'examinationInfo',index:'examinationInfo', width:60, editable: true},
-            {name:'examinationStart',index:'examinationStart', width:60, editable: true, formatter:"date",formatoptions: {srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
-            {name:'examinationEnd',index:'examinationEnd', width:60, editable: true, formatter:"date",formatoptions: {srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
+            {name:'examinationStart',index:'examinationStart', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
+            {name:'examinationEnd',index:'examinationEnd', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
             {name:'isDel',index:'isDel', width:70, editable: true,edittype:"checkbox",editoptions: {value:"00:01"},unformat: aceSwitch}
         ],
 
@@ -74,7 +72,7 @@ jQuery(function($) {
             }, 0);
         },
 
-        editurl: $path_base+"examManager/handle",//nothing is saved
+        editurl: $path_base+"examManager/handle",
         caption: "考试管理",
         autowidth: true
     });
@@ -189,9 +187,9 @@ jQuery(function($) {
 
     function style_edit_form(form) {
         //enable datepicker on "sdate" field and switches for "stock" field
-        form.find('input[name=examinationStart]').datetimepicker({format:'yyyy-mm-dd HH:ii:ss' , autoclose:true})
-            .end().find('input[name=examinationEnd]').datetimepicker({format:'yyyy-mm-dd HH:ii:ss' , autoclose:true})
-            .end().find('input[name=isDEL]')
+        form.find('input[name=examinationStart]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd HH:ii:ss',autoclose:true})
+            .end().find('input[name=examinationEnd]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd HH:ii:ss',autoclose:true})
+            .end().find('input[name=isDel]')
             .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
 
         //update buttons classes
