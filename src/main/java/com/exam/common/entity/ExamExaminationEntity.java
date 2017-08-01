@@ -19,6 +19,7 @@ public class ExamExaminationEntity {
     private Timestamp examinationEnd;
     private Integer examineeCount;
     private String examinationInfo;
+    private String isDel;
 
     @Id
     @Column(name = "examination_ID", nullable = false, length = 10)
@@ -163,5 +164,15 @@ public class ExamExaminationEntity {
         result = 31 * result + (examineeCount != null ? examineeCount.hashCode() : 0);
         result = 31 * result + (examinationInfo != null ? examinationInfo.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "isDEL", nullable = true, length = 2)
+    public String getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(String isDel) {
+        this.isDel = isDel;
     }
 }

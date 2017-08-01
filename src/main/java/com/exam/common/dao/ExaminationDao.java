@@ -31,7 +31,9 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         while (iterator.hasNext()){
             ExamExaminationEntity temp=iterator.next();
             //判断是否在有效时间
-            if(d.getTime()<temp.getExaminationStart().getTime()||d.getTime()>temp.getExaminationEnd().getTime()){
+            if(d.getTime()<temp.getExaminationStart().getTime()||
+                    d.getTime()>temp.getExaminationEnd().getTime()||
+                    temp.getIsDel().equals("01")){
                 iterator.remove();
             }
         }
