@@ -101,10 +101,7 @@ public class DaoTest{
 
     @Test
     public void test10(){
-//        System.out.println(questionDao.findQuestionClass("A").size());
-//        System.out.println(questionDao.findQuestionClass("BB").size());
-//        System.out.println(questionDao.findQuestionClass("C").size());
-//        System.out.println(questionDao.findQuestionClass("D"));
+        System.out.println(examinationDao.getNewId());
     }
 
 }

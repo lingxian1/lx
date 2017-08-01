@@ -40,7 +40,7 @@ public class ExamInfoController {
         if ("".equals(examineeId)||examineeId==null) {
             return Response.error(USER_ERROR);
         }
-        List<ExamExaminationEntity> exams=examinationDao.findAll();
+        List<ExamExaminationEntity> exams=examinationDao.findUseful();
         if (exams.size() == 0) {
             return null;
         }
