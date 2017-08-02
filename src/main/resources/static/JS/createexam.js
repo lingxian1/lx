@@ -34,7 +34,7 @@ jQuery(function($) {
         datatype: "local",
         mtype:"POST",
         height: 450,
-        colNames:[' ','编号','考试名称','时长（分钟）','类型','试题数量','总分', '考试说明','起始日期', '截止日期','是否可用'],
+        colNames:[' ','编号','考试名称','时长（分钟）','类型','试题数量','总分', '考试说明','起始日期', '截止日期','是否发布'],
         colModel:[
             {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
                 formatter:'actions',
@@ -51,7 +51,7 @@ jQuery(function($) {
             {name:'examinationInfo',index:'examinationInfo', width:60, editable: true},
             {name:'examinationStart',index:'examinationStart', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
             {name:'examinationEnd',index:'examinationEnd', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
-            {name:'isDel',index:'isDel', width:70, editable: true,edittype:"checkbox",editoptions: {value:"00:01"},unformat: aceSwitch}
+            {name:'isDel',index:'isDel', width:70, editable: false,edittype:"checkbox",editoptions: {value:"00:01"},unformat: aceSwitch}
         ],
 
         viewrecords : true,
@@ -322,5 +322,24 @@ function addQuestion() {
 }
 function reviseQuestion() {
     selr = $('#grid-table').jqGrid('getGridParam','selrow');
-    console.log(selr);
+    if(selr==null){
+        alert("请选择一场考试");
+    }
+    else {
+        localStorage.setItem('examinationId',selr);
+        console.log(selr);
+        window.open('addquestion.html','addquestion',
+            'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
+    }
+}
+
+function publishExam() {
+    selr = $('#grid-table').jqGrid('getGridParam','selrow');
+    if(selr==null){
+        alert("请选择一场考试");
+    }
+    else {
+        console.log(selr)
+        //todo 发布考试
+    }
 }

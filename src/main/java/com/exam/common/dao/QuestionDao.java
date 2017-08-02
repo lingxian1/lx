@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.Iterator;
 import java.util.List;
+
+import static com.exam.common.constant.Constant.ONE_DAY;
 
 /**
  * Created by LX on 2017/7/24.
@@ -17,7 +20,7 @@ import java.util.List;
 @Repository
 public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
     /**
-     * 根据问题获得问题详情
+     * 根据Id获得问题详情
      * @param questionId
      * @return
      */
@@ -36,6 +39,73 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
         List<ExamQuestionEntity> entities=findBy(str,info,true);
         if(entities.size()==0){
             return null;
+        }
+        Iterator<ExamQuestionEntity> iterator=entities.iterator();
+        while (iterator.hasNext()){
+            ExamQuestionEntity entity=iterator.next();
+            if(entity.getIsDel().equals("01")){
+                iterator.remove(); //去掉已删除的
+            }
+        }
+        return entities;
+    }
+
+    /**
+     * 根据分类获取问题
+     * @param info
+     * @return
+     */
+    public List<ExamQuestionEntity> findQuestions(String info){
+        List<ExamQuestionEntity> entities;
+        if("".equals(info)){
+            entities=findAll();
+            Iterator<ExamQuestionEntity> iterator=entities.iterator();
+            while (iterator.hasNext()){
+                ExamQuestionEntity entity=iterator.next();
+                if(entity.getIsDel().equals("01")){
+                    iterator.remove(); //去掉已删除的
+                }
+            }
+        }else{
+            entities=findQuestionClass("questionClassification",info);
+        }
+        if(entities.size()==0){
+            return null;
+        }
+        return entities;
+    }
+
+    /**
+     * 根据分类，最近天数，类型获取问题
+     * @param info
+     * @param days
+     * @param type
+     * @return
+     */
+    public List<ExamQuestionEntity> findQuestions(String info,int days,String type){
+        List<ExamQuestionEntity> entities=findQuestions(info);
+        if(entities.size()==0){
+            return null;
+        }
+        Long time=0L;
+        if(days!=0){
+            time=new Timestamp(System.currentTimeMillis()).getTime()-days*ONE_DAY;
+        }
+
+        Iterator<ExamQuestionEntity> iterator=entities.iterator();
+        if(type.equals("all")){
+            while (iterator.hasNext()){
+                ExamQuestionEntity entity=iterator.next();
+                if(entity.getQuestionCreateTime().getTime()<time){
+                    iterator.remove();
+                }
+            }
+        }
+        while (iterator.hasNext()){
+            ExamQuestionEntity entity=iterator.next();
+            if(entity.getQuestionCreateTime().getTime()<time||(!entity.getQuestionType().equals(type))){
+                iterator.remove();
+            }
         }
         return entities;
     }

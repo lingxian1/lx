@@ -12,25 +12,23 @@ $(function(){
         location="/";
     }else {
 
+    $.ajax({
+        type: "get",
+        url: "/examManager/addquestion",
+        data: {"examinationId": localStorage.getItem("examinationId")},
+        // async:false,
+        success: function (result) {
+            if(result.status==200){
+                console.log(JSON.stringify(result));
+                $('#count').html("已绑定数量"+result.data.realcount+"/"+result.data.count);
+                $('#score').html("已绑定分数"+result.data.realscore+"/"+result.data.score);
+            }
+            else{
+                alert(result.message);
+            }
+        }
+    })
     }
-
-    // $.ajax({
-    //     type: "get",
-    //     url: "/examManager",
-    //     data: {},
-    //     async:false,
-    //     success: function (result) {
-    //         if(result.status==200){
-    //             console.log(JSON.stringify(result));
-    //             grid_data=result.data;
-    //         }
-    //         else{
-    //             alert(result.message);
-    //             //TODO 跳转
-    //             location="/";
-    //         }
-    //     }
-    // })
 });
 
 jQuery(function($) {
@@ -58,13 +56,13 @@ jQuery(function($) {
         ],
 
         viewrecords : true,
-        rowNum:10,
+        rowNum:20,
         rowList:[10,20,30],
         pager : pager_selector,
         altRows: true,
         //toppager: true,
 
-        multiselect: false,
+        multiselect: true,
         //multikey: "ctrlKey",
         multiboxonly: true,
 
@@ -79,7 +77,7 @@ jQuery(function($) {
         },
 
         editurl: $path_base+"examManager/handle",
-        caption: "问题绑定",
+        caption: "试题绑定",
         autowidth: true
     });
 

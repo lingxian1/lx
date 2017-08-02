@@ -18,6 +18,7 @@ public enum ErrorCode {
     EXAM_FINISHED(10004, "考试已完成"),
     USER_EMPTY(10003, "用户不存在"),
     DATA_ERROR(10005, "数据字段格式或长度错误"),
+    EXAM_ID_ERROR(10006, "考试Id错误"),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYS_NULL_OBJECT(3, "为空的对象"),
     SYS_LOGIN_TIMEOUT(20001, "登陆过期"),

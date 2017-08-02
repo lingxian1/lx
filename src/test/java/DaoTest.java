@@ -1,19 +1,19 @@
 import com.exam.Application;
 import com.exam.common.EasyToken.EasyToken;
 import com.exam.common.EasyToken.Token;
-import com.exam.common.dao.AnswerLogDao;
-import com.exam.common.dao.ExaminationDao;
-import com.exam.common.dao.GradeDao;
-import com.exam.common.dao.QuestionDao;
-import com.exam.service.Manager.AdminLoginController;
+import com.exam.common.dao.*;
+import com.exam.common.entity.ExamQuestionEntity;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
 import com.exam.service.GradeController;
+import com.exam.service.Manager.AdminLoginController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Iterator;
 
 
 @SpringBootTest(classes = Application.class)
@@ -46,6 +46,9 @@ public class DaoTest{
     GradeController gradeController;
     @Autowired
     AdminLoginController adminLoginController;
+
+    @Autowired
+    ExamPaperDao examPaperDao;
     @Test
     public void get(){
         System.out.println(creditDao.findAll().size());
@@ -104,6 +107,28 @@ public class DaoTest{
         System.out.println(examinationDao.getNewId());
     }
 
+    @Test
+    public void test11(){
+        System.out.println(examPaperDao.findByexamCount("2017070701"));
+        System.out.println(examPaperDao.findByexamCount("2017070702"));
+    }
+
+    @Test
+    public void test12(){
+        System.out.println(examPaperDao.sumScore("2017070701"));
+        System.out.println(examPaperDao.sumScore("2017070702"));
+    }
+
+    @Test
+    public void test13(){
+        Iterator<ExamQuestionEntity> iterator= questionDao.findQuestions("",0,"all").iterator();
+        while (iterator.hasNext()){
+            ExamQuestionEntity temp=iterator.next();
+            System.out.println(temp.getQuestionId());
+        }
+
+//        System.out.println(examPaperDao.sumScore("2017070702"));
+    }
 }
 
 

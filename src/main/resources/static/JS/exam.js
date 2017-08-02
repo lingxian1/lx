@@ -150,7 +150,7 @@ function setSelects() {
 
 //被选中效果 questionType全局
 function isSelected(e) {
-    if (questionType == "signal") {
+    if (questionType == "signal"||questionType=="judgement") {
         $('[id^="OK_"]').addClass('hide');
         $('#OK_'+e.id.substr(e.id.length-1,1)).removeClass('hide');
         answerStr=e.id.substr(e.id.length-1,1);

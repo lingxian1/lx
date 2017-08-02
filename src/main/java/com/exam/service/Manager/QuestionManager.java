@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -51,17 +50,10 @@ public class QuestionManager {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-         List<ExamQuestionEntity> entities= questionDao.findQuestionClass(str,info);
-         if(entities==null){
-             return Response.ok("该类型不存在");
-         }
-            Iterator<ExamQuestionEntity> iterator=entities.iterator();
-            while (iterator.hasNext()){
-                ExamQuestionEntity entity=iterator.next();
-                if(entity.getIsDel().equals("01")){
-                    iterator.remove(); //去掉已删除的
-                }
-            }
+             List<ExamQuestionEntity> entities= questionDao.findQuestionClass(str,info);
+             if(entities==null){
+                 return Response.ok("该类型不存在");
+             }
             return Response.ok(entities);
         }
     }

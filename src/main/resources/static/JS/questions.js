@@ -64,7 +64,7 @@ function createform() {
                     width: 60,
                     editable: true,
                     edittype: "select",
-                    editoptions: {value: "signal:单选;multiple:多选"}
+                    editoptions: {value: "signal:单选;multiple:多选;judgement:判断"}
                 },
                 {
                     name: 'questionChooseA',

@@ -4,8 +4,10 @@ import com.exam.common.EasyToken.EasyToken;
 import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
+import com.exam.common.dao.ExamPaperDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.entity.ExamExaminationEntity;
+import com.exam.common.other.AddQuestion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,8 @@ public class ExamManager {
 
     @Autowired
     ExaminationDao examinationDao;
-
+    @Autowired
+    ExamPaperDao examPaperDao;
     private Logger logger = LoggerFactory.getLogger(ExamManager.class);
 
     @GetMapping
@@ -54,7 +57,34 @@ public class ExamManager {
             return Response.ok(entities);
         }
     }
+    @GetMapping("/addquestion")
+    public  Response addQuestion(@CookieValue(value = "token", defaultValue = "") String token,
+                                 @CookieValue(value = "userId", defaultValue = "") String uid,
+                                 @RequestParam(defaultValue = "") String examinationId){
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
+        }else {
+            ExamExaminationEntity entity1= examinationDao.findById(examinationId);
+            if(entity1==null){
+                return Response.error(ErrorCode.EXAM_ID_ERROR);
+            }else {
+                int count=entity1.getQuestionCount();
+                int score=entity1.getExaminationScoreAll();
+                int realcount=examPaperDao.findByexamCount(examinationId);
+                int realscore=examPaperDao.sumScore(examinationId);
+                AddQuestion addQuestion=new AddQuestion();
+                addQuestion.setCount(count);
+                addQuestion.setScore(score);
+                addQuestion.setRealcount(realcount);
+                addQuestion.setRealscore(realscore);
+                return Response.ok(addQuestion);
+            }
 
+        }
+    }
     @PostMapping("/handle")
     public Response examHandle(@CookieValue(value = "token", defaultValue = "") String token,
                                @CookieValue(value = "userId", defaultValue = "") String uid,
