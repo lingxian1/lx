@@ -83,7 +83,9 @@ public class QuestionManager {
      * @return
      */
     @PostMapping("/handle")
-    public String login(
+    public Response login(
+            @CookieValue(value = "token", defaultValue = "") String token,
+            @CookieValue(value = "userId", defaultValue = "") String uid,
             @RequestParam(defaultValue = "") String oper,
             @RequestParam(defaultValue = "") String id,
             @RequestParam(defaultValue = "") String questionId,
@@ -97,44 +99,49 @@ public class QuestionManager {
             @RequestParam(defaultValue = "") String questionClassification,
             @RequestParam(defaultValue = "") String questionOther){
 
-        logger.info("id-"+id);
-        logger.info("questionId-"+questionId);
-        logger.info(questionText);
-        logger.info(questionType);
-        logger.info(questionChooseA+questionChooseB+questionChooseC+questionChooseD);
-        logger.info(questionAnswer+"");
-        logger.info(questionClassification+"");
-        logger.info(questionOther+"");
-        logger.info(oper);
-        int count=2;
-        boolean state=false;
-
-        if(!"".equals(questionChooseC)){
-            count++;
-        }
-        if(!"".equals(questionChooseD)){
-            count++;
-        }
-
-        System.out.println(count);
-        switch(oper){
-            case "add":
-                state= addQuestion(questionText,questionType,count,questionChooseA,questionChooseB,
-                        questionChooseC,questionChooseD,questionAnswer,questionClassification,questionOther);
-                break;
-            case "del":
-                state= delQuestion(id);
-                break;
-            case "edit":
-                state= editQuestion(questionId,questionText,questionType,count,questionChooseA,questionChooseB,
-                        questionChooseC,questionChooseD,questionAnswer,questionClassification,questionOther);
-                break;
-            default:
-        }
-        if(state){
-            return "操作成功";
+//        logger.info("id-"+id);
+//        logger.info("questionId-"+questionId);
+//        logger.info(questionText);
+//        logger.info(questionType);
+//        logger.info(questionChooseA+questionChooseB+questionChooseC+questionChooseD);
+//        logger.info(questionAnswer+"");
+//        logger.info(questionClassification+"");
+//        logger.info(questionOther+"");
+//        logger.info(oper);
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
         }else {
-            return "操作失败，字段为空";
+            int count = 2;
+            boolean state = false;
+            if (!"".equals(questionChooseC)) {
+                count++;
+            }
+            if (!"".equals(questionChooseD)) {
+                count++;
+            }
+
+            switch (oper) {
+                case "add":
+                    state = addQuestion(questionText, questionType, count, questionChooseA, questionChooseB,
+                            questionChooseC, questionChooseD, questionAnswer, questionClassification, questionOther);
+                    break;
+                case "del":
+                    state = delQuestion(id);
+                    break;
+                case "edit":
+                    state = editQuestion(questionId, questionText, questionType, count, questionChooseA, questionChooseB,
+                            questionChooseC, questionChooseD, questionAnswer, questionClassification, questionOther);
+                    break;
+                default:
+            }
+            if (state) {
+                return Response.ok("操作成功");
+            } else {
+                return Response.error();
+            }
         }
     }
 

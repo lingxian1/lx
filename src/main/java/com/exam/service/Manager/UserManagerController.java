@@ -54,7 +54,9 @@ public class UserManagerController {
     }
 
     @PostMapping("/handle")
-    public String login(
+    public Response login(
+            @CookieValue(value = "token", defaultValue = "") String token,
+            @CookieValue(value = "userId", defaultValue = "") String uid,
             @RequestParam(defaultValue = "") String oper,
             @RequestParam(defaultValue = "") String id,
             @RequestParam(defaultValue = "") String examineeId,
@@ -62,33 +64,31 @@ public class UserManagerController {
             @RequestParam(defaultValue = "") String phone,
             @RequestParam(defaultValue = "") String areaId,
             @RequestParam(defaultValue = "") String sex){
-
-//        logger.info("id-"+id);
-//        logger.info("exid-"+examineeId);
-//        logger.info(name);
-//        logger.info(phone);
-//        logger.info(areaId);
-        logger.info(sex);
-//        logger.info(oper);
-        boolean state=false;
-
-        switch(oper){
-            case "add":
-                state=addUser(name,phone,areaId,sex);
-                break;
-            case "del":
-                System.out.println("ss");
-                state=delUser(id);
-                break;
-            case "edit":
-                state=editUser(examineeId,name,phone,areaId,sex);
-                break;
-            default:
-        }
-        if(state){
-            return "操作成功";
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
         }else {
-            return "操作失败，字段为空";
+            boolean state = false;
+            switch (oper) {
+                case "add":
+                    state = addUser(name, phone, areaId, sex);
+                    break;
+                case "del":
+                    System.out.println("ss");
+                    state = delUser(id);
+                    break;
+                case "edit":
+                    state = editUser(examineeId, name, phone, areaId, sex);
+                    break;
+                default:
+            }
+            if (state) {
+                return Response.ok("操作成功");
+            } else {
+                return Response.error();
+            }
         }
     }
 
@@ -146,6 +146,4 @@ public class UserManagerController {
         examineeDao.save(examinee);
         return true;
     }
-
-
 }

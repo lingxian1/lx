@@ -45,4 +45,8 @@ public class ManagerController {
     public String createexam(){
         return "/manager/createexam";
     }
+    @RequestMapping("/addquestion")
+    public String addquestion(){
+        return "/manager/addquestion";
+    }
 }

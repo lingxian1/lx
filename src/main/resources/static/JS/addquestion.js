@@ -3,26 +3,34 @@ var grid_data;
 var newDate = new Date();
 var t= newDate.toJSON();
 
-var selr;
-
 $(function(){
-    $.ajax({
-        type: "get",
-        url: "/examManager",
-        data: {},
-        async:false,
-        success: function (result) {
-            if(result.status==200){
-                console.log(JSON.stringify(result));
-                grid_data=result.data;
-            }
-            else{
-                alert(result.message);
-                //TODO 跳转
-                location="/";
-            }
-        }
-    })
+    var id=localStorage.getItem("examinationId");
+    $('#examinationId').html(id);
+    console.log(id);
+    if(id==null){
+        alert("考试未选择");
+        location="/";
+    }else {
+
+    }
+
+    // $.ajax({
+    //     type: "get",
+    //     url: "/examManager",
+    //     data: {},
+    //     async:false,
+    //     success: function (result) {
+    //         if(result.status==200){
+    //             console.log(JSON.stringify(result));
+    //             grid_data=result.data;
+    //         }
+    //         else{
+    //             alert(result.message);
+    //             //TODO 跳转
+    //             location="/";
+    //         }
+    //     }
+    // })
 });
 
 jQuery(function($) {
@@ -33,25 +41,20 @@ jQuery(function($) {
         data: grid_data,
         datatype: "local",
         mtype:"POST",
-        height: 450,
-        colNames:[' ','编号','考试名称','时长（分钟）','类型','试题数量','总分', '考试说明','起始日期', '截止日期','是否可用'],
+        height: 250,
+        colNames:['编号', '题目', '类型',
+            '选项A', '选项B', '选项C', '选项D',
+            '分类','创建时间'],
         colModel:[
-            {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-                formatter:'actions',
-                formatoptions:{
-                    delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-                }
-            },
-            {name:'examinationId',index:'examinationId', width:60,editable: false,key:true},
-            {name:'examinationName',index:'examinationName', width:100,editable: true,edittype: "textarea",editoptions:{maxlength:"255"}},
-            {name:'answerTime',index:'answerTime', width:80,editable: true,editrules:{number:true}},
-            {name:'examinationType',index:'examinationType', width:90, editable:true,editoptions:{maxlength:"10"}},
-            {name:'questionCount',index:'questionCount', width:60, editable: true,editrules:{number:true}},
-            {name:'examinationScoreAll',index:'questionCount', width:60, editable: true,editrules:{number:true}},
-            {name:'examinationInfo',index:'examinationInfo', width:60, editable: true},
-            {name:'examinationStart',index:'examinationStart', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
-            {name:'examinationEnd',index:'examinationEnd', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
-            {name:'isDel',index:'isDel', width:70, editable: true,edittype:"checkbox",editoptions: {value:"00:01"},unformat: aceSwitch}
+            {name:'questionId',index:'questionId', width:60,editable: false,key:true},
+            {name:'questionText',index:'questionText', width:100,editable:false},
+            {name:'questionType',index:'questionType', width:80,editable: false},
+            {name:'questionChooseA',index:'questionChooseA', width:90, editable:false},
+            {name:'questionChooseB',index:'questionChooseB', width:60, editable: false},
+            {name:'questionChooseC',index:'questionChooseC', width:60, editable: false},
+            {name:'questionChooseD',index:'questionChooseD', width:60, editable: false},
+            {name:'questionClassification',index:'questionClassification', width:60, editable: false},
+            {name:'questionCreateTime',index:'questionCreateTime', width:60, editable: false, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate}
         ],
 
         viewrecords : true,
@@ -76,7 +79,7 @@ jQuery(function($) {
         },
 
         editurl: $path_base+"examManager/handle",
-        caption: "考试管理",
+        caption: "问题绑定",
         autowidth: true
     });
 
@@ -105,11 +108,11 @@ jQuery(function($) {
     //navButtons
     jQuery(grid_selector).jqGrid('navGrid',pager_selector,
         { 	//navbar options
-            edit: true,
+            edit: false,
             editicon : 'icon-pencil blue',
-            add: true,
+            add: false,
             addicon : 'icon-plus-sign purple',
-            del: true,
+            del: false,
             delicon : 'icon-trash red',
             search: true,
             searchicon : 'icon-search orange',
@@ -308,19 +311,13 @@ jQuery(function($) {
 
 });
 
-function addQuestion() {
-    selr = $('#grid-table').jqGrid('getGridParam','selrow');
-    if(selr==null){
-        alert("请选择一场考试");
-    }
-    else {
-        localStorage.setItem('examinationId',selr);
-        console.log(selr);
-        window.open('addquestion.html','addquestion',
-            'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
-    }
+function findexam() {
+    
 }
-function reviseQuestion() {
-    selr = $('#grid-table').jqGrid('getGridParam','selrow');
-    console.log(selr);
+
+function getinfo(){
+    var ids=$('#grid-table').jqGrid('getGridParam','selarrrow');
+    ids.forEach(function (value,index,array) {
+        console.log(value);
+    })
 }
