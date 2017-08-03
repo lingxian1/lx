@@ -1,5 +1,5 @@
 group 'com.exam'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 buildscript {
     ext {
@@ -31,9 +31,7 @@ repositories {
 //create a single Jar with all dependencies
 //task fatJar(type: Jar) {
 //    manifest {
-//        Attributes 'Implementation-Title': 'Gradle Jar File Example',
-//                'Implementation-Version': version,
-//                'Main-Class': 'com.ticknick.server.Application'
+//        attributes 'Main-Class': 'com.exam.Application'
 //    }
 //    baseName = project.name + '-all'
 //    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

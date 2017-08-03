@@ -35,5 +35,5 @@ function msg_display(msgs) {
 function goExam(e) {
     console.log(e.id);
     setCookie("examinationId",e.id);
-    location = "/exam/exams";        //跳转
+    location = "/exams";        //跳转
 }

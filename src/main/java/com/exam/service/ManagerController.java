@@ -9,44 +9,84 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class ManagerController {
-    @RequestMapping("/")
-    public String hello(){
-        return "AdminLogin";
-    }
+//    @RequestMapping("/")
+//    public String hello(){
+//        return "AdminLogin";
+//    }
+//    @RequestMapping("/usermanager")
+//    public String UserManager(){
+//        return "/manager/user";
+//    }
+//    @RequestMapping("/signin")
+//    public String signin(){
+//        return "/signin";
+//    }
+//    @RequestMapping("/exam/examinfo")
+//    public String examinfo(){
+//        return "/exam/examinfo";
+//    }
+//    @RequestMapping("/exam/exams")
+//    public String exams(){
+//        return "/exam/exams";
+//    }
+//    @RequestMapping("/exam/grade")
+//    public String grade(){
+//        return "/exam/grade";
+//    }
+//    @RequestMapping("/questionmanager")
+//    public String question(){
+//        return "/manager/questionmanager";
+//    }
+//    @RequestMapping("/manager")
+//    public String manager(){
+//        return "/manager/manager";
+//    }
+//    @RequestMapping("/createexam")
+//    public String createexam(){
+//        return "/manager/createexam";
+//    }
+//    @RequestMapping("/addquestion")
+//    public String addquestion(){
+//        return "/manager/addquestion";
+//    }
+@RequestMapping("/")
+public String hello(){
+    return "AdminLogin";
+}
     @RequestMapping("/usermanager")
     public String UserManager(){
-        return "/manager/user";
+        return "manager/user";
     }
     @RequestMapping("/signin")
     public String signin(){
-        return "/signin";
+        return "signin";
     }
-    @RequestMapping("/exam/examinfo")
+    @RequestMapping("/examinfo")
     public String examinfo(){
-        return "/exam/examinfo";
+        return "exam/examinfo";
     }
-    @RequestMapping("/exam/exams")
+    @RequestMapping("/exams")
     public String exams(){
-        return "/exam/exams";
+        return "exam/exams";
     }
-    @RequestMapping("/exam/grade")
+    @RequestMapping("/grade")
     public String grade(){
-        return "/exam/grade";
+        return "exam/grade";
     }
     @RequestMapping("/questionmanager")
     public String question(){
-        return "/manager/questionmanager";
+        return "manager/questionmanager";
     }
     @RequestMapping("/manager")
     public String manager(){
-        return "/manager/manager";
+        return "manager/manager";
     }
     @RequestMapping("/createexam")
     public String createexam(){
-        return "/manager/createexam";
+        return "manager/createexam";
     }
     @RequestMapping("/addquestion")
     public String addquestion(){
-        return "/manager/addquestion";
+        return "manager/addquestion";
     }
 }

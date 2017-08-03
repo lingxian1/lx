@@ -1,7 +1,7 @@
 $(function(){
     $.ajax({
         type: "get",
-        url: "/grade",             //向springboot请求数据的url
+        url: "/getgrade",             //向springboot请求数据的url
         data: {"examineeId":getCookie("examineeId")},
         success: function (result) {
             var data=result;
