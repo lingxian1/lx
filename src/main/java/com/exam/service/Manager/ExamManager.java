@@ -77,6 +77,8 @@ public class ExamManager {
             ExamExaminationEntity entity1= examinationDao.findById(examinationId);
             if(entity1==null){
                 return Response.error(ErrorCode.EXAM_ID_ERROR);
+            }else if(entity1.getIsDel().equals("00")){
+                return Response.error(ErrorCode.EXAM_PUBLISH_ERROR);
             }else {
                 int count=entity1.getQuestionCount();
                 int score=entity1.getExaminationScoreAll();

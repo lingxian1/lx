@@ -25,6 +25,7 @@ $(function(){
             }
             else{
                 alert(result.message);
+                location="/createexam";
             }
         }
     })

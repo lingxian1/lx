@@ -5,6 +5,7 @@ import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
 import com.exam.common.dao.ExamPaperDao;
+import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.QuestionDao;
 import com.exam.common.entity.ExamExaminationPaperEntity;
 import com.exam.common.entity.ExamQuestionEntity;
@@ -26,6 +27,8 @@ public class ExamPaperManager {
     ExamPaperDao examPaperDao;
     @Autowired
     QuestionDao questionDao;
+    @Autowired
+    ExaminationDao examinationDao;
     private Logger logger = LoggerFactory.getLogger(ExamPaperManager.class);
 
     @GetMapping("/change")
@@ -56,6 +59,22 @@ public class ExamPaperManager {
                 }
             }
             return Response.ok(returndata);
+        }
+    }
+
+
+    @PostMapping("/publish")
+    public Response publishexam(@CookieValue(value = "token", defaultValue = "") String token,
+                                 @CookieValue(value = "userId", defaultValue = "") String uid,
+                                @RequestParam(defaultValue = "") String examinationId){
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
+        }else {
+            examinationDao.publishById(examinationId);
+            return Response.ok("发布成功");
         }
     }
 

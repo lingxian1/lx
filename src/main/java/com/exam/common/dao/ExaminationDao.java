@@ -101,10 +101,26 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         if(entity==null){
             return false;
         }
+        if(entity.getIsDel().equals("00")){
+            return false;
+        }
+        delete(entity);
+        return true;
+    }
+
+    /**
+     * 试题发布
+     * @param examinationId
+     * @return
+     */
+    public boolean publishById(String examinationId){
+        ExamExaminationEntity entity=findById(examinationId);
+        if(entity==null){
+            return false;
+        }
         entity.setIsDel("01");
         update(entity);
         return true;
     }
-
 
 }
