@@ -308,6 +308,7 @@ jQuery(function($) {
 
 });
 
+//新窗口试题绑定
 function addQuestion() {
     selr = $('#grid-table').jqGrid('getGridParam','selrow');
     if(selr==null){
@@ -320,6 +321,8 @@ function addQuestion() {
             'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
     }
 }
+
+//绑定编辑修改
 function reviseQuestion() {
     selr = $('#grid-table').jqGrid('getGridParam','selrow');
     if(selr==null){
@@ -333,6 +336,7 @@ function reviseQuestion() {
     }
 }
 
+//发布考试
 function publishExam() {
     selr = $('#grid-table').jqGrid('getGridParam','selrow');
     if(selr==null){

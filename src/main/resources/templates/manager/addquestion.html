@@ -31,34 +31,34 @@
             <span id="count" style="float: right"></span>
             <span id="score" style="float: right"></span></h4>
         <div class="form-group">
-            <label >问题分类或关键字</label>
-                <input type="text" class="form-control"/>
+            <label >试题分类（关键字）</label>
+                <input type="text" class="form-control" id="questionClass"/>
         </div>
         <div>
         <div class="radio radio-inline" style="margin-top: 0">
             <label >
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" />
+                <input type="radio" name="days" id="optionsRadios1" value="1" />
                 近1天添加的
             </label>
         </div>
 
         <div class="radio radio-inline" >
             <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios2" value="3"/>
+                <input type="radio" name="days" id="optionsRadios2" value="3"/>
                 近3天添加的
             </label>
         </div>
 
         <div class="radio radio-inline">
             <label >
-                <input type="radio" name="optionsRadios" id="optionsRadios3" value="7" />
+                <input type="radio" name="days" id="optionsRadios3" value="7" />
                 近7天添加的
             </label>
         </div>
 
         <div class="radio radio-inline">
             <label >
-                <input type="radio" name="optionsRadios" id="optionsRadios4" value="0" checked="checked"/>
+                <input type="radio" name="days" id="optionsRadios4" value="0" checked="checked"/>
                 不限
             </label>
         </div>
@@ -67,28 +67,28 @@
         <div>
             <div class="radio radio-inline" style="margin-top: 0">
                 <label >
-                    <input type="radio" name="optionsRadios2" id="optionsRadios5" value="signal" />
+                    <input type="radio" name="choose" id="optionsRadios5" value="signal" />
                     单选
                 </label>
             </div>
 
             <div class="radio radio-inline" >
                 <label>
-                    <input type="radio" name="optionsRadios2" id="optionsRadios6" value="multiple"/>
+                    <input type="radio" name="choose" id="optionsRadios6" value="multiple"/>
                     多选
                 </label>
             </div>
 
             <div class="radio radio-inline">
                 <label >
-                    <input type="radio" name="optionsRadios2" id="optionsRadios7" value="judgement" />
+                    <input type="radio" name="choose" id="optionsRadios7" value="judgement" />
                     判断
                 </label>
             </div>
 
             <div class="radio radio-inline">
                 <label >
-                    <input type="radio" name="optionsRadios2" id="optionsRadios8" value="all" checked="checked"/>
+                    <input type="radio" name="choose" id="optionsRadios8" value="all" checked="checked"/>
                     不限
                 </label>
             </div>
@@ -97,9 +97,9 @@
         <hr/>
     <div>
         <label class="checkbox-inline" >
-            <input type="checkbox" id="inlineCheckbox4" value="error"/> Top10错题
+            <input type="checkbox" id="top10" value="error"/> Top10错题
         </label>
-        <button class="btn btn-info btn-sm" style=" float:right" type="button" onclick="findexam()">查找</button>
+        <button class="btn btn-info btn-sm" style=" float:right" type="button" onclick="findexam()"><span class="glyphicon glyphicon-search"></span></button>
     </div>
     </div>
     <section id="main-content" style="margin-left: 0">
@@ -112,9 +112,23 @@
             </div>
         </section>
     </section>
-    <div class="row" style="margin: 15px">
-        <button class="btn btn-info btn-sm" type="button" onclick="getinfo()" style="float: right">添加</button>
+    <div class="row useflex" >
+        <h4>分值设置：</h4>
+        <label >单选</label>
+        <input type="text" class="form-control" id="types" style="width: 25px;height: 20px"/>
+        <label >分；</label>
+
+        <label >多选</label>
+        <input type="text" class="form-control" id="typem" style="width: 25px;height: 20px"/>
+        <label >分；</label>
+
+        <label >判断</label>
+        <input type="text" class="form-control" id="typej" style="width: 25px;height: 20px"/>
+        <label >分；</label>
+        <button class="btn btn-info btn-sm" type="button" onclick="getinfo()">添加</button>
     </div>
+
+
     <script src="/js/jquery/jquery-3.1.1.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/common.js"></script>

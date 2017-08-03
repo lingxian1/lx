@@ -2,9 +2,9 @@ var $path_base = "/";//this will be used in gritter alerts containing images
 var grid_data;
 var newDate = new Date();
 var t= newDate.toJSON();
-
+var flag=0;
+var id=localStorage.getItem("examinationId");
 $(function(){
-    var id=localStorage.getItem("examinationId");
     $('#examinationId').html(id);
     console.log(id);
     if(id==null){
@@ -31,11 +31,12 @@ $(function(){
     }
 });
 
-jQuery(function($) {
+function chooseQuestion() {
     var grid_selector = "#grid-table";
     var pager_selector = "#grid-pager";
-
-    jQuery(grid_selector).jqGrid({
+    if(flag==0){
+        flag++;
+        jQuery(grid_selector).jqGrid({
         data: grid_data,
         datatype: "local",
         mtype:"POST",
@@ -80,6 +81,14 @@ jQuery(function($) {
         caption: "试题绑定",
         autowidth: true
     });
+    } else{
+        $(grid_selector).jqGrid('clearGridData');  //清空表格
+        $(grid_selector).jqGrid('setGridParam',{  // 重新加载数据
+            datatype:'local',
+            data : grid_data,   //  newdata 是符合格式要求的需要重新加载的数据
+        }).trigger("reloadGrid");
+    }
+
 
     //enable search/filter toolbar
     // jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
@@ -307,15 +316,89 @@ jQuery(function($) {
         $(table).find('.ui-pg-div').tooltip({container:'body'});
     }
 
-});
+};
 
 function findexam() {
-    
+    var questionClass=$('#questionClass').val();
+    var days=$('input:radio[name="days"]:checked').val();
+    var questionType=$('input:radio[name="choose"]:checked').val();
+    var top=0;
+    if($('#top10').is(':checked')) {
+       top=10;
+    }
+    console.log("question"+questionClass);
+    console.log("days"+days+"chooses"+questionType);
+    $.ajax({
+        type: "get",
+        url: "/examManager/choosequestion",
+        data: {"examinationId": localStorage.getItem("examinationId"),"questionClass": questionClass,"days":days,"questionType":questionType,"top":top},
+        // async:false,
+        success: function (result) {
+            if(result.status==200){
+                console.log(JSON.stringify(result));
+                grid_data=result.data;
+                chooseQuestion();
+            }
+            else{
+                alert(result.message);
+            }
+        }
+    })
+
+
 }
 
 function getinfo(){
-    var ids=$('#grid-table').jqGrid('getGridParam','selarrrow');
-    ids.forEach(function (value,index,array) {
-        console.log(value);
-    })
+    var types=$('#types').val();
+    var typem=$('#typem').val();
+    var typej=$('#typej').val();
+    if((checkRate(types)&&checkRate(typem)&&checkRate(typej))==false){
+        alert("请输入正整数分值!");
+    }else{
+        var jsons = [];
+        var score=0;
+        var ids=$('#grid-table').jqGrid('getGridParam','selarrrow');
+        ids.forEach(function (value,index,array) {
+            console.log(value);
+            console.log("index:"+index);
+            //某单元格内容
+            var celldata = $('#grid-table').jqGrid('getCell',value,3);
+            if(celldata=="signal"){
+                score=types;
+            }else if(celldata="multiple"){
+                score=typem;
+            }else if(celldata="judgement"){
+                score=typej;
+            }
+            console.log(celldata);
+            var temp={"examinationId":id,"questionId":value,"score":score,"accuracy":1};
+            jsons[index] = temp;
+        });
+        console.log(JSON.stringify(jsons));
+        $.ajax({
+            type: "post",
+            url: "/examPaperManager/add",
+            data: JSON.stringify(jsons),
+            contentType: "application/json",
+            // async:false,
+            success: function (result) {
+                if(result.status==200){
+                    console.log(JSON.stringify(result));
+                }
+                else{
+                    alert(result.message);
+                }
+            }
+        })
+    }
+
+}
+
+function checkRate(num) {
+    var nubmer=num;
+    console.log(num);
+    if (isNaN(nubmer) || nubmer <= 0 || !(/^\d+$/.test(nubmer))&&num!="") {
+            return false;
+    }
+    return true;
 }

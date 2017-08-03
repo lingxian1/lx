@@ -108,7 +108,7 @@ public abstract class AbstractReadDao<T>  {
         String hql = jointHqlByIdsQuery(idAndValues);
         List<T> tList = session.createQuery(hql).list();
         if (tList.isEmpty()) {
-            logger.error("tlist is empty");
+            logger.info("tlist is empty");
             return null;
         }
         logger.info(tList.get(0));

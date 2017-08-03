@@ -4,9 +4,12 @@ import com.exam.common.EasyToken.EasyToken;
 import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
+import com.exam.common.dao.ErrorQuestion;
 import com.exam.common.dao.ExamPaperDao;
 import com.exam.common.dao.ExaminationDao;
+import com.exam.common.dao.QuestionDao;
 import com.exam.common.entity.ExamExaminationEntity;
+import com.exam.common.entity.ExamQuestionEntity;
 import com.exam.common.other.AddQuestion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LX on 2017/7/31.
@@ -29,6 +31,10 @@ public class ExamManager {
     ExaminationDao examinationDao;
     @Autowired
     ExamPaperDao examPaperDao;
+    @Autowired
+    QuestionDao questionDao;
+    @Autowired
+    ErrorQuestion errorQuestion;
     private Logger logger = LoggerFactory.getLogger(ExamManager.class);
 
     @GetMapping
@@ -57,6 +63,7 @@ public class ExamManager {
             return Response.ok(entities);
         }
     }
+
     @GetMapping("/addquestion")
     public  Response addQuestion(@CookieValue(value = "token", defaultValue = "") String token,
                                  @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -82,7 +89,41 @@ public class ExamManager {
                 addQuestion.setRealscore(realscore);
                 return Response.ok(addQuestion);
             }
+        }
+    }
 
+    @GetMapping("choosequestion")
+    public Response chooseQuestion(@CookieValue(value = "token", defaultValue = "") String token,
+                                   @CookieValue(value = "userId", defaultValue = "") String uid,
+                                   @RequestParam(defaultValue = "") String examinationId,
+                                   @RequestParam(defaultValue = "") String questionClass,
+                                   @RequestParam(defaultValue = "") String days,
+                                   @RequestParam(defaultValue = "") String questionType,
+                                   @RequestParam(defaultValue = "") String top){
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
+        }else {
+            List<ExamQuestionEntity> entities=new ArrayList<>();
+            int day=new Integer(days);
+            if(!"".equals(top)){
+                entities=questionDao.findQuestions(questionClass,day,questionType);
+                //去重
+                Iterator<ExamQuestionEntity> iterator=entities.iterator();
+                while(iterator.hasNext()){
+                    ExamQuestionEntity entity=iterator.next();
+                    Map<String,String> map=new HashMap<>();
+                    map.put("examinationId",examinationId);
+                    map.put("questionId",entity.getQuestionId());
+                    if(!(examPaperDao.findByIds(map)==null)){
+                        iterator.remove();
+                    }
+                }
+            }
+            //todo TOP10错题
+            return Response.ok(entities);
         }
     }
     @PostMapping("/handle")

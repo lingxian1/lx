@@ -100,15 +100,17 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
                     iterator.remove();
                 }
             }
-        }
-        while (iterator.hasNext()){
-            ExamQuestionEntity entity=iterator.next();
-            if(entity.getQuestionCreateTime().getTime()<time||(!entity.getQuestionType().equals(type))){
-                iterator.remove();
+        }else{
+            while (iterator.hasNext()){
+                ExamQuestionEntity entity=iterator.next();
+                if(entity.getQuestionCreateTime().getTime()<time||(!entity.getQuestionType().equals(type))){
+                    iterator.remove();
+                }
             }
         }
         return entities;
     }
+
 
     /**
      * 新的Id

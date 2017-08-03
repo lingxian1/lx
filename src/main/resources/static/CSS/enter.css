@@ -8,3 +8,10 @@
 .nomargin{
    margin: 0;
 }
+
+.useflex{
+    display:flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items:center;
+}
