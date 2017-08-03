@@ -89,4 +89,8 @@ public String hello(){
     public String addquestion(){
         return "manager/addquestion";
     }
+    @RequestMapping("/changequestion")
+    public String changequestion(){
+        return "manager/changequestion";
+    }
 }

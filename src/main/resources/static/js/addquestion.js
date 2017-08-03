@@ -15,7 +15,7 @@ $(function(){
     $.ajax({
         type: "get",
         url: "/examManager/addquestion",
-        data: {"examinationId": localStorage.getItem("examinationId")},
+        data: {"examinationId": id},
         // async:false,
         success: function (result) {
             if(result.status==200){
@@ -384,6 +384,8 @@ function getinfo(){
             success: function (result) {
                 if(result.status==200){
                     console.log(JSON.stringify(result));
+                    alert("提交成功");
+                    location="/addquestion";
                 }
                 else{
                     alert(result.message);

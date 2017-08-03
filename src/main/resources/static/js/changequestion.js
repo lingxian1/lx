@@ -1,15 +1,34 @@
 var $path_base = "/";//this will be used in gritter alerts containing images
 var grid_data;
-var newDate = new Date();
-var t= newDate.toJSON();
-
-var selr;
-
+var id=localStorage.getItem("examinationId");
 $(function(){
+    $('#examinationId').html(id);
+    setCookie("examinationId2",id);
+    if(id==null){
+        alert("考试未选择");
+        location="/";
+    }
     $.ajax({
         type: "get",
-        url: "/examManager",
-        data: {},
+        url: "/examManager/addquestion",
+        data: {"examinationId": id},
+        // async:false,
+        success: function (result) {
+            if(result.status==200){
+                console.log(JSON.stringify(result));
+                $('#count').html("已绑定数量"+result.data.realcount+"/"+result.data.count);
+                $('#score').html("已绑定分数"+result.data.realscore+"/"+result.data.score);
+            }
+            else{
+                alert(result.message);
+            }
+        }
+    })
+
+    $.ajax({
+        type: "get",
+        url: "/examPaperManager/change",             //向springboot请求数据的url
+        data: {"examinationId":localStorage.getItem("examinationId")}, //发送登陆ID及Token
         async:false,
         success: function (result) {
             if(result.status==200){
@@ -30,11 +49,13 @@ jQuery(function($) {
     var pager_selector = "#grid-pager";
 
     jQuery(grid_selector).jqGrid({
+        //direction: "rtl",
+        // url:$path_base+"test",
         data: grid_data,
         datatype: "local",
         mtype:"POST",
         height: 450,
-        colNames:[' ','编号','考试名称','时长（分钟）','类型','试题数量','总分', '考试说明','起始日期', '截止日期','是否发布'],
+        colNames:['  ','考试编号','试题编号','试题内容','试题类型','当前分值'],
         colModel:[
             {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
                 formatter:'actions',
@@ -42,20 +63,15 @@ jQuery(function($) {
                     delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
                 }
             },
-            {name:'examinationId',index:'examinationId', width:60,editable: false,key:true},
-            {name:'examinationName',index:'examinationName', width:100,editable: true,edittype: "textarea",editoptions:{maxlength:"255"}},
-            {name:'answerTime',index:'answerTime', width:80,editable: true,editrules:{number:true}},
-            {name:'examinationType',index:'examinationType', width:90, editable:true,editoptions:{maxlength:"10"}},
-            {name:'questionCount',index:'questionCount', width:60, editable: true,editrules:{number:true}},
-            {name:'examinationScoreAll',index:'questionCount', width:60, editable: true,editrules:{number:true}},
-            {name:'examinationInfo',index:'examinationInfo', width:60, editable: true},
-            {name:'examinationStart',index:'examinationStart', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
-            {name:'examinationEnd',index:'examinationEnd', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
-            {name:'isDel',index:'isDel', width:70, editable: false,edittype:"checkbox",editoptions: {value:"00:01"},unformat: aceSwitch}
+            {name:'examinationId',index:'examinationId', width:120,editable: false,key:true},
+            {name:'questionId',index:'questionId', width:120,editable: false,key:true},
+            {name:'questionText',index:'questionText', width:100,editable: false},
+            {name:'questionType',index:'questionType', width:100,editable: false},
+            {name:'score',index:'score', width:90, editable: true,editrules:{number:true}},
         ],
 
         viewrecords : true,
-        rowNum:10,
+        rowNum:20,
         rowList:[10,20,30],
         pager : pager_selector,
         altRows: true,
@@ -75,8 +91,8 @@ jQuery(function($) {
             }, 0);
         },
 
-        editurl: $path_base+"examManager/handle",
-        caption: "考试管理",
+        editurl: $path_base+"examPaperManager/handle",//nothing is saved
+        caption: "修改绑定",
         autowidth: true
     });
 
@@ -96,8 +112,7 @@ jQuery(function($) {
     function pickDate( cellvalue, options, cell ) {
         setTimeout(function(){
             $(cell) .find('input[type=text]')
-                .datetimepicker({format:'yyyy-mm-dd HH:ii:ss',weekStart: 1,startDate:new Date(t),
-                    todayBtn:1, autoclose:true});
+                .datepicker({format:'yyyy-mm-dd' , autoclose:true});
         }, 0);
     }
 
@@ -107,7 +122,7 @@ jQuery(function($) {
         { 	//navbar options
             edit: true,
             editicon : 'icon-pencil blue',
-            add: true,
+            add: false,
             addicon : 'icon-plus-sign purple',
             del: true,
             delicon : 'icon-trash red',
@@ -138,10 +153,8 @@ jQuery(function($) {
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                 style_edit_form(form);
             },
-            //请求结果处理
             afterComplete:function (data,postdata) {
                 alert(data.responseText);
-                //刷新页面
                 // location.reload(true);
             }
         },
@@ -192,9 +205,8 @@ jQuery(function($) {
 
     function style_edit_form(form) {
         //enable datepicker on "sdate" field and switches for "stock" field
-        form.find('input[name=examinationStart]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd HH:ii:ss',autoclose:true})
-            .end().find('input[name=examinationEnd]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd HH:ii:ss',autoclose:true})
-            .end().find('input[name=isDEL]')
+        form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
+            .end().find('input[name=stock]')
             .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
 
         //update buttons classes
@@ -306,44 +318,6 @@ jQuery(function($) {
         $(table).find('.ui-pg-div').tooltip({container:'body'});
     }
 
+    //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
 });
 
-//新窗口试题绑定
-function addQuestion() {
-    selr = $('#grid-table').jqGrid('getGridParam','selrow');
-    if(selr==null){
-        alert("请选择一场考试");
-    }
-    else {
-        localStorage.setItem('examinationId',selr);
-        console.log(selr);
-        window.open('addquestion.html','addquestion',
-            'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
-    }
-}
-
-//绑定编辑修改
-function reviseQuestion() {
-    selr = $('#grid-table').jqGrid('getGridParam','selrow');
-    if(selr==null){
-        alert("请选择一场考试");
-    }
-    else {
-        localStorage.setItem('examinationId',selr);
-        console.log(selr);
-        window.open('changequestion.html','changequestion',
-            'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
-    }
-}
-
-//发布考试
-function publishExam() {
-    selr = $('#grid-table').jqGrid('getGridParam','selrow');
-    if(selr==null){
-        alert("请选择一场考试");
-    }
-    else {
-        console.log(selr)
-        //todo 发布考试
-    }
-}
