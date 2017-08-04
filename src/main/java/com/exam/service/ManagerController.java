@@ -53,4 +53,8 @@ public String hello(){
     public String changequestion(){
         return "manager/changequestion";
     }
+    @RequestMapping("/grademanager")
+    public String grademanager(){
+        return "manager/grademanager";
+    }
 }

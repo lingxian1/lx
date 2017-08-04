@@ -27,7 +27,7 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
      */
     public List<ExamExaminationEntity> findUseful(){
         List<ExamExaminationEntity> exam = findAll();
-        if (exam.size() == 0) {
+        if (exam==null||exam.size()==0) {
             return null;
         }
         Timestamp d = new Timestamp(System.currentTimeMillis());
@@ -50,7 +50,7 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
      */
     public List<ExamExaminationEntity> findExaminfo(){
         List<ExamExaminationEntity> exam = findAll();
-        if (exam.size() == 0) {
+        if (exam==null||exam.size()==0) {
             return null;
         }
         Timestamp d = new Timestamp(System.currentTimeMillis());

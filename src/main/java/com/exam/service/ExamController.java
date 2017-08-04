@@ -104,7 +104,6 @@ public class ExamController {
             temp.setSubmitTime(timestamp);
             answerLogDao.save(temp);
         }
-
         //设置成绩状态及时间
         ExamGradeEntity gradeEntity=new ExamGradeEntity();
         gradeEntity.setExamineeId(examineeId);
@@ -113,7 +112,6 @@ public class ExamController {
         gradeEntity.setExaminationTime(timestamp);
         gradeEntity.setExaminationState("00");
         gradeDao.save(gradeEntity);
-
         //考试人数+1
         examinationDao.addExamineeCount(examinationId);
         return Response.ok();

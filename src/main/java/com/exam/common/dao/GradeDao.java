@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,21 @@ import java.util.Map;
 @Repository
 public class GradeDao extends AbstractDao<ExamGradeEntity>{
     private Logger logger = LoggerFactory.getLogger(GradeDao.class);
+
     /**
-     * 获取分数及状态
+     * 根据考试号获取所有成绩
+     * @param examinationId
+     * @return
+     */
+    public List<ExamGradeEntity> findGradeForExam(String examinationId){
+        List<ExamGradeEntity> entities=findBy("examinationId",examinationId,false);
+        if (entities==null||entities.size()==0) {
+            return new ArrayList<>();
+        }
+        return entities;
+    }
+    /**
+     * 获取个人分数及状态
      * @param examineeId
      * @param examinationId
      * @return
@@ -39,7 +53,7 @@ public class GradeDao extends AbstractDao<ExamGradeEntity>{
     }
 
     /**
-     * 获取所有考试成绩
+     * 获取个人所有考试成绩
      * @param examineeId
      * @return
      */
