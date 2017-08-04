@@ -108,10 +108,10 @@ public abstract class AbstractReadDao<T>  {
         String hql = jointHqlByIdsQuery(idAndValues);
         List<T> tList = session.createQuery(hql).list();
         if (tList.isEmpty()) {
-            logger.info("tlist is empty");
+//            logger.info("tlist is empty");
             return null;
         }
-        logger.info(tList.get(0));
+//        logger.info(tList.get(0));
         return tList.get(0);
     }
 
@@ -148,7 +148,7 @@ public abstract class AbstractReadDao<T>  {
         if (enableCount == 0) {
             return null;
         }
-        System.out.println(hqlbuilder.toString());
+//        System.out.println(hqlbuilder.toString());
         return hqlbuilder.toString();
     }
 

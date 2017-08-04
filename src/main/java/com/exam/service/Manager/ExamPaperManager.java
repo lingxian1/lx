@@ -20,6 +20,7 @@ import java.util.*;
 
 /**
  * Created by LX on 2017/8/3.
+ * 试卷管理
  */
 @RestController
 @RequestMapping("/examPaperManager")
@@ -32,6 +33,13 @@ public class ExamPaperManager {
     ExaminationDao examinationDao;
     private Logger logger = LoggerFactory.getLogger(ExamPaperManager.class);
 
+    /**
+     * 获取绑定的试题 试卷管理
+     * @param token
+     * @param uid
+     * @param examinationId
+     * @return
+     */
     @GetMapping("/change")
     public Response addExamPaper(@CookieValue(value = "token", defaultValue = "") String token,
                                  @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -63,7 +71,13 @@ public class ExamPaperManager {
         }
     }
 
-
+    /**
+     * 发布一场考试 试卷管理
+     * @param token
+     * @param uid
+     * @param examinationId
+     * @return
+     */
     @PostMapping("/publish")
     public Response publishexam(@CookieValue(value = "token", defaultValue = "") String token,
                                  @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -94,7 +108,13 @@ public class ExamPaperManager {
         }
     }
 
-
+    /**
+     * 保存绑定的试题 试卷管理
+     * @param token
+     * @param uid
+     * @param entities
+     * @return
+     */
     @PostMapping("/add")
     public Response addExamPaper(@CookieValue(value = "token", defaultValue = "") String token,
                                  @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -115,6 +135,18 @@ public class ExamPaperManager {
         }
     }
 
+    /**
+     * 修改绑定的试题 考试管理
+     * @param token
+     * @param uid
+     * @param examinationId2
+     * @param oper
+     * @param id
+     * @param examinationId
+     * @param questionId
+     * @param score
+     * @return
+     */
     @PostMapping("/handle")
     public Response changeQuestion(
             @CookieValue(value = "token", defaultValue = "") String token,
@@ -183,6 +215,7 @@ public class ExamPaperManager {
         examPaperDao.delete(entity);
         return true;
     }
+
     public boolean editQuestion(String examinationId,String questionId,int score){
         Map<String,String> map=new HashMap<>();
         map.put("examinationId",examinationId);

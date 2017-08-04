@@ -30,7 +30,12 @@ public class UserManagerController {
 
     private Logger logger = LoggerFactory.getLogger(UserManagerController.class);
 
-
+    /**
+     * 返回所有考生信息 考生信息管理
+     * @param userId
+     * @param token
+     * @return
+     */
     @GetMapping
     public Response getUser(@RequestParam(defaultValue = "") String userId,
                             @RequestParam(defaultValue = "")String token){
@@ -53,6 +58,19 @@ public class UserManagerController {
         }
     }
 
+    /**
+     * 编辑信息 考生信息管理
+     * @param token
+     * @param uid
+     * @param oper
+     * @param id
+     * @param examineeId
+     * @param name
+     * @param phone
+     * @param areaId
+     * @param sex
+     * @return
+     */
     @PostMapping("/handle")
     public Response login(
             @CookieValue(value = "token", defaultValue = "") String token,

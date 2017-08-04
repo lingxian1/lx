@@ -37,12 +37,15 @@ public class ExamManager {
     ErrorQuestion errorQuestion;
     private Logger logger = LoggerFactory.getLogger(ExamManager.class);
 
+    /**
+     * 返回考试列表 考试管理
+     * @param token
+     * @param uid
+     * @return
+     */
     @GetMapping
     public Response create(@CookieValue(value = "token", defaultValue = "") String token,
                            @CookieValue(value = "userId", defaultValue = "") String uid){
-        //创建考试
-        System.out.println(token);
-        System.out.println(uid);
         String status=new EasyToken().checkToken(new Token(uid,token));
         if(status.equals("TIMEOUT")){
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
@@ -64,6 +67,13 @@ public class ExamManager {
         }
     }
 
+    /**
+     * 绑定的题目数量及分数-添加绑定 考试管理
+     * @param token
+     * @param uid
+     * @param examinationId
+     * @return
+     */
     @GetMapping("/addquestion")
     public  Response addQuestion(@CookieValue(value = "token", defaultValue = "") String token,
                                  @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -93,7 +103,13 @@ public class ExamManager {
             }
         }
     }
-
+    /**
+     * 试题绑定-查找具体试题 考试管理
+     * @param token
+     * @param uid
+     * @param examinationId
+     * @return
+     */
     @GetMapping("choosequestion")
     public Response chooseQuestion(@CookieValue(value = "token", defaultValue = "") String token,
                                    @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -128,6 +144,24 @@ public class ExamManager {
             return Response.ok(entities);
         }
     }
+
+    /**
+     * 修改考试信息-考试管理
+     * @param token
+     * @param uid
+     * @param oper
+     * @param id
+     * @param examinationId
+     * @param examinationName
+     * @param answerTime
+     * @param examinationType
+     * @param questionCount
+     * @param examinationScoreAll
+     * @param examinationStart
+     * @param examinationEnd
+     * @param examinationInfo
+     * @return
+     */
     @PostMapping("/handle")
     public Response examHandle(@CookieValue(value = "token", defaultValue = "") String token,
                                @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -142,17 +176,17 @@ public class ExamManager {
                                @RequestParam(defaultValue = "") String examinationStart,
                                @RequestParam(defaultValue = "") String examinationEnd,
                                @RequestParam(defaultValue = "") String examinationInfo){
-        logger.info("id-"+id);
-        logger.info("examinationId-"+examinationId);
-        logger.info(examinationName);
-        logger.info("ANSWERTIME"+answerTime);
-        logger.info(examinationType);
-        logger.info(questionCount);
-        logger.info(examinationScoreAll);
-        logger.info(examinationStart+"");
-        logger.info(examinationEnd+"");
-        logger.info(examinationInfo+"");
-        logger.info(oper);
+//        logger.info("id-"+id);
+//        logger.info("examinationId-"+examinationId);
+//        logger.info(examinationName);
+//        logger.info("ANSWERTIME"+answerTime);
+//        logger.info(examinationType);
+//        logger.info(questionCount);
+//        logger.info(examinationScoreAll);
+//        logger.info(examinationStart+"");
+//        logger.info(examinationEnd+"");
+//        logger.info(examinationInfo+"");
+//        logger.info(oper);
         String status=new EasyToken().checkToken(new Token(uid,token));
         if(status.equals("TIMEOUT")){
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
@@ -184,6 +218,18 @@ public class ExamManager {
         }
     }
 
+    /**
+     * 添加考试
+     * @param examinationName
+     * @param answerTime
+     * @param examinationType
+     * @param questionCount
+     * @param examinationScoreAll
+     * @param examinationStart
+     * @param examinationEnd
+     * @param examinationInfo
+     * @return
+     */
     private boolean addExam(String examinationName,String answerTime,String examinationType,
                             String questionCount,String examinationScoreAll,String examinationStart,
                             String examinationEnd,String examinationInfo){
@@ -203,6 +249,11 @@ public class ExamManager {
         return true;
     }
 
+    /**
+     * 删除考试
+     * @param id
+     * @return
+     */
     private boolean delExam(String id){
         if(!examinationDao.deleteById(id)){
             return false;
@@ -210,6 +261,19 @@ public class ExamManager {
         return true;
     }
 
+    /**
+     * 编辑考试
+     * @param examinationId
+     * @param examinationName
+     * @param answerTime
+     * @param examinationType
+     * @param questionCount
+     * @param examinationScoreAll
+     * @param examinationStart
+     * @param examinationEnd
+     * @param examinationInfo
+     * @return
+     */
     private boolean editExam(String examinationId,String examinationName,String answerTime,String examinationType,
                              String questionCount,String examinationScoreAll,String examinationStart,
                              String examinationEnd,String examinationInfo){

@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by LX on 2017/7/28.
- * 问题管理
+ * 试题管理
  */
 @RestController
 @RequestMapping("/questionsManager")
@@ -27,7 +27,7 @@ public class QuestionManager {
     private Logger logger = LoggerFactory.getLogger(QuestionManager.class);
 
     /**
-     * 问题分类获取
+     * 试题分类获取
      * @param userId
      * @param token
      * @param str 字段名

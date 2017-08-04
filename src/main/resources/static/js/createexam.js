@@ -4,7 +4,9 @@ var newDate = new Date();
 var t= newDate.toJSON();
 
 var selr;
-
+/**
+ * 获取考试信息
+ */
 $(function(){
     $.ajax({
         type: "get",

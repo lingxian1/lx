@@ -22,7 +22,7 @@ import static com.exam.common.ErrorCode.USER_ERROR;
 
 /**
  * Created by LX on 2017/7/24.
- * 试题处理
+ * 试题处理--用户
  */
 @RestController
 @RequestMapping("/question")
@@ -73,6 +73,11 @@ public class ExamController {
         return Response.ok(questionEntities);
     }
 
+    /**
+     * 处理递交的答案
+     * @param examAnswerLogEntitys
+     * @return
+     */
     @PostMapping("/answer")
     @Transactional(rollbackFor = Exception.class)
     public Response getAnswer(@RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys){

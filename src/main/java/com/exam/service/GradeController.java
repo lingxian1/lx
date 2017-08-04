@@ -33,6 +33,11 @@ public class GradeController {
 
     private Logger logger = LoggerFactory.getLogger(ExamInfoController.class);
 
+    /**
+     * 获取个人成绩
+     * @param examineeId
+     * @return
+     */
     @GetMapping
     public Response findGrades(String examineeId) {
         logger.info("findGrades"+examineeId);

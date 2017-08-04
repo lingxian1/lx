@@ -15,15 +15,15 @@ public enum ErrorCode {
 
     PHONE_OR_PASSWORD_ERROR(10001, "用户名或者密码不正确"),
     USER_ERROR(10002, "用户未登陆请返回登陆页面"),
-    EXAM_FINISHED(10004, "考试已完成"),
     USER_EMPTY(10003, "用户不存在"),
+    EXAM_FINISHED(10004, "考试已完成"),
     DATA_ERROR(10005, "数据字段格式或长度错误"),
     EXAM_ID_ERROR(10006, "考试Id错误"),
     EXAM_PUBLISH_ERROR(10007, "考试已发布"),
-    EXAM_PUBLISH_SCORE_ERROR(10007, "考试分值或题目数量不正确"),
+    EXAM_PUBLISH_SCORE_ERROR(10008, "考试分值或题目数量不正确"),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYS_NULL_OBJECT(3, "为空的对象"),
-    SYS_LOGIN_TIMEOUT(20001, "登陆过期"),
+    SYS_LOGIN_TIMEOUT(4, "登陆过期"),
    ;
 
     String description;

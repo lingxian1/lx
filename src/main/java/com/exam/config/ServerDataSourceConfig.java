@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * @author finderlo
- * @date 17/04/2017
- */
+
 @Configuration
 @PropertySource(value = "classpath:/server_jdbc.properties")
 @Profile("server")
