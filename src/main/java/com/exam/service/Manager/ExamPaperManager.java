@@ -7,6 +7,7 @@ import com.exam.common.Response;
 import com.exam.common.dao.ExamPaperDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.QuestionDao;
+import com.exam.common.entity.ExamExaminationEntity;
 import com.exam.common.entity.ExamExaminationPaperEntity;
 import com.exam.common.entity.ExamQuestionEntity;
 import com.exam.common.other.ChangeQuestion;
@@ -73,8 +74,23 @@ public class ExamPaperManager {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-            examinationDao.publishById(examinationId);
-            return Response.ok("发布成功");
+            ExamExaminationEntity entity1= examinationDao.findById(examinationId);
+            if(entity1==null){
+                return Response.error(ErrorCode.EXAM_ID_ERROR);
+            }else if(entity1.getIsDel().equals("00")){
+                return Response.error(ErrorCode.EXAM_PUBLISH_ERROR);
+            }else {
+                int count = entity1.getQuestionCount();
+                int score = entity1.getExaminationScoreAll();
+                int realcount = examPaperDao.findByexamCount(examinationId);
+                int realscore = examPaperDao.sumScore(examinationId);
+                if(count==realcount&&score==realscore){
+                    examinationDao.publishById(examinationId);
+                    return Response.ok("发布成功");
+                }else{
+                    return Response.error(ErrorCode.EXAM_PUBLISH_SCORE_ERROR);
+                }
+            }
         }
     }
 

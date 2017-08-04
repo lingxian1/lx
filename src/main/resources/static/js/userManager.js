@@ -294,5 +294,4 @@ jQuery(function($) {
         $(table).find('.ui-pg-div').tooltip({container:'body'});
     }
 
-    //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
 });

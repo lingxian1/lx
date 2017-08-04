@@ -141,8 +141,7 @@ public class ExamManager {
                                @RequestParam(defaultValue = "") String examinationScoreAll,
                                @RequestParam(defaultValue = "") String examinationStart,
                                @RequestParam(defaultValue = "") String examinationEnd,
-                               @RequestParam(defaultValue = "") String examinationInfo,
-                               @RequestParam(defaultValue = "") String isDel){
+                               @RequestParam(defaultValue = "") String examinationInfo){
         logger.info("id-"+id);
         logger.info("examinationId-"+examinationId);
         logger.info(examinationName);
@@ -154,7 +153,6 @@ public class ExamManager {
         logger.info(examinationEnd+"");
         logger.info(examinationInfo+"");
         logger.info(oper);
-        logger.info("del:"+isDel);
         String status=new EasyToken().checkToken(new Token(uid,token));
         if(status.equals("TIMEOUT")){
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
@@ -166,7 +164,7 @@ public class ExamManager {
                 case "add":
                     state=addExam(examinationName,answerTime,examinationType,
                             questionCount,examinationScoreAll,examinationStart,
-                            examinationEnd,examinationInfo,isDel);
+                            examinationEnd,examinationInfo);
                     break;
                 case "del":
                     state=delExam(id);
@@ -174,7 +172,7 @@ public class ExamManager {
                 case "edit":
                     state=editExam(examinationId,examinationName,answerTime,examinationType,
                             questionCount,examinationScoreAll,examinationStart,examinationEnd,
-                            examinationInfo,isDel);
+                            examinationInfo);
                     break;
                 default:
             }
@@ -188,7 +186,7 @@ public class ExamManager {
 
     private boolean addExam(String examinationName,String answerTime,String examinationType,
                             String questionCount,String examinationScoreAll,String examinationStart,
-                            String examinationEnd,String examinationInfo,String isDel){
+                            String examinationEnd,String examinationInfo){
         ExamExaminationEntity entity=new ExamExaminationEntity();
         entity.setExaminationId(examinationDao.getNewId());
         entity.setExaminationName(examinationName);
@@ -199,7 +197,7 @@ public class ExamManager {
         entity.setExaminationStart(Timestamp.valueOf(examinationStart));
         entity.setExaminationEnd(Timestamp.valueOf(examinationEnd));
         entity.setExaminationInfo(examinationInfo);
-        entity.setIsDel(isDel);
+        entity.setIsDel("01");
         entity.setExamineeCount(0);
         examinationDao.save(entity);
         return true;
@@ -214,7 +212,7 @@ public class ExamManager {
 
     private boolean editExam(String examinationId,String examinationName,String answerTime,String examinationType,
                              String questionCount,String examinationScoreAll,String examinationStart,
-                             String examinationEnd,String examinationInfo,String isDel){
+                             String examinationEnd,String examinationInfo){
             ExamExaminationEntity entity=examinationDao.findById(examinationId);
             if(entity==null){
                 return false;
@@ -222,12 +220,13 @@ public class ExamManager {
             entity.setExaminationName(examinationName);
             entity.setAnswerTime(new Integer(answerTime)*60);
             entity.setExaminationType(examinationType);
-            entity.setQuestionCount(new Integer(questionCount));
-            entity.setExaminationScoreAll(new Integer(examinationScoreAll));
+            if(entity.getIsDel().equals("01")){         //只能修改未发布的试卷总分及题目数量
+                entity.setQuestionCount(new Integer(questionCount));
+                entity.setExaminationScoreAll(new Integer(examinationScoreAll));
+            }
             entity.setExaminationStart(Timestamp.valueOf(examinationStart));
             entity.setExaminationEnd(Timestamp.valueOf(examinationEnd));
             entity.setExaminationInfo(examinationInfo);
-            entity.setIsDel(isDel);
             examinationDao.update(entity);
             return true;
     }

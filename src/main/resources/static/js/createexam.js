@@ -343,7 +343,22 @@ function publishExam() {
         alert("请选择一场考试");
     }
     else {
-        console.log(selr)
-        //todo 发布考试
+        console.log(selr);
+        $.ajax({
+            type: "post",
+            url: "/examPaperManager/publish",
+            data: {"examinationId":selr},
+            async:false,
+            success: function (result) {
+                if(result.status==200){
+                    console.log(JSON.stringify(result));
+                    alert("发布成功");
+                    location.reload(true);
+                }
+                else{
+                    alert(result.message);
+                }
+            }
+        });
     }
 }

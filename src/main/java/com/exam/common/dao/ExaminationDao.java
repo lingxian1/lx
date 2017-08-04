@@ -11,6 +11,8 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.exam.common.constant.Constant.ONE_DAY;
+
 /**
  * Created by LX on 2017/7/21.
  * 考试信息管理
@@ -20,7 +22,7 @@ import java.util.List;
 public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
 
     /**
-     * 找出所有在有效时间的考试
+     * 找出所有在有效时间的已发布的考试
      * @return
      */
     public List<ExamExaminationEntity> findUseful(){
@@ -35,6 +37,28 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
             //判断是否在有效时间
             if(d.getTime()<temp.getExaminationStart().getTime()||
                     d.getTime()>temp.getExaminationEnd().getTime()||
+                    temp.getIsDel().equals("01")){
+                iterator.remove();
+            }
+        }
+        return exam;
+    }
+
+    /**
+     * 展示考试信息
+     * @return
+     */
+    public List<ExamExaminationEntity> findExaminfo(){
+        List<ExamExaminationEntity> exam = findAll();
+        if (exam.size() == 0) {
+            return null;
+        }
+        Timestamp d = new Timestamp(System.currentTimeMillis());
+        Iterator<ExamExaminationEntity> iterator= exam.iterator();
+        while (iterator.hasNext()){
+            ExamExaminationEntity temp=iterator.next();
+            //判断是否发布且在3个月内
+            if(d.getTime()-ONE_DAY*90>temp.getExaminationStart().getTime()||
                     temp.getIsDel().equals("01")){
                 iterator.remove();
             }
@@ -118,7 +142,7 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         if(entity==null){
             return false;
         }
-        entity.setIsDel("01");
+        entity.setIsDel("00");
         update(entity);
         return true;
     }
