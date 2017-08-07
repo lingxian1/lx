@@ -47,7 +47,6 @@ public class GradeDao extends AbstractDao<ExamGradeEntity>{
         if(grade==null){
             grade=new ExamGradeEntity();
             grade.setExaminationState("is null");
-            logger.info("grade state is null,you can exam");
         }
         return grade;
     }

@@ -7,9 +7,11 @@ import com.exam.common.Response;
 import com.exam.common.dao.AreaDao;
 import com.exam.common.dao.ExamineeDao;
 import com.exam.common.dao.GradeDao;
+import com.exam.common.entity.ExamAreaEntity;
 import com.exam.common.entity.ExamExamineeEntity;
 import com.exam.common.entity.ExamGradeEntity;
 import com.exam.common.other.AllGrade;
+import com.exam.common.other.GradeArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,13 @@ public class GradeManagerController {
     AreaDao areaDao;
     private Logger logger = LoggerFactory.getLogger(GradeManagerController.class);
 
+    /**
+     * 某场考试所有成绩
+     * @param token
+     * @param uid
+     * @param examinationId
+     * @return
+     */
     @GetMapping("/all")
     public Response gradeAll(@CookieValue(value = "token", defaultValue = "") String token,
                              @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -65,6 +74,52 @@ public class GradeManagerController {
             }
             return Response.ok(list);
         }
+    }
 
+    @GetMapping("/area")
+    public Response getArea(@CookieValue(value = "token", defaultValue = "") String token,
+                            @CookieValue(value = "userId", defaultValue = "") String uid,
+                            @RequestParam(defaultValue = "") String examinationId){
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
+        }else {
+            List<ExamAreaEntity> areaIds=areaDao.findAll();
+            if(areaIds==null){
+                return Response.error();
+            }
+
+            List<GradeArea> list = new ArrayList<>();
+            for(int i=0;i<areaIds.size();i++) {
+                List<ExamExamineeEntity> entities = examineeDao.findBy("areaId", areaIds.get(i).getAreaId());
+                if (entities == null) {
+                    return Response.error();
+                }
+                int sumGrade=0;
+                int count=0;
+                //计算平均分
+                for (ExamExamineeEntity examinee : entities) {
+                    ExamGradeEntity gradeEntity = gradeDao.findGrade(examinee.getExamineeId(), examinationId);
+                    if (!gradeEntity.getExaminationState().equals("is null")) {
+                        sumGrade+=gradeEntity.getGrade();
+                        count++;
+                    }
+                }
+
+                GradeArea gradeArea=new GradeArea();
+                gradeArea.setAreaName(areaIds.get(i).getAreaName());
+                gradeArea.setExaminationId(examinationId);
+                gradeArea.setExamineeCount(count);
+                if(count==0){
+                    gradeArea.setGradeAvg(0);
+                }else{
+                    gradeArea.setGradeAvg((double) sumGrade/count);
+                }
+                list.add(gradeArea);
+            }
+            return Response.ok(list);
+        }
     }
 }

@@ -57,4 +57,8 @@ public String hello(){
     public String grademanager(){
         return "manager/grademanager";
     }
+    @RequestMapping("/gradeArea")
+    public String gradeArea(){
+        return "manager/gradeArea";
+    }
 }
