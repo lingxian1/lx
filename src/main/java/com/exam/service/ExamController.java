@@ -90,7 +90,7 @@ public class ExamController {
         Timestamp timestamp=new Timestamp(System.currentTimeMillis());
         int grade=0; //统计总分
         //TODO 空值判断，错误值判断 验证
-        //保存每小题分值
+        //保存每小题分数
         while (iterator.hasNext()){
             ExamAnswerLogEntity temp=iterator.next();
             int score=examPaperDao.findScore(temp.getExaminationId(),temp.getQuestionId()).getScore();

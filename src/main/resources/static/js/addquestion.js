@@ -41,7 +41,7 @@ function chooseQuestion() {
         data: grid_data,
         datatype: "local",
         mtype:"POST",
-        height: 250,
+        height: 300,
         colNames:['编号', '题目', '类型',
             '选项A', '选项B', '选项C', '选项D',
             '分类','创建时间'],
@@ -66,7 +66,7 @@ function chooseQuestion() {
 
         multiselect: true,
         //multikey: "ctrlKey",
-        multiboxonly: true,
+        multiboxonly: false,
 
         loadComplete : function() {
             var table = this;
@@ -221,9 +221,9 @@ function findexam() {
     var days=$('input:radio[name="days"]:checked').val();
     var questionType=$('input:radio[name="choose"]:checked').val();
     var top=0;
-    if($('#top10').is(':checked')) {
-       top=10;
-    }
+    // if($('#top10').is(':checked')) {
+    //    top=10;
+    // }
     console.log("question"+questionClass);
     console.log("days"+days+"chooses"+questionType);
     $.ajax({

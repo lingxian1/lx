@@ -72,4 +72,15 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
         }
         return sum;
     }
+
+    /**
+     * 根据考试号删除所有绑定试题
+     * @param examinationId
+     */
+    public void deleteAllQuestion(String examinationId){
+        List<ExamExaminationPaperEntity> list =findBy("examinationId",examinationId);
+        for(ExamExaminationPaperEntity entity:list){
+            delete(entity);
+        }
+    }
 }

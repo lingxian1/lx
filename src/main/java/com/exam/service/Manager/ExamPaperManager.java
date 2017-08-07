@@ -109,6 +109,29 @@ public class ExamPaperManager {
     }
 
     /**
+     * 删除所有绑定
+     * @param token
+     * @param uid
+     * @param examinationId2
+     * @return
+     */
+    @GetMapping("/deleteAll")
+    public Response deleteAll(@CookieValue(value = "token", defaultValue = "") String token,
+                              @CookieValue(value = "userId", defaultValue = "") String uid,
+                              @CookieValue(value = "examinationId2", defaultValue = "") String examinationId2){
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
+        }else {
+            examPaperDao.deleteAllQuestion(examinationId2);
+            return Response.ok("操作成功");
+        }
+    }
+
+
+    /**
      * 保存绑定的试题 试卷管理
      * @param token
      * @param uid

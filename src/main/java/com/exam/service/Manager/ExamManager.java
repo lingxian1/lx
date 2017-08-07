@@ -4,7 +4,6 @@ import com.exam.common.EasyToken.EasyToken;
 import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
-import com.exam.common.dao.ErrorQuestion;
 import com.exam.common.dao.ExamPaperDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.dao.QuestionDao;
@@ -33,8 +32,7 @@ public class ExamManager {
     ExamPaperDao examPaperDao;
     @Autowired
     QuestionDao questionDao;
-    @Autowired
-    ErrorQuestion errorQuestion;
+
     private Logger logger = LoggerFactory.getLogger(ExamManager.class);
 
     /**
@@ -140,7 +138,6 @@ public class ExamManager {
                     }
                 }
             }
-            //todo TOP10错题
             return Response.ok(entities);
         }
     }

@@ -203,3 +203,24 @@ jQuery(function($) {
     )
 });
 
+function clearAll() {
+    var msg = "确定重置";
+    if (confirm(msg)==true){
+        $.ajax({
+            type: "get",
+            url: "/examPaperManager/deleteAll",
+            data: {"examinationId2":localStorage.getItem("examinationId2")},
+            success: function (result) {
+                if(result.status==200){
+                    alert(result.data);
+                    location.reload(true);
+                }
+                else{
+                    alert(result.message);
+                }
+            }
+        })
+    }else{
+        return false;
+    }
+}

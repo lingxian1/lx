@@ -143,8 +143,8 @@ jQuery(function($) {
             //请求结果处理
             afterComplete:function (data,postdata) {
                 alert(data.responseText);
-                //刷新页面
-                // location.reload(true);
+                // 刷新页面
+                location.reload(true);
             }
         },
         {
