@@ -87,8 +87,8 @@
                 </a>
                 <ul class="sub">
                     <li><a  href="/grademanager">成绩查询</a></li>
-                    <li><a  href="basic_table.html">成绩统计</a></li>
-                    <li><a  href="responsive_table.html">错题统计</a></li>
+                    <!--<li><a  href="basic_table.html">成绩统计</a></li>-->
+                    <li><a  href="/errorQuestions">错题统计</a></li>
                 </ul>
             </li>
 
@@ -107,7 +107,6 @@
 <section id="main-content">
     <section class="wrapper">
             <div class="row nomargin">
-
                 <input name="info" type="text" placeholder="输入考试编号"/>
                 <button class='btn btn-info btn-sm' onclick="query()" style="margin-left: 15px">查询</button>
             </div>
@@ -119,10 +118,32 @@
                     <!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
-        <button class='btn btn-info btn-sm' onclick="info()" style="float: right">查看详情</button>
+        <button class='btn btn-info btn-sm displayno' id="showquery" onclick="info()" style="float: right">查看详情</button>
     </section>
 </section>
-
+    <div class="modal" id="mymodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">问题详情</h4>
+                </div>
+                <div class="modal-body">
+                    <p><strong>试题描述:</strong></p><div id="text"></div>
+                    <p><strong>试题类型:</strong><span id="type"></span></p>
+                    <p><strong>试题分类:</strong><span id="classification"></span></p>
+                    <p><strong>A:</strong><span id="CA"></span></p>
+                    <p><strong>B:</strong><span id="CB"></span></p>
+                    <p><strong>C:</strong><span id="CC"></span></p>
+                    <p><strong>D:</strong><span id="CD"></span></p>
+                    <p><strong>答案:</strong><span id="answer"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
         <script src="js/jquery/jquery-3.1.1.js"></script>
         <script src="js/bootstrap.js"></script>

@@ -4,6 +4,7 @@ var grid_selector = "#grid-table";
 var flag=0;
 function query(){
     var info = $("[name='info']").val();
+    $("#showquery").removeClass("displayno");
     if(info==""){
         alert("考试Id为空");
     }else {
@@ -193,6 +194,15 @@ function info() {
             success: function (result) {
                 if (result.status == 200) {
                     console.log(JSON.stringify(result));
+                    $("#text").html(result.data.questionText);
+                    $("#type").html(result.data.questionType);
+                    $("#classification").html(result.data.questionClassification);
+                    $("#CA").html(result.data.questionChooseA);
+                    $("#CB").html(result.data.questionChooseB);
+                    $("#CC").html(result.data.questionChooseC);
+                    $("#CD").html(result.data.questionChooseD);
+                    $("#answer").html(result.data.questionAnswer);
+                    $("#mymodal").modal("toggle");
                 }
                 else if (result.status == 10002) {
                     alert(result.message);

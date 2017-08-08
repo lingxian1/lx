@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by LX on 2017/8/8.
+ * 错题管理，正确率分析
  */
 @RestController
 @RequestMapping("/errorQuestion")
