@@ -39,7 +39,7 @@ function forms() {
             {name: 'examinationId', index: 'examinationId', width: 80, editable: false, key: true},
             {name: 'areaName', index: 'areaName',width: 150,sortable: true,editable: true},
             {name: 'examineeCount',index: 'examineeCount', width: 60, editable: true},
-            {name: 'gradeAvg', index: 'gradeAvg', width: 150, sortable: true,editable: true}
+            {name: 'gradeAvg', index: 'gradeAvg', width: 150, sortable: true,editable: true,formatter:'number',formatoptions: {decimalPlaces:1}}
         ],
         viewrecords : true,
         rowNum:10,

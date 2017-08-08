@@ -211,5 +211,18 @@ public class QuestionManager {
         return true;
     }
 
+    @GetMapping("aQuestion")
+    public Response aQuestion(@CookieValue(value = "token", defaultValue = "") String token,
+                              @CookieValue(value = "userId", defaultValue = "") String uid,
+                              @RequestParam(defaultValue = "") String questionId){
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
+        }else {
+            return Response.ok(questionDao.findById(questionId));
+        }
+    }
 }
 

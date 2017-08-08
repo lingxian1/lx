@@ -146,5 +146,4 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         update(entity);
         return true;
     }
-
 }

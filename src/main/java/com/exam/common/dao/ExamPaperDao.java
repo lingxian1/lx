@@ -27,6 +27,21 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
     }
 
     /**
+     * 保存正确率
+     * @param examinationId
+     * @param questionId
+     * @param accuracy
+     */
+    public void saveAccuracy(String examinationId,String questionId,double accuracy){
+        ExamExaminationPaperEntity entity=findScore(examinationId,questionId);
+        if(entity!=null){
+            entity.setAccuracy(accuracy);
+            save(entity);
+        }else{
+            logger.info("saveAccuracy is null");
+        }
+    }
+    /**
      * 某场考试已绑定题目数量
      * @param examinationId
      * @return
@@ -42,15 +57,19 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
 
     /**
      * 获得某道题分值及正确率
-     * @param examintionId
+     * @param examinationId
      * @param questionId
      * @return
      */
-    public ExamExaminationPaperEntity findScore(String examintionId,String questionId){
+    public ExamExaminationPaperEntity findScore(String examinationId,String questionId){
         Map<String,String> str =new HashMap<>();
-        str.put("examinationId",examintionId);
+        str.put("examinationId",examinationId);
         str.put("questionId",questionId);
-        return findByIds(str);
+        ExamExaminationPaperEntity entity=findByIds(str);
+        if(entity==null){
+            System.out.println("entity is null");
+        }
+        return entity;
     }
 
     /**

@@ -93,16 +93,22 @@ public class ExamController {
         //保存每小题分数
         while (iterator.hasNext()){
             ExamAnswerLogEntity temp=iterator.next();
-            int score=examPaperDao.findScore(temp.getExaminationId(),temp.getQuestionId()).getScore();
-            String answer=questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer();
-            int realScore=0;
-            if(answer.equals(temp.getExamineeAnswer())){
-                realScore=score;
+            System.out.println("temp:"+temp.getExamineeAnswer());
+            ExamExaminationPaperEntity exam=examPaperDao.findScore(temp.getExaminationId(),temp.getQuestionId());
+            if(exam==null){
+                System.out.println("a exam is null");
+            }else {
+                int score = exam.getScore();
+                String answer = questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer();
+                int realScore = 0;
+                if (answer.equals(temp.getExamineeAnswer())) {
+                    realScore = score;
+                }
+                grade += realScore;
+                temp.setScoreReal(realScore);
+                temp.setSubmitTime(timestamp);
+                answerLogDao.save(temp);
             }
-            grade+=realScore;
-            temp.setScoreReal(realScore);
-            temp.setSubmitTime(timestamp);
-            answerLogDao.save(temp);
         }
         //设置成绩状态及时间
         ExamGradeEntity gradeEntity=new ExamGradeEntity();

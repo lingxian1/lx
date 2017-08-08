@@ -61,4 +61,8 @@ public String hello(){
     public String gradeArea(){
         return "manager/gradeArea";
     }
+    @RequestMapping("/errorQuestions")
+    public String errorQuestions(){
+        return "manager/errorQuestion";
+    }
 }
