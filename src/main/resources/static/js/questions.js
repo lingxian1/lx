@@ -115,7 +115,8 @@ function createform() {
                     width: 60,
                     sortable: false,
                     editable: true,
-                    edittype: "textarea"
+                    edittype: "textarea",
+                    editoptions: {maxlength: "20"}
                 }],
 
             viewrecords: true,

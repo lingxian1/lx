@@ -17,7 +17,7 @@ import java.util.Properties;
  */
 @Configuration
 @PropertySource(value = "classpath:/exam_jdbc.properties")
-@Profile({"default","exam"})
+@Profile({"exam"})
 @EnableTransactionManagement
 public class DataSourceConfig {
 

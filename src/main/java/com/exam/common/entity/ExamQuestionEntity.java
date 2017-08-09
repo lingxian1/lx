@@ -114,7 +114,7 @@ public class ExamQuestionEntity {
     }
 
     @Basic
-    @Column(name = "question_classification", nullable = true, length = 10)
+    @Column(name = "question_classification", nullable = true, length = 20)
     public String getQuestionClassification() {
         return questionClassification;
     }

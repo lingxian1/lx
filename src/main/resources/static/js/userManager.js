@@ -68,7 +68,7 @@ jQuery(function($) {
         },
 
         editurl: $path_base+"users/handle",//nothing is saved
-        caption: "用户信息",
+        caption: "考生信息",
         autowidth: true
     });
 
