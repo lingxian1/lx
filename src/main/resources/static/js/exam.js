@@ -128,7 +128,15 @@ function before() {
 //设置问题及其类型
 function setQuestion() {
     var index=questionIndex+1;
-    $("#questionType").html(questionType + "(" + index + "/" + questionCount + ")");
+    var temp;
+    if(questionType=="signal"){
+        temp="单选题";
+    }else if(questionType=="multiple") {
+        temp="多选题";
+    }else{
+        temp="判断题";
+    }
+    $("#questionType").html(temp + "(" + index + "/" + questionCount + ")");
     $("#question").html(index + ")." + question);
 }
 

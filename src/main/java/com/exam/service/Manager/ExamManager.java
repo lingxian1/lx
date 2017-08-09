@@ -210,7 +210,7 @@ public class ExamManager {
             if(state){
                 return Response.ok("操作成功");
             }else {
-                return Response.error();
+                return Response.error(ErrorCode.EXAM_PUBLISH_ERROR);
             }
         }
     }
@@ -247,14 +247,16 @@ public class ExamManager {
     }
 
     /**
-     * 删除考试
+     * 删除考试 并删除其已绑定试题
      * @param id
      * @return
      */
     private boolean delExam(String id){
+        //先检测是否发布 deleteById已完成该功能
         if(!examinationDao.deleteById(id)){
             return false;
         }
+        examPaperDao.deleteAllQuestion(id);
         return true;
     }
 

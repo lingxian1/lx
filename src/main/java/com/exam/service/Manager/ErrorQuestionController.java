@@ -39,13 +39,13 @@ public class ErrorQuestionController {
             return Response.error(ErrorCode.USER_ERROR);
         }else {
             List<ExamExaminationPaperEntity> paperEntities=examPaperDao.findByexam(examinationId);
-            if(paperEntities!=null){
+            if(paperEntities!=null&&paperEntities.size()!=0){
                 for(ExamExaminationPaperEntity paper :paperEntities){
                     List<ExamAnswerLogEntity> answerLogEntities=answerLogDao.findByExamination(examinationId,paper.getQuestionId());
                     if(answerLogEntities!=null){
                         int sumcount=answerLogEntities.size();
                         int rightcount=0;
-                        double accuracy=1;
+                        double accuracy=2;
                         for(ExamAnswerLogEntity answerLogEntity:answerLogEntities){
                             if(answerLogEntity.getScoreReal()!=0){
                                 rightcount++;
@@ -57,10 +57,8 @@ public class ErrorQuestionController {
                         examPaperDao.saveAccuracy(examinationId,paper.getQuestionId(),accuracy);
                     }
                 }
-                return Response.ok(examPaperDao.findBy("examinationId",examinationId));
             }
-            return Response.error();
+            return Response.ok(examPaperDao.findBy("examinationId",examinationId,false));
         }
-
     }
 }

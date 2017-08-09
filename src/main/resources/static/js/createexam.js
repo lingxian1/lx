@@ -98,7 +98,7 @@ jQuery(function($) {
     function pickDate( cellvalue, options, cell ) {
         setTimeout(function(){
             $(cell) .find('input[type=text]')
-                .datetimepicker({format:'yyyy-mm-dd HH:ii:ss',weekStart: 1,startDate:new Date(t),
+                .datetimepicker({format:'yyyy-mm-dd hh:ii:ss',weekStart: 1,startDate:new Date(t),
                     todayBtn:1, autoclose:true});
         }, 0);
     }
@@ -192,8 +192,8 @@ jQuery(function($) {
 
     function style_edit_form(form) {
         //enable datepicker on "sdate" field and switches for "stock" field
-        form.find('input[name=examinationStart]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd HH:ii:ss',autoclose:true})
-            .end().find('input[name=examinationEnd]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd HH:ii:ss',autoclose:true})
+        form.find('input[name=examinationStart]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd hh:ii:ss',autoclose:true})
+            .end().find('input[name=examinationEnd]').datetimepicker({language:'zh-CN',format:'yyyy-mm-dd hh:ii:ss',autoclose:true})
             .end().find('input[name=isDEL]')
             .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
 

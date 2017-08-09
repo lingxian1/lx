@@ -269,7 +269,7 @@ function getinfo(){
                 score=typej;
             }
             console.log(celldata);
-            var temp={"examinationId":id,"questionId":value,"score":score,"accuracy":1};
+            var temp={"examinationId":id,"questionId":value,"score":score,"accuracy":2};
             jsons[index] = temp;
         });
         console.log(JSON.stringify(jsons));

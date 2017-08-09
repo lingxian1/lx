@@ -18,12 +18,12 @@ import java.util.Map;
 @Repository
 public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
     /**
-     * 根据考试号寻找题目
+     * 根据考试号寻找题目 like--false
      * @param examinationId
      * @return
      */
     public List<ExamExaminationPaperEntity> findByexam(String examinationId){
-        return findBy("examinationId",examinationId);
+        return findBy("examinationId",examinationId,false);
     }
 
     /**
@@ -67,7 +67,7 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
         str.put("questionId",questionId);
         ExamExaminationPaperEntity entity=findByIds(str);
         if(entity==null){
-            System.out.println("entity is null");
+           logger.info("findScore:entity is null");
         }
         return entity;
     }
