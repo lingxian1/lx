@@ -17,8 +17,8 @@ function signal() {
                 console.log(result.data.examineeId);
                 // setCookie("examineeId",result.data.examineeId);
                 // setCookie("areaId",result.data.areaId);
-                setCookie("examineeId",result.data.uid);
-                setCookie("token",result.data.token);
+                setCookie("examineeIdU",result.data.uid);
+                setCookie("tokenU",result.data.token);
                 location = "/examinfo";        //跳转
             } else{
                 alert(result.message);

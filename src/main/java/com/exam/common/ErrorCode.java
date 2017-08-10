@@ -23,6 +23,7 @@ public enum ErrorCode {
     EXAM_PUBLISH_SCORE_ERROR(10008, "考试分值或题目数量不正确"),
     EXAM_SUBMIT_ERROR(10009, "提交失败"),
     EXAM_SUBMIT_OUT_OF_DATE(10010, "提交失败"),
+    EXAM_GRADE_NULL(10011, "没有考试成绩信息"),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYS_NULL_OBJECT(3, "为空的对象"),
     SYS_LOGIN_TIMEOUT(4, "登陆过期"),

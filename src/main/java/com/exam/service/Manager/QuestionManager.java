@@ -211,6 +211,13 @@ public class QuestionManager {
         return true;
     }
 
+    /**
+     * 根据试题Id返回试题详情--错题管理
+     * @param token
+     * @param uid
+     * @param questionId
+     * @return
+     */
     @GetMapping("aQuestion")
     public Response aQuestion(@CookieValue(value = "token", defaultValue = "") String token,
                               @CookieValue(value = "userId", defaultValue = "") String uid,

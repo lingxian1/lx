@@ -2,7 +2,7 @@ $(function(){
     $.ajax({
         type: "get",
         url: "/examinfo1",             //向springboot请求数据的url
-        data: {"examineeId":getCookie("examineeId")},
+        data: {"examineeId":getCookie("examineeIdU")},
         success: function (result) {
             if(result.status==200){
                 var data=result;
@@ -37,6 +37,6 @@ function msg_display(msgs) {
 
 function goExam(e) {
     console.log(e.id);
-    setCookie("examinationId",e.id);
+    setCookie("examinationIdU",e.id);
     location = "/exams";        //跳转
 }

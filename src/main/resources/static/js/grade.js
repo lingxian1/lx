@@ -2,7 +2,7 @@ $(function(){
     $.ajax({
         type: "get",
         url: "/getgrade",             //向springboot请求数据的url
-        data: {"examineeId":getCookie("examineeId")},
+        data: {"examineeId":getCookie("examineeIdU")},
         success: function (result) {
             if(result.status==200){
                 var data=result;

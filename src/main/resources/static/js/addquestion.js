@@ -1,4 +1,4 @@
-var $path_base = "/";//this will be used in gritter alerts containing images
+var $path_base = "/";
 var grid_data;
 var newDate = new Date();
 var t= newDate.toJSON();
@@ -62,10 +62,7 @@ function chooseQuestion() {
         rowList:[10,20,30],
         pager : pager_selector,
         altRows: true,
-        //toppager: true,
-
         multiselect: true,
-        //multikey: "ctrlKey",
         multiboxonly: false,
 
         loadComplete : function() {
@@ -90,11 +87,6 @@ function chooseQuestion() {
         }).trigger("reloadGrid");
     }
 
-
-    //enable search/filter toolbar
-    // jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-
-    //switch element when editing inline
     function aceSwitch( cellvalue, options, cell ) {
         setTimeout(function(){
             $(cell) .find('input[type=checkbox]')
@@ -103,7 +95,7 @@ function chooseQuestion() {
                 .after('<span class="lbl"></span>');
         }, 0);
     }
-    //enable datepicker
+
     function pickDate( cellvalue, options, cell ) {
         setTimeout(function(){
             $(cell) .find('input[type=text]')
@@ -112,8 +104,6 @@ function chooseQuestion() {
         }, 0);
     }
 
-
-    //navButtons
     jQuery(grid_selector).jqGrid('navGrid',pager_selector,
         { 	//navbar options
             edit: false,
@@ -131,7 +121,6 @@ function chooseQuestion() {
         },
         {
             //edit record form
-            //closeAfterEdit: true,
             recreateForm: true,
             beforeShowForm : function(e) {
                 var form = $(e[0]);
@@ -181,8 +170,7 @@ function chooseQuestion() {
             },
             afterRedraw: function(){
                 style_search_filters($(this));
-            }
-            ,
+            },
             multipleSearch: true,
             /**
              multipleGroup:true,
@@ -199,9 +187,6 @@ function chooseQuestion() {
         }
     )
 
-    //it causes some flicker when reloading or navigating grid
-    //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
-    //or go back to default browser checkbox styles for the grid
     function styleCheckbox(table) {
          $(table).find('input:checkbox').addClass('ace')
          .wrap('<label />')
@@ -212,8 +197,6 @@ function chooseQuestion() {
          .find('input.cbox[type=checkbox]').addClass('ace')
          .wrap('<label />').after('<span class="lbl align-top" />');
     }
-
-
 };
 
 function findexam() {
@@ -221,9 +204,6 @@ function findexam() {
     var days=$('input:radio[name="days"]:checked').val();
     var questionType=$('input:radio[name="choose"]:checked').val();
     var top=0;
-    // if($('#top10').is(':checked')) {
-    //    top=10;
-    // }
     console.log("question"+questionClass);
     console.log("days"+days+"chooses"+questionType);
     $.ajax({
@@ -242,8 +222,6 @@ function findexam() {
             }
         }
     })
-
-
 }
 
 function getinfo(){

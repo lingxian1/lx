@@ -1,4 +1,4 @@
-var $path_base = "/";//this will be used in gritter alerts containing images
+var $path_base = "/";
 var grid_data;
 var id=localStorage.getItem("examinationId");
 $(function(){

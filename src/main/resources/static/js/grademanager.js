@@ -41,7 +41,7 @@ function createform() {
             datatype: "local",
             mtype: "post",
             height: 450,
-            colNames: ['考生Id', '姓名', '手机号',
+            colNames: ['考试编号', '姓名', '手机号',
                 '区域', '分数', '考试时间'],
             colModel: [
                 {name: 'examineeId', index: 'examineeId', width: 80, editable: false, key: true},

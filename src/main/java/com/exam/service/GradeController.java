@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.exam.common.ErrorCode.EXAM_GRADE_NULL;
 import static com.exam.common.ErrorCode.USER_ERROR;
 
 /**
@@ -46,7 +47,7 @@ public class GradeController {
         }
         List<ExamGradeEntity>grades=gradeDao.findGrades(examineeId);
         if (grades.size() == 0) {
-            return null;
+            return Response.error(EXAM_GRADE_NULL);
         }
         List<GradeMessage> messages=new ArrayList<>();
         Iterator<ExamGradeEntity> iterator = grades.iterator();

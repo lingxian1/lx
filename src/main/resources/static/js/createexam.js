@@ -36,7 +36,7 @@ jQuery(function($) {
         datatype: "local",
         mtype:"POST",
         height: 450,
-        colNames:[' ','编号','考试名称','时长（分钟）','类型','试题数量','总分', '考试说明','起始日期', '截止日期','是否发布'],
+        colNames:[' ','考试编号','考试名称','时长（分钟）','类型','试题数量','总分', '考试说明','起始日期', '截止日期','是否发布'],
         colModel:[
             {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
                 formatter:'actions',

@@ -30,7 +30,7 @@ $(function(){
     $.ajax({
         type: "get",
         url: "/examinfo1/examinfo2",             //向springboot请求数据的url
-        data: {"examineeId":getCookie("examineeId"),"examinationId":getCookie("examinationId")},
+        data: {"examineeId":getCookie("examineeIdU"),"examinationId":getCookie("examinationIdU")},
         success: function (result) {
             //考试时间
             console.log(JSON.stringify(result));
@@ -42,7 +42,7 @@ $(function(){
         $.ajax({
             type: "get",
             url: "/question",             //向springboot请求数据的url
-            data: {"examineeId":getCookie("examineeId"),"examinationId":getCookie("examinationId")},
+            data: {"examineeId":getCookie("examineeIdU"),"examinationId":getCookie("examinationIdU")},
             success: function (result) {
                 if(result.status==200){
                     data=result.data;
@@ -205,8 +205,8 @@ function submitAnswer() {
 function ansToJson() {
     var jsons = [];
     localStorage.removeItem("starttime");
-    var examineeId=getCookie("examineeId");
-    var examinationId=getCookie("examinationId");
+    var examineeId=getCookie("examineeIdU");
+    var examinationId=getCookie("examinationIdU");
     var i=0;
     for(var k in localStorage) {
         var temp={"examineeId":examineeId,"examinationId":examinationId,"questionId":localStorage.key(i),"examineeAnswer":localStorage[k]};

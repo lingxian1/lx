@@ -53,9 +53,9 @@ public class ExamController {
      * @return
      */
     @GetMapping
-    public Response findExamQuestion(@CookieValue(value = "token", defaultValue = "") String token,
-                                     @CookieValue(value = "examineeId", defaultValue = "") String examineeId,
-                                     @CookieValue(value = "examinationId", defaultValue = "") String examinationId) {
+    public Response findExamQuestion(@CookieValue(value = "tokenU", defaultValue = "") String token,
+                                     @CookieValue(value = "examineeIdU", defaultValue = "") String examineeId,
+                                     @CookieValue(value = "examinationIdU", defaultValue = "") String examinationId) {
         logger.info("findExamQ examineeId"+examineeId);
         logger.info("findExamQ examinationId"+examinationId);
         String status=new EasyToken().checkToken(new Token(examineeId,token));
@@ -88,8 +88,8 @@ public class ExamController {
      */
     @PostMapping("/answer")
     @Transactional(rollbackFor = Exception.class)
-    public Response getAnswer(@CookieValue(value = "token", defaultValue = "") String token,
-                              @CookieValue(value = "examineeId", defaultValue = "") String uid,
+    public Response getAnswer(@CookieValue(value = "tokenU", defaultValue = "") String token,
+                              @CookieValue(value = "examineeIdU", defaultValue = "") String uid,
                               @RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys) {
         if (examAnswerLogEntitys == null) {
             return Response.error();

@@ -33,7 +33,7 @@ function forms() {
         datatype: "local",
         mtype:"POST",
         height: 450,
-        colNames: ['考试Id', '区域', '参加人数',
+        colNames: ['考试编号', '区域', '参加人数',
             '平均分'],
         colModel: [
             {name: 'examinationId', index: 'examinationId', width: 80, editable: false, key: true},

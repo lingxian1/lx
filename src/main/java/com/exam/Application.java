@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableAutoConfiguration()
 @ComponentScan("com")
 public class Application {
-    //lx5548
+    //lx
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

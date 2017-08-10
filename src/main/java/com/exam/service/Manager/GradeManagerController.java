@@ -58,8 +58,6 @@ public class GradeManagerController {
             }
             List<AllGrade> list =new ArrayList<>();
             List<ExamGradeEntity> entities=gradeDao.findGradeForExam(examinationId);
-            System.out.println(examinationId);
-            System.out.println(entities.get(0).getExamineeId());
             Iterator<ExamGradeEntity> iterator =entities.iterator();
             while (iterator.hasNext()){
                 ExamGradeEntity examGradeEntity=iterator.next();
@@ -78,6 +76,13 @@ public class GradeManagerController {
         }
     }
 
+    /**
+     * 区域统计--考试成绩管理
+     * @param token
+     * @param uid
+     * @param examinationId
+     * @return
+     */
     @GetMapping("/area")
     public Response getArea(@CookieValue(value = "token", defaultValue = "") String token,
                             @CookieValue(value = "userId", defaultValue = "") String uid,
@@ -92,7 +97,9 @@ public class GradeManagerController {
             if(areaIds==null){
                 return Response.error();
             }
-
+            /**
+             * 根据区域找出对应区域考生 遍历 通过查找成绩表对应列 统计平均分
+             */
             List<GradeArea> list = new ArrayList<>();
             for(int i=0;i<areaIds.size();i++) {
                 List<ExamExamineeEntity> entities = examineeDao.findBy("areaId", areaIds.get(i).getAreaId());

@@ -38,12 +38,16 @@ public class ErrorQuestionController {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
+            /**
+             * 根据考试Id获取试题列表，遍历试题列表，
+             * 根据考试号试题号获取所有考生该考试该试题答题情况，遍历并统计
+             */
             List<ExamExaminationPaperEntity> paperEntities=examPaperDao.findByexam(examinationId);
             if(paperEntities!=null&&paperEntities.size()!=0){
                 for(ExamExaminationPaperEntity paper :paperEntities){
                     List<ExamAnswerLogEntity> answerLogEntities=answerLogDao.findByExamination(examinationId,paper.getQuestionId());
                     if(answerLogEntities!=null){
-                        int sumcount=answerLogEntities.size();
+                        int sumcount=answerLogEntities.size();  //所有考生该考试该试题答题情况
                         int rightcount=0;
                         double accuracy=2;
                         for(ExamAnswerLogEntity answerLogEntity:answerLogEntities){
@@ -54,7 +58,7 @@ public class ErrorQuestionController {
                         if(sumcount!=0){
                             accuracy=(double) rightcount/sumcount;
                         }
-                        examPaperDao.saveAccuracy(examinationId,paper.getQuestionId(),accuracy);
+                        examPaperDao.saveAccuracy(examinationId,paper.getQuestionId(),accuracy);//统计完成后保存正确率
                     }
                 }
             }
