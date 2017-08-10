@@ -119,10 +119,14 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
     public String newQuestionId() {
         Session session = sessionFactory.getCurrentSession();
         SQLQuery l = session.createSQLQuery("SELECT MAX(question_ID) FROM exam_question");
-        String id = (String) l.list().get(0);
-        Integer idd = Integer.valueOf(id);
-        String newid = String.valueOf(idd + 1);
-        return newid;
+        if(l.list().get(0)==null){
+            return "1000000000";
+        }else{
+            String id = (String) l.list().get(0);
+            Integer idd = Integer.valueOf(id);
+            String newid = String.valueOf(idd + 1);
+            return newid;
+        }
     }
 
     /**

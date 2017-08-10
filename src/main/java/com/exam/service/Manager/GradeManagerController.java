@@ -58,6 +58,8 @@ public class GradeManagerController {
             }
             List<AllGrade> list =new ArrayList<>();
             List<ExamGradeEntity> entities=gradeDao.findGradeForExam(examinationId);
+            System.out.println(examinationId);
+            System.out.println(entities.get(0).getExamineeId());
             Iterator<ExamGradeEntity> iterator =entities.iterator();
             while (iterator.hasNext()){
                 ExamGradeEntity examGradeEntity=iterator.next();

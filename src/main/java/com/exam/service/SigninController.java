@@ -49,7 +49,7 @@ public class SigninController {
 //            examExamineeEntity.setPassword("");//不返回密码
 //            logger.info(examExamineeEntity.getExamineeId());
 //            return Response.ok(examExamineeEntity);
-            return Response.ok(new EasyToken().createToken(phone,password));
+            return Response.ok(new EasyToken().createToken(examExamineeEntity.getExamineeId(),password));
         }
         else
             return Response.error(PHONE_OR_PASSWORD_ERROR);

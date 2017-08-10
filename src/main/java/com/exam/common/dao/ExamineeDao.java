@@ -40,20 +40,24 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
     }
 
     /**
-     * 获取新的用户ID
+     * 获取新的考生ID
      * @return
     */
     public String newUsersId() {
         Session session = sessionFactory.getCurrentSession();
         SQLQuery l = session.createSQLQuery("SELECT MAX(examinee_ID) FROM exam_examinee");
-        String id = (String) l.list().get(0);
-        Integer idd = Integer.valueOf(id);
-        String newid = String.valueOf(idd + 1);
-        return newid;
+        if(l.list().get(0)==null){
+            return "1000000000";
+        }else{
+            String id = (String) l.list().get(0);
+            Integer idd = Integer.valueOf(id);
+            String newid = String.valueOf(idd + 1);
+            return newid;
+        }
     }
 
     /**
-     * 根据Id删除用户
+     * 根据Id删除考生
      * @param examineeId
      * @return
      */
