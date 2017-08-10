@@ -1,5 +1,5 @@
 function exit() {
-    var msg = "退出当前登陆";
+    var msg = "退出当前登录";
     if (confirm(msg)==true){
         delCookie("examineeIdU");
         delCookie("tokenU");
@@ -10,7 +10,7 @@ function exit() {
     }
 }
 function exitadmin() {
-    var msg = "退出当前登陆";
+    var msg = "退出当前登录";
     if (confirm(msg)==true){
         delCookie("userId");
         delCookie("token");
