@@ -1,5 +1,6 @@
 package com.exam.service;
 
+import com.exam.common.EasyToken.EasyToken;
 import com.exam.common.Response;
 import com.exam.common.dao.ExamineeDao;
 import com.exam.common.entity.ExamExamineeEntity;
@@ -45,9 +46,10 @@ public class SigninController {
         }
         String enpass= Md5Utils.stringMD5(examExamineeEntity.getPassword()); //数据库获取密码并获取其MD5值
         if(enpass.equals(password)){
-            examExamineeEntity.setPassword("");//不返回密码
-            logger.info(examExamineeEntity.getExamineeId());
-            return Response.ok(examExamineeEntity);
+//            examExamineeEntity.setPassword("");//不返回密码
+//            logger.info(examExamineeEntity.getExamineeId());
+//            return Response.ok(examExamineeEntity);
+            return Response.ok(new EasyToken().createToken(phone,password));
         }
         else
             return Response.error(PHONE_OR_PASSWORD_ERROR);

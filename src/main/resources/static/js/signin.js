@@ -15,8 +15,10 @@ function signal() {
             if (result.status === 200) {
                 // GLOBAL.token = json.data.token;
                 console.log(result.data.examineeId);
-                setCookie("examineeId",result.data.examineeId);
-                setCookie("areaId",result.data.areaId);
+                // setCookie("examineeId",result.data.examineeId);
+                // setCookie("areaId",result.data.areaId);
+                setCookie("examineeId",result.data.uid);
+                setCookie("token",result.data.token);
                 location = "/examinfo";        //跳转
             } else{
                 alert(result.message);

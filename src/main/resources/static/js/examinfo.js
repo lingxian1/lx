@@ -4,10 +4,13 @@ $(function(){
         url: "/examinfo1",             //向springboot请求数据的url
         data: {"examineeId":getCookie("examineeId")},
         success: function (result) {
-            var data=result;
-            console.log(JSON.stringify(result));
-            msg_display(data.data);
-
+            if(result.status==200){
+                var data=result;
+                console.log(JSON.stringify(result));
+                msg_display(data.data);
+            }else{
+                alert(result.message);
+            }
         }
     });
 });

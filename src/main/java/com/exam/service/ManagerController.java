@@ -33,6 +33,10 @@ public String hello(){
     public String grade(){
         return "exam/grade";
     }
+    @RequestMapping("/exampoint")
+    public String exampoint(){
+        return "exam/exampoint";
+    }
     @RequestMapping("/questionmanager")
     public String question(){
         return "manager/questionmanager";

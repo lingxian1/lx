@@ -2,7 +2,7 @@ function exit() {
     var msg = "退出当前登陆";
     if (confirm(msg)==true){
         delCookie("examineeId");
-        delCookie("areaId");
+        delCookie("token");
         localStorage.clear();
         location="/signin";
     }else{
@@ -22,8 +22,15 @@ function exitadmin() {
 }
 //毫秒转换
 function getDateAndTime(ms) {
-    var d = new Date(ms);
-    return d.toLocaleString();
+    var date = new Date(ms);
+    var Y = date.getFullYear() + '-';
+    var M = date.getMonth()+1+ '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    // return d.toLocaleString();
+    return Y+M+D+h+m+s;
 }
 function getDate(ms) {
     var d = new Date(ms);

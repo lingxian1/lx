@@ -17,7 +17,7 @@ public class EasyToken implements Runnable {
     public static Map<Token,Long> tokens=new HashMap<>(); //非线程安全
     public static long checkTime=0;//检查点
     final static long blankTime=600000; //10分钟检查一次
-    final static long outTimes=7200000;//毫秒
+    final static long outTimes=7200000*3;//毫秒 6小时过期
 //    final static long outTimes=10000;//毫秒
     private Logger logger = LoggerFactory.getLogger(EasyToken.class);
 

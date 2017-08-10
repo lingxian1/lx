@@ -44,10 +44,17 @@ $(function(){
             url: "/question",             //向springboot请求数据的url
             data: {"examineeId":getCookie("examineeId"),"examinationId":getCookie("examinationId")},
             success: function (result) {
-                data=result.data;
-                setAnswer(0);
-                setQuestion();
-                setSelects();
+                if(result.status==200){
+                    data=result.data;
+                    setAnswer(0);
+                    setQuestion();
+                    setSelects();
+                }else{
+                    console.log(result.message);
+                    alert(result.message);
+                    location="/signin";
+                }
+
             }
         }),
         initAnswer()
@@ -197,7 +204,7 @@ function submitAnswer() {
 //答案包装为JSON
 function ansToJson() {
     var jsons = [];
-    localStorage.removeItem("starttime")
+    localStorage.removeItem("starttime");
     var examineeId=getCookie("examineeId");
     var examinationId=getCookie("examinationId");
     var i=0;
@@ -218,13 +225,18 @@ function saveAnswer() {
         data: ansToJson(),
         success: function (result) {
             console.log(result);
+            if(result.status!=200){
+                alert(result.message);
+            }else{
+                console.log("上传成功");
+                localStorage.clear();//清空本地存储
+                alert("提交成功");
+                location="/examinfo"
+            }
         },
         contentType: "application/json",
-    }),
-    console.log("上传成功");
-    localStorage.clear();//清空本地存储
-    alert("提交成功");
-    location="/examinfo"
+    })
+
 }
 
 //退出答题
