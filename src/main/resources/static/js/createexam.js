@@ -264,3 +264,17 @@ function publishExam() {
         });
     }
 }
+
+//随机
+function randomQuestion() {
+    selr = $('#grid-table').jqGrid('getGridParam','selrow');
+    if(selr==null){
+        alert("请选择一场考试");
+    }
+    else {
+        localStorage.setItem('examinationId',selr);
+        console.log(selr);
+        window.open('randomquestion.html','randomquestion',
+            'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
+    }
+}

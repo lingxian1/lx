@@ -37,7 +37,7 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
      */
     public List<ExamQuestionEntity> findQuestionClass(String str,String info){
         List<ExamQuestionEntity> entities=findBy(str,info,true);
-        if(entities.size()==0){
+        if(entities==null||entities.size()==0){
             return null;
         }
         Iterator<ExamQuestionEntity> iterator=entities.iterator();
@@ -69,7 +69,7 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
         }else{
             entities=findQuestionClass("questionClassification",info);
         }
-        if(entities.size()==0){
+        if(entities==null||entities.size()==0){
             return null;
         }
         return entities;

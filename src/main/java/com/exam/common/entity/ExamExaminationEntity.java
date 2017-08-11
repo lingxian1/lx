@@ -20,6 +20,9 @@ public class ExamExaminationEntity {
     private Integer examineeCount;
     private String examinationInfo;
     private String isDel;
+    private Integer signalCount;
+    private Integer multipleCount;
+    private Integer judgementCount;
 
     @Id
     @Column(name = "examination_ID", nullable = false, length = 10)
@@ -174,5 +177,35 @@ public class ExamExaminationEntity {
 
     public void setIsDel(String isDel) {
         this.isDel = isDel;
+    }
+
+    @Basic
+    @Column(name = "signal_count", nullable = true)
+    public Integer getSignalCount() {
+        return signalCount;
+    }
+
+    public void setSignalCount(Integer signalCount) {
+        this.signalCount = signalCount;
+    }
+
+    @Basic
+    @Column(name = "multiple_count", nullable = true)
+    public Integer getMultipleCount() {
+        return multipleCount;
+    }
+
+    public void setMultipleCount(Integer multipleCount) {
+        this.multipleCount = multipleCount;
+    }
+
+    @Basic
+    @Column(name = "judgement_count", nullable = true)
+    public Integer getJudgementCount() {
+        return judgementCount;
+    }
+
+    public void setJudgementCount(Integer judgementCount) {
+        this.judgementCount = judgementCount;
     }
 }

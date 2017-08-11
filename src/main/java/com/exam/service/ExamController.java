@@ -68,6 +68,7 @@ public class ExamController {
             }
             List<ExamQuestionEntity> questionEntities = new ArrayList<>();
             Iterator<ExamExaminationPaperEntity> iterator = examPaperDao.findByexam(examinationId).iterator();
+            //todo random
             while (iterator.hasNext()) {
                 ExamExaminationPaperEntity paper = iterator.next();
                 ExamQuestionEntity question = questionDao.findById(paper.getQuestionId());
