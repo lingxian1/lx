@@ -53,6 +53,9 @@ public class UserManagerController {
             while(iterator.hasNext()){
                 ExamExamineeEntity examExamineeEntity=iterator.next();
                 examExamineeEntity.setPassword("");
+                if(examExamineeEntity.getIdentity().equals("2")){
+                    iterator.remove();
+                }
             }
             return Response.ok(examExaminationEntities);
         }
@@ -94,7 +97,6 @@ public class UserManagerController {
                     state = addUser(name, phone, areaId, sex);
                     break;
                 case "del":
-                    System.out.println("ss");
                     state = delUser(id);
                     break;
                 case "edit":
@@ -105,7 +107,7 @@ public class UserManagerController {
             if (state) {
                 return Response.ok("操作成功");
             } else {
-                return Response.error();
+                return Response.error(ErrorCode.EXAM_PHONE_ERROR);
             }
         }
     }
@@ -135,9 +137,12 @@ public class UserManagerController {
      * @return
      */
     private boolean delUser(String id) {
-        if(!examineeDao.deleteById(id)){
+        ExamExamineeEntity examineeEntity=examineeDao.findById(id);
+        if(examineeEntity==null){
             return false;
         }
+        examineeEntity.setIdentity("2");
+        examineeDao.update(examineeEntity);
         return true;
     }
 
@@ -151,6 +156,9 @@ public class UserManagerController {
      */
     private boolean addUser(String name,String phone,String areaId,String sex) {
         if("".equals(phone)||phone.length()>11||"".equals(name)){
+            return false;
+        }
+        if(!examineeDao.checkPhone(phone)){
             return false;
         }
         ExamExamineeEntity examinee=new ExamExamineeEntity();

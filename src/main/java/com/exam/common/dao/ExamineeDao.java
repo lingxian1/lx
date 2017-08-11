@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -39,6 +40,23 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
         return examExaminationEntities;
     }
 
+    /**
+     * 手机号重复检测
+     * @param phone
+     * @return
+     */
+    public boolean checkPhone(String phone){
+        List<ExamExamineeEntity> examExaminationEntities=findAll();
+        Iterator<ExamExamineeEntity> iterator=examExaminationEntities.iterator();
+        boolean flag=true;
+        while(iterator.hasNext()){
+            ExamExamineeEntity entity=iterator.next();
+            if(entity.getPhone().equals(phone)){
+                flag=false;
+            }
+        }
+        return flag;
+    }
     /**
      * 获取新的考生ID
      * @return

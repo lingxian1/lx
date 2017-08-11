@@ -91,6 +91,9 @@ function setTime(sumtime){
         var seconds = (newtime - starttime) / 1000;
         var time = secondstotime(parseInt(sumtime - seconds));
         $('#time').text(time);
+        $('#time').css("font-size","24px");
+        $('#time').css("font-weight","bold");
+        $('#time').css("color","#0269c2");
     }, 100);//0.1s刷新1次
     setTimeout(function () {
         clearInterval(interval);

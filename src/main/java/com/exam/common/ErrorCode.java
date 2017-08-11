@@ -24,6 +24,7 @@ public enum ErrorCode {
     EXAM_SUBMIT_ERROR(10009, "提交失败"),
     EXAM_SUBMIT_OUT_OF_DATE(10010, "提交失败"),
     EXAM_GRADE_NULL(10011, "没有考试成绩信息"),
+    EXAM_PHONE_ERROR(10012, "手机号码格式错误或重复"),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYS_NULL_OBJECT(3, "为空的对象"),
     SYS_LOGIN_TIMEOUT(4, "登陆过期"),

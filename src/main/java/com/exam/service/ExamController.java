@@ -5,10 +5,7 @@ import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
 import com.exam.common.dao.*;
-import com.exam.common.entity.ExamAnswerLogEntity;
-import com.exam.common.entity.ExamExaminationPaperEntity;
-import com.exam.common.entity.ExamGradeEntity;
-import com.exam.common.entity.ExamQuestionEntity;
+import com.exam.common.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,9 +100,14 @@ public class ExamController {
             String examineeId = examAnswerLogEntitys.get(0).getExamineeId();
             String examinationId = examAnswerLogEntitys.get(0).getExaminationId();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            Timestamp endtime = examinationDao.findById(examinationId).getExaminationEnd();
+            ExamExaminationEntity entity=examinationDao.findById(examinationId);
+            if(entity==null){
+                return Response.error();
+            }
+            Timestamp endtime = entity.getExaminationEnd();
+            long ansTime=entity.getAnswerTime()*60*1000;
             //检测是否超时
-            if (endtime == null || new Long(timestamp.getTime()) > new Long(endtime.getTime()) + 15 * 60 * 1000) {
+            if (endtime == null || new Long(timestamp.getTime()) > new Long(endtime.getTime()) +ansTime+ 15 * 60 * 1000) {
                 return Response.error(ErrorCode.EXAM_SUBMIT_OUT_OF_DATE);
             }
 
