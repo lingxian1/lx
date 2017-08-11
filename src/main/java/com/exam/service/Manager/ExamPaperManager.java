@@ -127,12 +127,10 @@ public class ExamPaperManager {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-//            System.out.println("qs1"+questionClass);
             QuestionType type=types(questionClass);
             if(type==null){
                 return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
             }
-            System.out.println(type.getQuestionAll()+"  "+type.getQuestionSignal());
             return Response.ok(type);
         }
     }
@@ -311,7 +309,6 @@ public class ExamPaperManager {
         int s=0;
         int m=0;
         int j=0;
-        System.out.println("questionClass"+questionClass);
         //拦截空值
         if("".equals(questionClass)){
             return null;

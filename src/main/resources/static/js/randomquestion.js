@@ -15,6 +15,7 @@ $(function(){
         // async:false,
         success: function (result) {
             if(result.status==200){
+                console.log(result);
                 console.log(JSON.stringify(result));
                 $('#count').html("试题总数："+result.data.count);
             }
@@ -59,9 +60,10 @@ function findinfo() {
                     console.log(JSON.stringify(result));
                     $("#panel1").removeClass("displayno");
                     $("#panel2").removeClass("displayno");
-                    $('#questionsnum').html(result.data.QuestionSignal);
-                    $('#questionmnum').html(result.data.QuestionMultiple);
-                    $('#questionjnum').html(result.data.QuestionJudgement);
+                    $("#panel3").removeClass("displayno");
+                    $('#questionsnum').html(result.data.questionSignal);
+                    $('#questionmnum').html(result.data.questionMultiple);
+                    $('#questionjnum').html(result.data.questionJudgement);
                 }
                 else{
                     console.log(JSON.stringify(result));
