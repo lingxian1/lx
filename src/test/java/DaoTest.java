@@ -1,5 +1,6 @@
 import com.exam.Application;
 import com.exam.common.dao.*;
+import com.exam.common.entity.ExamExaminationPaperEntity;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
 import com.exam.service.GradeController;
@@ -9,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 
 @SpringBootTest(classes = Application.class)
@@ -129,7 +132,19 @@ public class DaoTest{
 
     @Test
     public void test14(){
-
+//        if(examinationDao.findById("2017081001").getJudgementCount()==null){
+//            System.out.println("it is null");
+//        }
+//        Integer d=null;
+//        System.out.println(d);
+       List<ExamExaminationPaperEntity> list= examPaperDao.findByexamRandom("2017081002",3,1,0);
+       for(ExamExaminationPaperEntity entity:list){
+           System.out.println(entity.getExaminationId()+"  "+entity.getQuestionId()+"---"+entity.getScore());
+       }
+//        List<Integer> list=RandomUtil.getRandom(0,2,1);
+//        for(Integer i:list){
+//            System.out.println(i);
+//        }
     }
 }
 

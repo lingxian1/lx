@@ -36,7 +36,7 @@ public class ExamInfoController {
      */
     @GetMapping
     public Response findExams(String examineeId) {
-        logger.info("findExam"+examineeId);
+//        logger.info("findExam"+examineeId);
         if ("".equals(examineeId)||examineeId==null) {
             return Response.error(USER_ERROR);
         }

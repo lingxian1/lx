@@ -1,14 +1,14 @@
 package com.exam.common.dao;
 
 import com.exam.common.entity.ExamExaminationPaperEntity;
+import com.exam.common.util.RandomUtil;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by LX on 2017/7/24.
@@ -17,6 +17,8 @@ import java.util.Map;
 @Component
 @Repository
 public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
+    @Autowired
+    QuestionDao questionDao;
     /**
      * 根据考试号寻找题目 like--false
      * @param examinationId
@@ -26,6 +28,52 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
         return findBy("examinationId",examinationId,false);
     }
 
+
+    /**
+     * 随机生成试题
+     * s m j
+     * 1.遍历试题数组 用3个list保存各分类的分布位置
+     * 2.调用随机数工具进行随机抽取
+     * 3.将抽取的结果放入结果list
+     * @param examinationId
+     * @param s  成分--单选
+     * @param m  成分--多选
+     * @param j  成分--判断
+     * @return
+     */
+    public List<ExamExaminationPaperEntity> findByexamRandom(String examinationId,int s,int m,int j){
+        List<ExamExaminationPaperEntity> entities=findByexam(examinationId);
+        List<ExamExaminationPaperEntity> result=new ArrayList<>();
+        List<Integer> lists=new ArrayList<>(); //记录单选题位置信息 比如list(0)->1,list(1)->3,list(2)->4
+        List<Integer> listm=new ArrayList<>();
+        List<Integer> listj=new ArrayList<>();
+        for(int i=0;i<entities.size();i++){
+            ExamExaminationPaperEntity entity=entities.get(i);
+            String type=questionDao.findById(entity.getQuestionId()).getQuestionType();
+            if("signal".equals(type)){
+                lists.add(i);
+            }else if("multiple".equals(type)){
+                listm.add(i);
+            }else if("judgement".equals(type)){
+                listj.add(i);
+            }
+        }
+        //获取随机数
+        List<Integer> list1=RandomUtil.getRandom(0,lists.size(),s);
+        List<Integer> list2=RandomUtil.getRandom(0,listm.size(),m);
+        List<Integer> list3=RandomUtil.getRandom(0,listj.size(),j);
+        //添加结果集
+        for(Integer index:list1){
+            result.add(entities.get(lists.get(index)));
+        }
+        for(Integer index:list2){
+            result.add(entities.get(listm.get(index)));
+        }
+        for(Integer index:list3){
+            result.add(entities.get(listj.get(index)));
+        }
+        return result;
+    }
     /**
      * 保存正确率
      * @param examinationId

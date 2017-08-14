@@ -53,8 +53,8 @@ public class ExamController {
     public Response findExamQuestion(@CookieValue(value = "tokenU", defaultValue = "") String token,
                                      @CookieValue(value = "examineeIdU", defaultValue = "") String examineeId,
                                      @CookieValue(value = "examinationIdU", defaultValue = "") String examinationId) {
-        logger.info("findExamQ examineeId"+examineeId);
-        logger.info("findExamQ examinationId"+examinationId);
+//        logger.info("findExamQ examineeId"+examineeId);
+//        logger.info("findExamQ examinationId"+examinationId);
         String status=new EasyToken().checkToken(new Token(examineeId,token));
         if(status.equals("TIMEOUT")){
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
@@ -67,7 +67,17 @@ public class ExamController {
                 return Response.error(EXAM_FINISHED);
             }
             List<ExamQuestionEntity> questionEntities = new ArrayList<>();
-            Iterator<ExamExaminationPaperEntity> iterator = examPaperDao.findByexam(examinationId).iterator();
+            Iterator<ExamExaminationPaperEntity> iterator;
+            ExamExaminationEntity examinationEntity=examinationDao.findById(examinationId);
+            Integer signalCount=examinationEntity.getSignalCount();
+            Integer multipleCount=examinationEntity.getMultipleCount();
+            Integer judgementCountCount=examinationEntity.getJudgementCount();
+
+            if(signalCount==null&&multipleCount==null&&judgementCountCount==null){
+                iterator = examPaperDao.findByexam(examinationId).iterator();
+            }else {
+                iterator=examPaperDao.findByexamRandom(examinationId,signalCount,multipleCount,judgementCountCount).iterator();
+            }
             //todo random
             while (iterator.hasNext()) {
                 ExamExaminationPaperEntity paper = iterator.next();

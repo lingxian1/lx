@@ -26,6 +26,7 @@ var data;
 
 //初始化
 $(function(){
+    localStorage.clear();
     //获取考试信息
     $.ajax({
         type: "get",
