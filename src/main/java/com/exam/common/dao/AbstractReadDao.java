@@ -41,7 +41,6 @@ public abstract class AbstractReadDao<T>  {
         List<T> tList = session.createQuery("from " + bindClassName()).list();
 
         if (tList == null) {
-            logger.info("findAll:MessageType:'" + this.getClass().getSimpleName() + "'" + "findByPhone null");
             return new ArrayList<T>();
         }
         return sort(tList);
@@ -115,6 +114,7 @@ public abstract class AbstractReadDao<T>  {
         return tList.get(0);
     }
 
+    //TODO  修改为参数化绑定 参数名用拼接 值用参数化
     private String jointLikeQuery(String[] keys, String[] values, boolean isLikeQuery) {
 //        String hql = " from UserEntity e where e.usersName like 'xiao%' and e.usersPassword like 'psd%'";
         String head = "from " + bindClassName();
@@ -125,6 +125,7 @@ public abstract class AbstractReadDao<T>  {
         StringBuilder hqlbuilder = new StringBuilder(head);
         boolean isFirst = true;
         for (int i = 0; i < length; i++) {
+            //参数判断关键词匹配
             if (keys[i] == null || keys[i].trim().equals("") || values[i] == null || values[i].trim().equals("")) {
                 continue;
             }
@@ -152,6 +153,7 @@ public abstract class AbstractReadDao<T>  {
         return hqlbuilder.toString();
     }
 
+    //TODO  修改为参数化绑定
     private String jointHqlByIdsQuery(Map<String, String> idAndValues) {
 
         String hql = " from " + bindClassName() + " e where ";

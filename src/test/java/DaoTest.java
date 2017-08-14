@@ -44,6 +44,8 @@ public class DaoTest{
 
     @Autowired
     ExamPaperDao examPaperDao;
+    @Autowired
+    ExamineeDao examineeDao;
     @Test
     public void get(){
         System.out.println(creditDao.findAll().size());
@@ -124,6 +126,11 @@ public class DaoTest{
 
 //        System.out.println(examPaperDao.sumScore("2017070702"));
 //    }
+
+    @Test
+    public void test14(){
+
+    }
 }
 
 

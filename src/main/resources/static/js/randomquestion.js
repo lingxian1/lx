@@ -1,5 +1,9 @@
 var $path_base = "/";
 var grid_data;
+//s m j保存试题成分数量上限
+var s;
+var m;
+var j;
 var id=localStorage.getItem("examinationId");
 $(function(){
     $('#examinationId').html(id);
@@ -30,20 +34,43 @@ $(function(){
 function getinfo() {
     var msg = "确定提交发布";
     if (confirm(msg)==true){
-        $.ajax({
-            type: "post",
-            url: "/examPaperManager/randomQuestion",
-            data: {"examinationId2":localStorage.getItem("examinationId2")},
-            success: function (result) {
-                if(result.status==200){
-                    alert(result.data);
-                    location.reload(true);
+        var questions=$('#questions').val();
+        var questionm=$('#questionm').val();
+        var questionj=$('#questionj').val();
+        var types=$('#types').val();
+        var typem=$('#typem').val();
+        var typej=$('#typej').val();
+        var question=$('#questionClass').val();
+        var flag=checkRate(questions)&&checkRate(questionm)&&checkRate(questionj)&&checkRate(types)&&checkRate(typem)&&checkRate(typej);
+        if(flag==false){
+            alert("请输入正整数分值或成分!");
+        }else if((questions>s||questionm>m||questionj>j)==true){
+            alert("请输入不超过上限的分值!");
+        }else {
+            $.ajax({
+                type: "post",
+                url: "/examPaperManager/randomQuestion",
+                data: {
+                    "examinationId": localStorage.getItem("examinationId"),
+                    "questions": questions,
+                    "questionm": questionm,
+                    "questionj": questionj,
+                    "types": types,
+                    "typem": typem,
+                    "typej": typej,
+                    "questionClass": question
+                },
+                success: function (result) {
+                    if (result.status == 200) {
+                        alert(result.data);
+
+                    }
+                    else {
+                        alert(result.message);
+                    }
                 }
-                else{
-                    alert(result.message);
-                }
-            }
-        })
+            })
+        }
     }else{
         return false;
     }
@@ -61,9 +88,12 @@ function findinfo() {
                     $("#panel1").removeClass("displayno");
                     $("#panel2").removeClass("displayno");
                     $("#panel3").removeClass("displayno");
-                    $('#questionsnum').html(result.data.questionSignal);
-                    $('#questionmnum').html(result.data.questionMultiple);
-                    $('#questionjnum').html(result.data.questionJudgement);
+                    s=result.data.questionSignal;
+                    m=result.data.questionMultiple;
+                    j=result.data.questionJudgement;
+                    $('#questionsnum').html(s);
+                    $('#questionmnum').html(m);
+                    $('#questionjnum').html(j);
                 }
                 else{
                     console.log(JSON.stringify(result));
@@ -77,7 +107,7 @@ function findinfo() {
 function checkRate(num) {
     var nubmer=num;
     console.log(num);
-    if (isNaN(nubmer) || nubmer <= 0 || !(/^\d+$/.test(nubmer))&&num!="") {
+    if (num==""||isNaN(nubmer) || nubmer < 0 || !(/^\d+$/.test(nubmer))&&num!="") {
         return false;
     }
     return true;

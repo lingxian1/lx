@@ -66,7 +66,7 @@ public class ExamExaminationEntity {
 
     @Basic
     @Column(name = "question_count", nullable = true)
-    public Integer getQuestionCount() {
+    public Integer  getQuestionCount() {
         return questionCount;
     }
 

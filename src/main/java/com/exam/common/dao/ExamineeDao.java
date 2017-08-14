@@ -111,4 +111,23 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
         update(entity);
         return true;
     }
+
+
+//    public int newSql(String examintionId){
+//        int sum=0;
+//        String e="examination_ID";
+//        Session session = sessionFactory.getCurrentSession();
+//        StringBuilder builder = new StringBuilder();
+//        String sql = builder.append("SELECT * FROM exam_examination_paper WHERE ").append(e).append("= ?")
+//                .toString();
+//
+//        SQLQuery l = session.createSQLQuery(sql);
+////        l.setString(0,"examination_ID");
+//        l.setString(0,examintionId);
+//
+//            System.out.println(l.list().toString());
+//
+//        return sum;
+//    }
+
 }

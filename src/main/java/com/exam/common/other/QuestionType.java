@@ -5,40 +5,40 @@ package com.exam.common.other;
  * 分类试题各类型数量统计
  */
 public class QuestionType {
-    private int QuestionAll;
-    private int QuestionSignal;
-    private int QuestionMultiple;
-    private int QuestionJudgement;
+    private Integer QuestionAll;
+    private Integer QuestionSignal;
+    private Integer QuestionMultiple;
+    private Integer QuestionJudgement;
 
-    public int getQuestionAll() {
+    public Integer getQuestionAll() {
         return QuestionAll;
     }
 
-    public void setQuestionAll(int questionAll) {
+    public void setQuestionAll(Integer questionAll) {
         QuestionAll = questionAll;
     }
 
-    public int getQuestionSignal() {
+    public Integer getQuestionSignal() {
         return QuestionSignal;
     }
 
-    public void setQuestionSignal(int questionSignal) {
+    public void setQuestionSignal(Integer questionSignal) {
         QuestionSignal = questionSignal;
     }
 
-    public int getQuestionMultiple() {
+    public Integer getQuestionMultiple() {
         return QuestionMultiple;
     }
 
-    public void setQuestionMultiple(int questionMultiple) {
+    public void setQuestionMultiple(Integer questionMultiple) {
         QuestionMultiple = questionMultiple;
     }
 
-    public int getQuestionJudgement() {
+    public Integer getQuestionJudgement() {
         return QuestionJudgement;
     }
 
-    public void setQuestionJudgement(int questionJudgement) {
+    public void setQuestionJudgement(Integer questionJudgement) {
         QuestionJudgement = questionJudgement;
     }
 }

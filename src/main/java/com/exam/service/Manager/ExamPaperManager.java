@@ -15,6 +15,7 @@ import com.exam.common.other.QuestionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -135,23 +136,95 @@ public class ExamPaperManager {
         }
     }
     /**
-     * 设置随机试题
+     * 设置绑定随机试题并发布
+     * return 不会触发事务回滚
      * @param token
      * @param uid
-     * @param examinationId2
+     * @param examinationId
      * @return
      */
     @PostMapping("/randomQuestion")
+    @Transactional(rollbackFor = Exception.class)
     public Response randomQuestion(@CookieValue(value = "token", defaultValue = "") String token,
-                                @CookieValue(value = "userId", defaultValue = "") String uid,
-                                @RequestParam(defaultValue = "") String examinationId2){
+                                   @CookieValue(value = "userId", defaultValue = "") String uid,
+                                   @RequestParam(defaultValue = "") String examinationId,
+                                   @RequestParam(defaultValue = "") String questions,
+                                   @RequestParam(defaultValue = "") String questionm,
+                                   @RequestParam(defaultValue = "") String questionj,
+                                   @RequestParam(defaultValue = "") String types,
+                                   @RequestParam(defaultValue = "") String typem,
+                                   @RequestParam(defaultValue = "") String typej,
+                                   @RequestParam(defaultValue = "") String questionClass){
+        logger.info(examinationId);
+        logger.info(questions+" "+questionm+" "+questionj);
+        logger.info(types+" "+typem+" "+typej);
+        logger.info(questionClass);
+        //type 分值 questions/m/j 成分
         String status=new EasyToken().checkToken(new Token(uid,token));
         if(status.equals("TIMEOUT")){
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-          return Response.ok();
+            if("".equals(examinationId)||"".equals(questionClass)){
+                return Response.error();
+            }
+            Integer qs=new Integer(questions); //单选数量
+            Integer qm=new Integer(questionm);//多选数量
+            Integer qj=new Integer(questionj);//判断数量
+            Integer ss=new Integer(types);//单选分数
+            Integer sm=new Integer(typem);//多选分数
+            Integer sj=new Integer(typej);//判断分数
+            Integer count=qs+qj+qm;//总数量
+            Integer scoreAll=ss*qs+sm*qm+qj*sj;//总分数
+            //0.类型上限检测
+           QuestionType questionType= types(questionClass);
+           if(questionType==null){
+               return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
+           }
+           if(qs>questionType.getQuestionSignal()||qm>questionType.getQuestionMultiple() ||
+                   qj>questionType.getQuestionJudgement()){
+               return Response.error(ErrorCode.QUESTION_CLASS_ERROR);
+           }
+            //1.设置成分
+            ExamExaminationEntity examinationEntity=examinationDao.findById(examinationId);
+            if(examinationEntity==null||examinationEntity.getIsDel().equals("00")){
+                return Response.error(ErrorCode.EXAM_ID_ERROR);
+            }else if((!examinationEntity.getQuestionCount().equals(count))||
+                    (!examinationEntity.getExaminationScoreAll().equals(scoreAll))){
+                return Response.error(ErrorCode.EXAM_PUBLISH_SCORE_ERROR);
+            }else {
+                examinationEntity.setSignalCount(qs);
+                examinationEntity.setMultipleCount(qm);
+                examinationEntity.setJudgementCount(qj);
+                examinationEntity.setIsDel("00"); //发布考试
+                examinationDao.update(examinationEntity);
+            }
+            //2.清空历史绑定--paper表
+            examPaperDao.deleteAllQuestion(examinationId);
+            //3.绑定分类--paper表
+            List<ExamQuestionEntity> questionAll=questionDao.findQuestionClass("questionClassification",questionClass);
+            Iterator<ExamQuestionEntity> iterator=questionAll.iterator();
+            while(iterator.hasNext()){
+                ExamQuestionEntity Qentity=iterator.next();
+                String qId=Qentity.getQuestionId();
+                String qClass=Qentity.getQuestionType();
+                int score=0;
+                if(qClass.equals("signal")){
+                    score=ss;
+                }else if(qClass.equals("multiple")){
+                    score=sm;
+                }else if(qClass.equals("judgement")){
+                    score=sj;
+                }
+                ExamExaminationPaperEntity paperEntity=new ExamExaminationPaperEntity();
+                paperEntity.setExaminationId(examinationId);
+                paperEntity.setQuestionId(qId);
+                paperEntity.setScore(score);
+                paperEntity.setAccuracy(2.0);
+                examPaperDao.save(paperEntity);
+            }
+            return Response.ok();
         }
     }
 
@@ -318,7 +391,6 @@ public class ExamPaperManager {
             System.out.println("exam question null");
             return null;
         }
-        System.out.println("entity size"+entities.size());
         int count=entities.size();
         Iterator<ExamQuestionEntity> iterator=entities.iterator();
         while(iterator.hasNext()){
