@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -62,7 +63,15 @@ public class ErrorQuestionController {
                     }
                 }
             }
-            return Response.ok(examPaperDao.findBy("examinationId",examinationId,false));
+            List<ExamExaminationPaperEntity> entities= examPaperDao.findBy("examinationId",examinationId,false);
+            Iterator<ExamExaminationPaperEntity> iterator=entities.iterator();
+            while (iterator.hasNext()){
+                ExamExaminationPaperEntity entity=iterator.next();
+                if(entity.getAccuracy()>1){
+                    iterator.remove();
+                }
+            }
+            return Response.ok(entities);
         }
     }
 }

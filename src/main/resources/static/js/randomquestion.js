@@ -22,6 +22,8 @@ $(function(){
                 console.log(result);
                 console.log(JSON.stringify(result));
                 $('#count').html("试题总数："+result.data.count);
+                $('#questionCountAll').html("总分："+result.data.score);
+
             }
             else{
                 alert(result.message);
