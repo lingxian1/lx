@@ -121,7 +121,7 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
     }
 
     /**
-     * 某场考试当前绑定试题总分
+     * 某场考试当前绑定试题总分 TODO 参数化
      * @param examintionId
      * @return
      */

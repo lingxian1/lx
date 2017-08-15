@@ -224,7 +224,7 @@ public class ExamPaperManager {
                 paperEntity.setAccuracy(2.0);
                 examPaperDao.save(paperEntity);
             }
-            return Response.ok();
+            return Response.ok("操作成功");
         }
     }
 

@@ -18,7 +18,7 @@ import java.util.Map;
 @Repository
 public class AnswerLogDao extends AbstractDao<ExamAnswerLogEntity> {
     /**
-     * 总分计算
+     * 总分计算  TODO 参数化
      * @param examineeId
      * @param examinationId
      * @return

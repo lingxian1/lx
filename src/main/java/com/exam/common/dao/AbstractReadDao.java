@@ -3,6 +3,7 @@ package com.exam.common.dao;
 import com.exam.common.ExamException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,10 +78,24 @@ public abstract class AbstractReadDao<T>  {
         if (hql == null) {
             return new ArrayList<T>();
         }
-
         Session session = sessionFactory.getCurrentSession();
+        Query query= session.createQuery(hql);
 
-        List<T> result = session.createQuery(hql).list();
+        for (int i = 0; i < length; i++) {
+            //参数判断关键词匹配
+            if (keys[i] == null || keys[i].trim().equals("") || values[i] == null || values[i].trim().equals("")) {
+                continue;
+            }
+            if (isLikeQuery) {
+                values[i] = "%" + values[i] + "%";
+            }
+            query.setString(i,values[i]);
+        }
+
+        List<T> result =query.list();
+        for(int i=0;i<result.size();i++){
+            System.out.println("findby-like-query"+result.get(0).toString());
+        }
         return sort(result);
     }
 
@@ -105,9 +120,18 @@ public abstract class AbstractReadDao<T>  {
     public T findByIds(Map<String, String> idAndValues) {
         Session session = sessionFactory.getCurrentSession();
         String hql = jointHqlByIdsQuery(idAndValues);
-        List<T> tList = session.createQuery(hql).list();
+        Query query=session.createQuery(hql);
+        int i=0;
+        for (Map.Entry<String, String> entry : idAndValues.entrySet()) {
+            String value = entry.getValue().trim();
+            query.setString(i,value);
+            System.out.println(i+"  "+value);
+            i++;
+        }
+        System.out.println(query.toString());
+        List<T> tList = query.list();
         if (tList.isEmpty()) {
-//            logger.info("tlist is empty");
+            logger.info("tlist is empty");
             return null;
         }
 //        logger.info(tList.get(0));
@@ -138,18 +162,18 @@ public abstract class AbstractReadDao<T>  {
             hqlbuilder.append("e.");
             hqlbuilder.append(keys[i]);
             if (isLikeQuery) {
-                hqlbuilder.append(" like ");
-                values[i] = "%" + values[i] + "%";
+                hqlbuilder.append(" like ? ");
+//                values[i] = "%" + values[i] + "%";
             } else {
-                hqlbuilder.append(" =");
+                hqlbuilder.append(" = ?");
             }
-            hqlbuilder.append("'").append(values[i]).append("'");
+//            hqlbuilder.append("'").append(values[i]).append("'");
             enableCount++;
         }
         if (enableCount == 0) {
             return null;
         }
-//        System.out.println(hqlbuilder.toString());
+        System.out.println(hqlbuilder.toString());
         return hqlbuilder.toString();
     }
 
@@ -167,8 +191,9 @@ public abstract class AbstractReadDao<T>  {
             } else {
                 isFirst = false;
             }
-            hqlbuilder.append(" e.").append(key).append("=").append("'").append(value).append("'");
+            hqlbuilder.append(" e.").append(key).append("= ?");
         }
+        System.out.println("abs-dao-jointHqlByIdsQuery------"+hql+hqlbuilder.toString());
         return hql + hqlbuilder.toString();
     }
 
