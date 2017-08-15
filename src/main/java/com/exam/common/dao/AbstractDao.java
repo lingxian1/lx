@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/**
+ * 增删改
+ * @param <T>
+ */
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public abstract class AbstractDao<T> extends AbstractReadDao<T> {
-
 
     public void save(T t) {
         Session session = sessionFactory.getCurrentSession();

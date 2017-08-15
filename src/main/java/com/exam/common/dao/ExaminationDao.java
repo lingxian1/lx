@@ -105,12 +105,10 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         if (id == null || "null".equals(id)) {
             //当天没有，生成新的
             id = prefix + "01";
-            System.out.println("id:"+id);
             return id;
         } else {
             long idd = Long.valueOf(id);
             String newid = String.valueOf(idd + 1);
-            System.out.println("newid+"+newid);
             return newid;
         }
     }

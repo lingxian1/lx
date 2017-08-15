@@ -142,6 +142,7 @@ public class UserManagerController {
             return false;
         }
         examineeEntity.setIdentity("2");
+        examineeEntity.setPhone("此用户已删除");
         examineeDao.update(examineeEntity);
         return true;
     }

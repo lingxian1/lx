@@ -59,6 +59,25 @@ public class QuestionManager {
     }
 
     /**
+     * 获取分类数据
+     * @param token
+     * @param uid
+     * @return
+     */
+    @GetMapping("/classification")
+    public Response getQuestionClass(@CookieValue(value = "token", defaultValue = "") String token,
+                                     @CookieValue(value = "userId", defaultValue = "") String uid){
+        String status=new EasyToken().checkToken(new Token(uid,token));
+        if(status.equals("TIMEOUT")){
+            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
+        }else if(status.equals("ERROR")){
+            return Response.error(ErrorCode.USER_ERROR);
+        }else {
+
+            return Response.ok();
+        }
+    }
+    /**
      * 处理增删改请求
      * @param oper
      * @param id

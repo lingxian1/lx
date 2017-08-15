@@ -1,8 +1,11 @@
 package com.exam.common.dao;
 
 import com.exam.common.entity.ExamQuestionEntity;
+import com.exam.common.other.QuestionClass;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -178,5 +181,24 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
 //        entity.setQuestionOther(questionOther);
         update(entity);
         return true;
+    }
+
+    /**
+     * 分类数统计
+     * @return
+     */
+    public List<QuestionClass> questionClass(){
+        Session session = sessionFactory.getCurrentSession();
+        Query l = session.createSQLQuery(
+                "select question_classification qClassification,count(*) qNum from exam_question GROUP BY question_classification")
+                .setResultTransformer(Transformers.aliasToBean(QuestionClass.class));
+        List<QuestionClass> list=l.list();
+        if(list==null||list.get(0)==null){
+            return null;
+        }
+        for(int i=0;i<list.size();i++){
+            System.out.println(list.get(i).getqClassification()+list.get(i).getqNum());
+        }
+        return list;
     }
 }

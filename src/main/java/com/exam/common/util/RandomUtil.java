@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class RandomUtil {
     /**
-     * 产生num个x--y之间的随机数
+     * 产生num个[x--y)之间的随机数
      * @param x
      * @param y
      * @param num

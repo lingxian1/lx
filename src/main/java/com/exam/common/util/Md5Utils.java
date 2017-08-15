@@ -56,10 +56,10 @@ public class Md5Utils {
     /**
      * @param args
      */
-    public static void main(String[] args) {
-        //测试字符串MD5加密
-        //123456: e10adc3949ba59abbe56e057f20f883e
-        //eastcom:  6997c46956185a7c4d452646fc9c69e2
-        System.out.println(stringMD5("eastcom"));
-    }
+//    public static void main(String[] args) {
+//        //测试字符串MD5加密
+//        //123456: e10adc3949ba59abbe56e057f20f883e
+//        //eastcom:  6997c46956185a7c4d452646fc9c69e2
+//        System.out.println(stringMD5("eastcom"));
+//    }
 }

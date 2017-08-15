@@ -37,7 +37,7 @@ public class AdminLoginController {
      */
     @PostMapping
     public Response AdminLogin( @RequestParam(defaultValue = "") String userId,
-                            @RequestParam String userPassword) {
+                                @RequestParam String userPassword) {
         logger.info(userId);
         logger.info(userPassword);
         SysUserEntity user=sysUserDao.findByStr("userId",userId);
@@ -62,7 +62,7 @@ public class AdminLoginController {
      */
     @GetMapping("/examinfos")
     public Response examinfos(@CookieValue(value = "token", defaultValue = "") String token,
-                                @CookieValue(value = "userId", defaultValue = "") String uid){
+                              @CookieValue(value = "userId", defaultValue = "") String uid){
         String status=new EasyToken().checkToken(new Token(uid,token));
         if(status.equals("TIMEOUT")){
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);

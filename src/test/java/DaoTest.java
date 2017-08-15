@@ -147,6 +147,10 @@ public class DaoTest{
 //            System.out.println(i);
 //        }
     }
+    @Test
+    public void test15(){
+        questionDao.questionClass();
+    }
 }
 
 

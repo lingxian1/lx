@@ -41,6 +41,11 @@ public String hello(){
     public String question(){
         return "manager/questionmanager";
     }
+    @RequestMapping("/questionclassinfo")
+    public String questionclassinfo(){
+        return "manager/questionclassinfo";
+    }
+
     @RequestMapping("/manager")
     public String manager(){
         return "manager/manager";

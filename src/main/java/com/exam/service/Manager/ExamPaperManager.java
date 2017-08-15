@@ -82,7 +82,7 @@ public class ExamPaperManager {
      */
     @PostMapping("/publish")
     public Response publishexam(@CookieValue(value = "token", defaultValue = "") String token,
-                                 @CookieValue(value = "userId", defaultValue = "") String uid,
+                                @CookieValue(value = "userId", defaultValue = "") String uid,
                                 @RequestParam(defaultValue = "") String examinationId){
         String status=new EasyToken().checkToken(new Token(uid,token));
         if(status.equals("TIMEOUT")){
@@ -299,11 +299,11 @@ public class ExamPaperManager {
             @RequestParam(defaultValue = "") String examinationId,
             @RequestParam(defaultValue = "") String questionId,
             @RequestParam(defaultValue = "") String score){
-        logger.info("examinationId2"+examinationId2);
-        logger.info("id"+id);
-        logger.info("examintionid"+examinationId);
-        logger.info("questionId"+questionId);
-        logger.info("score"+score);
+//        logger.info("examinationId2"+examinationId2);
+//        logger.info("id"+id);
+//        logger.info("examintionid"+examinationId);
+//        logger.info("questionId"+questionId);
+//        logger.info("score"+score);
         String status=new EasyToken().checkToken(new Token(uid,token));
         if(status.equals("TIMEOUT")){
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
@@ -367,7 +367,7 @@ public class ExamPaperManager {
             return false;
         }
         entity.setScore(score);
-        System.out.println(score);
+//        System.out.println(score);
         examPaperDao.update(entity);
         return true;
     }
@@ -387,7 +387,7 @@ public class ExamPaperManager {
         }
         List<ExamQuestionEntity> entities=questionDao.findQuestions(questionClass);
         if(entities==null||entities.size()==0){
-            System.out.println("exam question null");
+//            System.out.println("exam question null");
             return null;
         }
         int count=entities.size();
