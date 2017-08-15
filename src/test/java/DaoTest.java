@@ -69,10 +69,11 @@ public class DaoTest{
 //        System.out.println(gradeDao.findGrade("11111","22222").getGrade());
 //    }
 
-//    @Test
-//    public void test5(){
-//        System.out.println(answerLogDao.getGrade("1000012345","2017070701"));
-//    }
+    @Test
+    public void test5(){
+        System.out.println(answerLogDao.getGrade("1000012356","2017081001"));
+        System.out.println(answerLogDao.getGrade("1000012356","20170810001"));
+    }
 
 //    @Test
 //    public void test6(){
@@ -113,11 +114,11 @@ public class DaoTest{
 //        System.out.println(examPaperDao.findByexamCount("2017070702"));
 //    }
 //
-//    @Test
-//    public void test12(){
-//        System.out.println(examPaperDao.sumScore("2017070701"));
-//        System.out.println(examPaperDao.sumScore("2017070702"));
-//    }
+    @Test
+    public void test12(){
+        System.out.println(examPaperDao.sumScore("2017081001"));
+        System.out.println(examPaperDao.sumScore("2017070702"));
+    }
 //
 //    @Test
 //    public void test13(){

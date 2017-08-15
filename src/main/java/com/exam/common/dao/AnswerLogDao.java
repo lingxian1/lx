@@ -18,7 +18,7 @@ import java.util.Map;
 @Repository
 public class AnswerLogDao extends AbstractDao<ExamAnswerLogEntity> {
     /**
-     * 总分计算  TODO 参数化
+     * 总分计算
      * @param examineeId
      * @param examinationId
      * @return
@@ -26,14 +26,15 @@ public class AnswerLogDao extends AbstractDao<ExamAnswerLogEntity> {
     public int getGrade(String examineeId,String examinationId){
         Session session = sessionFactory.getCurrentSession();
         StringBuilder builder = new StringBuilder();
-        String sql = builder.append("SELECT SUM(score_real) FROM exam_answer_log where examinee_ID='")
-                .append(examineeId)
-                .append("' and examination_ID='")
-                .append(examinationId)
-                .append("'")
+        String sql = builder.append("SELECT SUM(score_real) FROM exam_answer_log where examinee_ID= ? and examination_ID= ?")
                 .toString();
         SQLQuery l = session.createSQLQuery(sql);
+        l.setString(0,examineeId);
+        l.setString(1,examinationId);
         List list = l.list();
+        if(list==null||list.get(0)==null){
+            return -1;
+        }
         return new Integer(list.get(0).toString());
     }
 

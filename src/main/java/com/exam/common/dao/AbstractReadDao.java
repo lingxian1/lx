@@ -93,9 +93,9 @@ public abstract class AbstractReadDao<T>  {
         }
 
         List<T> result =query.list();
-        for(int i=0;i<result.size();i++){
-            System.out.println("findby-like-query"+result.get(0).toString());
-        }
+//        for(int i=0;i<result.size();i++){
+//            System.out.println("findby-like-query"+result.get(0).toString());
+//        }
         return sort(result);
     }
 
@@ -125,20 +125,15 @@ public abstract class AbstractReadDao<T>  {
         for (Map.Entry<String, String> entry : idAndValues.entrySet()) {
             String value = entry.getValue().trim();
             query.setString(i,value);
-            System.out.println(i+"  "+value);
             i++;
         }
-        System.out.println(query.toString());
         List<T> tList = query.list();
         if (tList.isEmpty()) {
-            logger.info("tlist is empty");
             return null;
         }
-//        logger.info(tList.get(0));
         return tList.get(0);
     }
 
-    //TODO  修改为参数化绑定 参数名用拼接 值用参数化
     private String jointLikeQuery(String[] keys, String[] values, boolean isLikeQuery) {
 //        String hql = " from UserEntity e where e.usersName like 'xiao%' and e.usersPassword like 'psd%'";
         String head = "from " + bindClassName();
@@ -173,11 +168,9 @@ public abstract class AbstractReadDao<T>  {
         if (enableCount == 0) {
             return null;
         }
-        System.out.println(hqlbuilder.toString());
         return hqlbuilder.toString();
     }
 
-    //TODO  修改为参数化绑定
     private String jointHqlByIdsQuery(Map<String, String> idAndValues) {
 
         String hql = " from " + bindClassName() + " e where ";
@@ -193,7 +186,6 @@ public abstract class AbstractReadDao<T>  {
             }
             hqlbuilder.append(" e.").append(key).append("= ?");
         }
-        System.out.println("abs-dao-jointHqlByIdsQuery------"+hql+hqlbuilder.toString());
         return hql + hqlbuilder.toString();
     }
 

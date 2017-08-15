@@ -65,7 +65,7 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
         Session session = sessionFactory.getCurrentSession();
         SQLQuery l = session.createSQLQuery("SELECT MAX(examinee_ID) FROM exam_examinee");
         if(l.list().get(0)==null){
-            return "1000000000";
+            return "1000000000"; //初始值返回
         }else{
             String id = (String) l.list().get(0);
             Integer idd = Integer.valueOf(id);
@@ -111,23 +111,5 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
         update(entity);
         return true;
     }
-
-
-//    public int newSql(String examintionId){
-//        int sum=0;
-//        String e="examination_ID";
-//        Session session = sessionFactory.getCurrentSession();
-//        StringBuilder builder = new StringBuilder();
-//        String sql = builder.append("SELECT * FROM exam_examination_paper WHERE ").append(e).append("= ?")
-//                .toString();
-//
-//        SQLQuery l = session.createSQLQuery(sql);
-////        l.setString(0,"examination_ID");
-//        l.setString(0,examintionId);
-//
-//            System.out.println(l.list().toString());
-//
-//        return sum;
-//    }
 
 }

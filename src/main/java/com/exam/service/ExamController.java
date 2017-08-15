@@ -78,7 +78,7 @@ public class ExamController {
             }else {
                 iterator=examPaperDao.findByexamRandom(examinationId,signalCount,multipleCount,judgementCountCount).iterator();
             }
-            //todo random
+
             while (iterator.hasNext()) {
                 ExamExaminationPaperEntity paper = iterator.next();
                 ExamQuestionEntity question = questionDao.findById(paper.getQuestionId());
@@ -124,7 +124,7 @@ public class ExamController {
 
             Iterator<ExamAnswerLogEntity> iterator = examAnswerLogEntitys.iterator();
             int grade = 0; //统计总分
-            //TODO 空值判断，错误值判断 验证
+
             //保存每小题分数
             while (iterator.hasNext()) {
                 ExamAnswerLogEntity temp = iterator.next();

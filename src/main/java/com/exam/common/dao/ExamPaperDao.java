@@ -121,7 +121,7 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
     }
 
     /**
-     * 某场考试当前绑定试题总分 TODO 参数化
+     * 某场考试当前绑定试题总分
      * @param examintionId
      * @return
      */
@@ -129,11 +129,10 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
         int sum=0;
         Session session = sessionFactory.getCurrentSession();
         StringBuilder builder = new StringBuilder();
-        String sql = builder.append("SELECT SUM(score) FROM exam_examination_paper WHERE examination_ID='")
-                .append(examintionId)
-                .append("' ")
+        String sql = builder.append("SELECT SUM(score) FROM exam_examination_paper WHERE examination_ID= ?")
                 .toString();
         SQLQuery l = session.createSQLQuery(sql);
+        l.setString(0,examintionId);
         if(l.list().get(0)!=null){
             sum= new Integer(l.list().get(0).toString());
         }

@@ -36,11 +36,13 @@ public class SysUserDao extends AbstractDao<SysUserEntity>{
     public String newUsersId() {
         Session session = sessionFactory.getCurrentSession();
         SQLQuery l = session.createSQLQuery("SELECT MAX(user_ID) FROM sys_user");
-        String id = (String) l.list().get(0);
-        Integer idd = Integer.valueOf(id);
-        String newid = String.valueOf(idd + 1);
-        return newid;
+        if(l.list().get(0)==null){
+            return "10000"; //初始值返回
+        }else{
+            String id = (String) l.list().get(0);
+            Integer idd = Integer.valueOf(id);
+            String newid = String.valueOf(idd + 1);
+            return newid;
+        }
     }
-
-
 }

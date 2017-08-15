@@ -70,6 +70,7 @@ function getinfo() {
                     else {
                         alert(result.message);
                     }
+                    location="/createexam";
                 }
             })
         }
