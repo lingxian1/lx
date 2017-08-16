@@ -189,15 +189,13 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
      */
     public List<QuestionClass> questionClass(){
         Session session = sessionFactory.getCurrentSession();
+        //分类统计 去除无效问题
         Query l = session.createSQLQuery(
-                "select question_classification qClassification,count(*) qNum from exam_question GROUP BY question_classification")
+                "select question_classification qClassification,count(*) qNum from exam_question WHERE isDEL='00' GROUP BY question_classification")
                 .setResultTransformer(Transformers.aliasToBean(QuestionClass.class));
         List<QuestionClass> list=l.list();
-        if(list==null||list.get(0)==null){
+        if(list==null||list.size()==0||list.get(0)==null){
             return null;
-        }
-        for(int i=0;i<list.size();i++){
-            System.out.println(list.get(i).getqClassification()+list.get(i).getqNum());
         }
         return list;
     }

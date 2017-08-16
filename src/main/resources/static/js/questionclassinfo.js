@@ -10,6 +10,9 @@ $(function(){
             if (result.status == 200) {
                 console.log(JSON.stringify(result));
                 grid_data = result.data;
+                if(grid_data==null){
+                    alert("试题为空");
+                }
                 createform();
             }
             else if (result.status == 10002) {
