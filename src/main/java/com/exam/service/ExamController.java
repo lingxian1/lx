@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.exam.common.ErrorCode.EXAM_ERROR;
 import static com.exam.common.ErrorCode.EXAM_FINISHED;
+import static com.exam.common.ErrorCode.EXAM_ID_ERROR;
 
 /**
  * Created by LX on 2017/7/24.
@@ -116,9 +117,15 @@ public class ExamController {
             String examinationId = examAnswerLogEntitys.get(0).getExaminationId();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             ExamExaminationEntity entity=examinationDao.findById(examinationId);
-            if(entity==null){
-                return Response.error();
+            ExamGradeEntity gradeEntity1 = gradeDao.findGrade(examineeId, examinationId);
+            if(entity==null||gradeEntity1==null){
+                return Response.error(EXAM_ID_ERROR);
             }
+            //检查考试是否完成
+            if (gradeEntity1 != null && gradeEntity1.getExaminationState().equals("00")) {
+                return Response.error(EXAM_FINISHED);
+            }
+
             Timestamp endtime = entity.getExaminationEnd();
             long ansTime=entity.getAnswerTime()*60*1000;
             //检测是否超时

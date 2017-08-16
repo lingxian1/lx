@@ -12,8 +12,9 @@ $(function(){
                 grid_data = result.data;
                 if(grid_data==null){
                     alert("试题为空");
+                }else{
+                    createform();
                 }
-                createform();
             }
             else if (result.status == 10002) {
                 alert(result.message);

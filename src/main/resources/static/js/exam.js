@@ -231,6 +231,7 @@ function saveAnswer() {
             console.log(result);
             if(result.status!=200){
                 alert(result.message);
+                location="/examinfo"
             }else{
                 console.log("上传成功");
                 localStorage.clear();//清空本地存储
