@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.exam.common.ErrorCode.EXAM_ERROR;
 import static com.exam.common.ErrorCode.EXAM_FINISHED;
 
 /**
@@ -108,6 +109,9 @@ public class ExamController {
         } else if (status.equals("ERROR")) {
             return Response.error(ErrorCode.USER_ERROR);
         } else {
+            if(examAnswerLogEntitys==null||examAnswerLogEntitys.size()==0){
+                return Response.error(EXAM_ERROR);
+            }
             String examineeId = examAnswerLogEntitys.get(0).getExamineeId();
             String examinationId = examAnswerLogEntitys.get(0).getExaminationId();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -128,7 +132,7 @@ public class ExamController {
             //保存每小题分数
             while (iterator.hasNext()) {
                 ExamAnswerLogEntity temp = iterator.next();
-                System.out.println("temp:" + temp.getExamineeAnswer());
+//                System.out.println("temp:" + temp.getExamineeAnswer());
                 ExamExaminationPaperEntity exam = examPaperDao.findScore(temp.getExaminationId(), temp.getQuestionId());
                 if (exam == null) {
                     System.out.println("a exam is null");
