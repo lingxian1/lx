@@ -47,7 +47,7 @@ jQuery(function($) {
             {name:'examinationId',index:'examinationId', width:60,editable: false,key:true},
             {name:'examinationName',index:'examinationName', width:100,editable: true,edittype: "textarea",editoptions:{maxlength:"255"}},
             {name:'answerTime',index:'answerTime', width:80,editable: true,editrules:{number:true}},
-            {name:'examinationType',index:'examinationType', width:90, editable:true,editoptions:{maxlength:"10"}},
+            {name:'examinationType',index:'examinationType', width:90, editable:true,edittype:"select",editoptions:{value:"正式考试:正式考试;模拟练习:模拟练习"}},
             {name:'questionCount',index:'questionCount', width:60, editable: true,editrules:{number:true}},
             {name:'examinationScoreAll',index:'questionCount', width:60, editable: true,editrules:{number:true}},
             {name:'examinationInfo',index:'examinationInfo', width:60, editable: true,edittype: "textarea",editoptions:{maxlength:"255"}},

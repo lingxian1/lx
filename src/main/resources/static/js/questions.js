@@ -4,7 +4,7 @@ var grid_selector = "#grid-table";
 var flag=0;
 function query(){
     var info = $("[name='info']").val();
-    $("#showclass").removeClass("displayno");
+    // $("#showclass").removeClass("displayno");
     console.log(info);
     $.ajax({
         type: "get",
