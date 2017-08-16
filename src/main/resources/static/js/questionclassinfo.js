@@ -4,7 +4,7 @@ var grid_selector = "#grid-table";
 $(function(){
     $.ajax({
         type: "get",
-        url: "/classification",
+        url: "/questionsManager/classification",
         data: {}, //发送登陆ID及Token
         success: function (result) {
             if (result.status == 200) {
@@ -22,10 +22,8 @@ $(function(){
     })
 });
 
-
+var pager_selector = "#grid-pager";
 function createform() {
-    console.log(flag);
-    var pager_selector = "#grid-pager";
         jQuery(grid_selector).jqGrid({
             //direction: "rtl",
             // url:$path_base+"test",
@@ -35,8 +33,8 @@ function createform() {
             height: 450,
             colNames: ['分类名称', '试题数量'],
             colModel: [
-                {name: 'classification', index: 'classification', width: 80, editable: false, key: true},
-                {name: 'number', index: 'number',width: 100,sortable: true,editable: false},
+                {name: 'qClassification', index: 'qClassification', width: 100, editable: false},
+                {name: 'qNum', index: 'qNum',width: 100,sortable: true,editable: false},
                 ],
             viewrecords: true,
             rowNum: 20,
@@ -58,23 +56,9 @@ function createform() {
             },
 
             editurl: $path_base,//nothing is saved
-            caption: "正确率统计",
+            caption: "分类",
             autowidth: true
         });
-}
-
-
-    //switch element when editing inline
-    function aceSwitch( cellvalue, options, cell ) {
-        setTimeout(function(){
-            $(cell) .find('input[type=checkbox]')
-                .wrap('<label class="inline" />')
-                .addClass('ace ace-switch ace-switch-5')
-                .after('<span class="lbl"></span>');
-        }, 0);
-    }
-
-
     //navButtons
     jQuery(grid_selector).jqGrid('navGrid',pager_selector,
         { 	//navbar options
@@ -156,7 +140,8 @@ function createform() {
                 var form = $(e[0]);
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
             }
-        }
-    )
+        })
+}
+
 
 

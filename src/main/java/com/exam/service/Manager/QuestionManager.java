@@ -72,10 +72,9 @@ public class QuestionManager {
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
-        }else {
-
-            return Response.ok();
         }
+        //TODO 分类
+        return Response.ok(questionDao.questionClass());
     }
     /**
      * 处理增删改请求
