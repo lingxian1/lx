@@ -20,12 +20,11 @@ import java.util.Map;
 
 import static com.exam.common.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
 
-
-@Transactional
 /**
  * 反射+参数化--主查找Dao
  * 禁止将输入用户参数作为字段名，字段名只能后台绑定
  */
+@Transactional
 public abstract class AbstractReadDao<T>  {
 
     protected Logger logger = LogManager.getLogger(this.getClass());

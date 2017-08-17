@@ -28,7 +28,7 @@ function msg_display(msgs) {
     //foreach
     $.each(msgs, function (i, message) {
         var messageBox =
-            "<div class='twitter-panel pn' style='margin: 20px'><i class='fa fa-pencil-square-o fa-4x'></i><p>"+message.examinationName+"</p>"+
+            "<div class='twitter-panel pn' style='margin: 20px'><i class='fa fa-pencil-square-o fa-4x'></i><p><strong>"+message.examinationId+":</strong>"+message.examinationName+"</p>"+
             "<p>"+"参与人数："+message.examineeCount+"</p>"+
             "<p><span>"+"有效时间："+getDateAndTime(message.examinationStart)+"——"+"</span>"+"<span>"+getDateAndTime(message.examinationEnd)+"</span></p>"+"</div>";
         contentRight.append(messageBox);
