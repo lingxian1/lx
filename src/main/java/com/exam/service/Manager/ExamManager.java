@@ -166,10 +166,10 @@ public class ExamManager {
                                @RequestParam(defaultValue = "") String id,
                                @RequestParam(defaultValue = "") String examinationId,
                                @RequestParam(defaultValue = "") String examinationName,
-                               @RequestParam(defaultValue = "") String answerTime,
+                               @RequestParam(defaultValue = "0") String answerTime,
                                @RequestParam(defaultValue = "") String examinationType,
-                               @RequestParam(defaultValue = "") String questionCount,
-                               @RequestParam(defaultValue = "") String examinationScoreAll,
+                               @RequestParam(defaultValue = "0") String questionCount,
+                               @RequestParam(defaultValue = "0") String examinationScoreAll,
                                @RequestParam(defaultValue = "") String examinationStart,
                                @RequestParam(defaultValue = "") String examinationEnd,
                                @RequestParam(defaultValue = "") String examinationInfo){
@@ -233,8 +233,8 @@ public class ExamManager {
         ExamExaminationEntity entity=new ExamExaminationEntity();
         entity.setExaminationId(examinationDao.getNewId());
         entity.setExaminationName(examinationName);
-        entity.setAnswerTime(new Integer(answerTime)*60);
         entity.setExaminationType(examinationType);
+        entity.setAnswerTime(new Integer(answerTime)*60);
         entity.setQuestionCount(new Integer(questionCount));
         entity.setExaminationScoreAll(new Integer(examinationScoreAll));
         entity.setExaminationStart(Timestamp.valueOf(examinationStart));

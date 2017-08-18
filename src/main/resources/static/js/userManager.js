@@ -41,7 +41,7 @@ jQuery(function($) {
             },
             {name:'examineeId',index:'examineeId', width:120,editable: false,key:true},
             {name:'name',index:'name', width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
-            {name:'phone',index:'phone', width:100,editable: true,editoptions:{size:"20",maxlength:"11"}},
+            {name:'phone',index:'phone', width:100,editable: true,editoptions:{size:"20",maxlength:"11"},editrules:{required:true}},
             {name:'areaId',index:'areaId', width:90, editable: true,edittype:"select",editoptions:{value:"00:市局;01:定海;02:普陀;03:岱山;04:六横;05:金塘;06:新城;07:嵊泗"}},
             {name:'sex',index:'sex', width:60, editable: true,edittype:"select",editoptions:{value:"男:男;女:女"}}
         ],

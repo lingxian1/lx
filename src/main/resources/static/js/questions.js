@@ -57,7 +57,8 @@ function createform() {
                     sortable: false,
                     editable: true,
                     edittype: "textarea",
-                    editoptions: {maxlength: "255"}
+                    editoptions: {maxlength: "255"},
+                    editrules:{ required:true}
                 },
                 {
                     name: 'questionType',
@@ -74,7 +75,8 @@ function createform() {
                     sortable: false,
                     editable: true,
                     edittype: "textarea",
-                    editoptions: {maxlength: "255"}
+                    editoptions: {maxlength: "255"},
+                    editrules:{ required:true}
                 },
                 {
                     name: 'questionChooseB',
@@ -108,7 +110,8 @@ function createform() {
                     index: 'questionAnswer',
                     width: 40,
                     editable: true,
-                    editoptions: {maxlength: "4"}
+                    editoptions: {maxlength: "4"},
+                    editrules:{ required:true}
                 },
                 {
                     name: 'questionClassification',
@@ -117,7 +120,8 @@ function createform() {
                     sortable: false,
                     editable: true,
                     edittype: "textarea",
-                    editoptions: {maxlength: "20"}
+                    editoptions: {maxlength: "20"},
+                    editrules:{ required:true}
                 }],
 
             viewrecords: true,

@@ -145,7 +145,7 @@ public class ExamController {
                     System.out.println("a exam is null");
                 } else {
                     int score = exam.getScore();
-                    String answer = questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer();
+                    String answer = questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer().toUpperCase();
                     int realScore = 0;
                     if (answer.equals(temp.getExamineeAnswer())) {
                         realScore = score;
