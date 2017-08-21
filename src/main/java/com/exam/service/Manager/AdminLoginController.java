@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import static com.exam.common.ErrorCode.DATA_ERROR;
 import static com.exam.common.ErrorCode.PHONE_OR_PASSWORD_ERROR;
 import static com.exam.common.ErrorCode.USER_EMPTY;
 
@@ -40,6 +41,9 @@ public class AdminLoginController {
                                 @RequestParam String userPassword) {
         logger.info(userId);
         logger.info(userPassword);
+        if(userId.length()>15||userPassword.length()>32){
+            return Response.error(DATA_ERROR);
+        }
         SysUserEntity user=sysUserDao.findByStr("userId",userId);
         if(user==null){
             return Response.error(USER_EMPTY);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.exam.common.ErrorCode.DATA_ERROR;
 import static com.exam.common.ErrorCode.PHONE_OR_PASSWORD_ERROR;
 import static com.exam.common.ErrorCode.USER_EMPTY;
 
@@ -40,6 +41,9 @@ public class SigninController {
             @RequestParam String password){
         logger.info(phone);
         logger.info(password);
+        if(phone.length()>15||password.length()>32){
+            return Response.error(DATA_ERROR);
+        }
         ExamExamineeEntity examExamineeEntity=examineeDao.findByStr("phone",phone);
         if(examExamineeEntity==null){
             return Response.error(USER_EMPTY);
