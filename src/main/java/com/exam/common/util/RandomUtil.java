@@ -20,7 +20,7 @@ public class RandomUtil {
         List<Integer> a = new ArrayList();
         int index = 0;
         //防止死循环
-        if(num>y-x){
+        if(num>y-x||num<0){
             return new ArrayList<>();
         }
         while(index < num) {

@@ -130,8 +130,14 @@ jQuery(function($) {
                 style_edit_form(form);
             },
             afterComplete:function (data,postdata) {
-                alert(data.responseText);
-                location.reload(true);
+                // alert(data.responseText);
+                console.log(data);
+                if(data.status!=200){
+                    alert(data.status);
+                }
+                ShowMsg(data.responseText);
+                setTimeout(reload1,500);
+                // location.reload(true);
             }
         },
         {
@@ -177,3 +183,7 @@ jQuery(function($) {
         }
     )
 });
+
+function reload1() {
+    location.reload(true)
+}

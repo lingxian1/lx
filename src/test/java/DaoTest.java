@@ -1,6 +1,6 @@
 import com.exam.Application;
 import com.exam.common.dao.*;
-import com.exam.common.entity.ExamExaminationPaperEntity;
+import com.exam.common.util.RandomUtil;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
 import com.exam.service.GradeController;
@@ -138,14 +138,45 @@ public class DaoTest{
 //        }
 //        Integer d=null;
 //        System.out.println(d);
-       List<ExamExaminationPaperEntity> list= examPaperDao.findByexamRandom("2017081002",3,1,0);
-       for(ExamExaminationPaperEntity entity:list){
-           System.out.println(entity.getExaminationId()+"  "+entity.getQuestionId()+"---"+entity.getScore());
-       }
-//        List<Integer> list=RandomUtil.getRandom(0,2,1);
-//        for(Integer i:list){
-//            System.out.println(i);
-//        }
+//       List<ExamExaminationPaperEntity> list= examPaperDao.findByexamRandom("2017081002",3,1,0);
+//       for(ExamExaminationPaperEntity entity:list){
+//           System.out.println(entity.getExaminationId()+"  "+entity.getQuestionId()+"---"+entity.getScore());
+//       }
+        for(int j=0;j<10;j++){
+            List<Integer> list= RandomUtil.getRandom(0,2,1);
+            for(Integer i:list){
+                System.out.println(i);
+            }
+        }
+
+        for(int j=0;j<10;j++){
+            List<Integer> list= RandomUtil.getRandom(1,2,1);
+            for(Integer i:list){
+                System.out.println(i);
+            }
+        }
+
+        for(int j=0;j<10;j++){
+            List<Integer> list= RandomUtil.getRandom(0,3,2);
+            for(Integer i:list){
+                System.out.println(i);
+            }
+        }
+
+        for(int j=0;j<10;j++){
+            List<Integer> list= RandomUtil.getRandom(1,7,2);
+            for(Integer i:list){
+                System.out.println(i);
+            }
+        }
+        List<Integer> list= RandomUtil.getRandom(1,1,-1);
+        for(Integer i:list){
+            System.out.println(i);
+        }
+        List<Integer> list2= RandomUtil.getRandom(1,1,0);
+        for(Integer i:list2){
+            System.out.println(i);
+        }
     }
     @Test
     public void test15(){

@@ -215,7 +215,11 @@ function createform() {
                 style_edit_form(form);
             },
             afterComplete:function (data,postdata) {
-                alert(data.responseText);
+                // alert(data.responseText);
+                if(data.status!=200){
+                    alert(data.status);
+                }
+                ShowMsg(data.responseText);
                 // location.reload(true);
             }
         },
