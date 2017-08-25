@@ -30,14 +30,12 @@ public class QuestionManager {
      * 试题分类获取
      * @param userId
      * @param token
-     * @param str 字段名
      * @param info
      * @return
      */
     @GetMapping
     public Response getUser(@RequestParam(defaultValue = "") String userId,
                             @RequestParam(defaultValue = "")String token,
-                            @RequestParam(defaultValue = "")String str,
                             @RequestParam(defaultValue = "")String info){
 //        logger.info(userId);
 //        logger.info(token);
@@ -76,7 +74,6 @@ public class QuestionManager {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }
-        //TODO 分类
         return Response.ok(questionDao.questionClass());
     }
     /**
