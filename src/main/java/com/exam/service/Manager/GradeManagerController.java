@@ -55,7 +55,7 @@ public class GradeManagerController {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-            if("".equals(examinationId)){
+            if("".equals(examinationId)||examinationId.length()>10){
                 return Response.error(ErrorCode.EXAM_ID_ERROR);
             }
             List<AllGrade> list =new ArrayList<>();
@@ -110,6 +110,9 @@ public class GradeManagerController {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
+            if("".equals(examinationId)||examinationId.length()>10){
+                return Response.error(ErrorCode.EXAM_ID_ERROR);
+            }
             List<ExamAreaEntity> areaIds=areaDao.findAll();
             if(areaIds==null){
                 return Response.error();

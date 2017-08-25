@@ -39,10 +39,10 @@ public class QuestionManager {
                             @RequestParam(defaultValue = "")String token,
                             @RequestParam(defaultValue = "")String str,
                             @RequestParam(defaultValue = "")String info){
-        logger.info(userId);
-        logger.info(token);
-        logger.info(str);
-        logger.info(info);
+//        logger.info(userId);
+//        logger.info(token);
+//        logger.info(str);
+//        logger.info(info);
         Token token1=new Token(userId,token);
         String status=new EasyToken().checkToken(token1);
         if(status.equals("TIMEOUT")){
@@ -50,7 +50,10 @@ public class QuestionManager {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
-             List<ExamQuestionEntity> entities= questionDao.findQuestionClass(str,info);
+            if(info.length()>20){
+                return Response.error(ErrorCode.QUESTION_TYPE_LENGTH_ERROR);
+            }
+             List<ExamQuestionEntity> entities= questionDao.findQuestionClass("questionClassification",info);
              if(entities==null){
                  return Response.ok("该类型不存在");
              }

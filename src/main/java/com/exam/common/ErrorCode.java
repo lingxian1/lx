@@ -28,6 +28,7 @@ public enum ErrorCode {
     QUESTION_TYPE_ERROR(10013, "该试题分类试题数量为空"),
     QUESTION_CLASS_ERROR(10014, "分类上限错误"),
     EXAM_ERROR(10015, "考试无效"),
+    QUESTION_TYPE_LENGTH_ERROR(10016, "分类长度错误不能大于20"),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYS_NULL_OBJECT(3, "为空的对象"),
     SYS_LOGIN_TIMEOUT(4, "登陆过期"),

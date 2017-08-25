@@ -42,6 +42,9 @@ public class ErrorQuestionController {
         }else if(status.equals("ERROR")){
             return Response.error(ErrorCode.USER_ERROR);
         }else {
+            if("".equals(examinationId)||examinationId.length()>10){
+                return Response.error(ErrorCode.EXAM_ID_ERROR);
+            }
             /**
              * 根据考试Id获取试题列表，遍历试题列表，
              * 根据考试号试题号获取所有考生该考试该试题答题情况，遍历并统计

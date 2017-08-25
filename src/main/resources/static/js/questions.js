@@ -9,15 +9,16 @@ function query(){
     $.ajax({
         type: "get",
         url: "/questionsManager",             //向springboot请求数据的url
-        data: {"userId":getCookie("userId"),"token":getCookie("token"),"str":"questionClassification","info":info}, //发送登陆ID及Token
+        data: {"userId":getCookie("userId"),"token":getCookie("token"),"info":info}, //发送登陆ID及Token
         // async:false,
         success: function (result) {
             if(result.status==200){
                 console.log(JSON.stringify(result));
                 grid_data=result.data;
                 createform();
-            }
-            else{
+            }else if(result.status==10016){
+                alert(result.message);
+            }else{
                 alert(result.message);
                 //TODO 跳转
                 location="/";
