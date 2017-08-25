@@ -48,7 +48,7 @@ function createform() {
                 {name: 'name', index: 'name',width: 100,sortable: true,editable: true},
                 {name: 'phone',index: 'phone', width: 100, editable: true},
                 {name: 'areaName', index: 'areaName', width: 100, sortable: true,editable: true},
-                {name: 'grade', index: 'grade', width: 100, sortable: true, editable: true,},
+                {name: 'grade', index: 'grade', width: 100, sortable: true, editable: true},
                 {name:'examinationTime',index:'examinationTime', width:150, editable: false,
                     formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},
                     unformat: pickDate}],

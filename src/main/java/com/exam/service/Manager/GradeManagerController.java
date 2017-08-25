@@ -12,6 +12,7 @@ import com.exam.common.entity.ExamExamineeEntity;
 import com.exam.common.entity.ExamGradeEntity;
 import com.exam.common.other.AllGrade;
 import com.exam.common.other.GradeArea;
+import com.exam.common.util.Sortutil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class GradeManagerController {
             }
             List<AllGrade> list =new ArrayList<>();
             List<ExamGradeEntity> entities=gradeDao.findGradeForExam(examinationId);
+            Sortutil.sorts(entities,"grade");//排序
             Iterator<ExamGradeEntity> iterator =entities.iterator();
             while (iterator.hasNext()){
                 ExamGradeEntity examGradeEntity=iterator.next();
