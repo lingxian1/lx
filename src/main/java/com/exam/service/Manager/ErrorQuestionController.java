@@ -8,13 +8,16 @@ import com.exam.common.dao.AnswerLogDao;
 import com.exam.common.dao.ExamPaperDao;
 import com.exam.common.entity.ExamAnswerLogEntity;
 import com.exam.common.entity.ExamExaminationPaperEntity;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparableComparator;
+import org.apache.commons.collections4.ComparatorUtils;
+import org.apache.commons.collections4.comparators.ComparatorChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LX on 2017/8/8.
@@ -71,6 +74,16 @@ public class ErrorQuestionController {
                     iterator.remove();
                 }
             }
+            //升序
+            Comparator mycmp2 = ComparableComparator.getInstance();
+            mycmp2 = ComparatorUtils.nullHighComparator(mycmp2); //允许null
+            // 声明要排序的对象的属性，并指明所使用的排序规则，如果不指明，则用默认排序
+            ArrayList<Object> sortFields = new ArrayList<Object>();
+            sortFields.add(new BeanComparator("accuracy", mycmp2));
+            // 创建一个排序链
+            ComparatorChain multiSort = new ComparatorChain(sortFields);
+            // 开始真正的排序，按照先主，后副的规则
+            Collections.sort(entities, multiSort);
             return Response.ok(entities);
         }
     }

@@ -12,15 +12,16 @@ import com.exam.common.entity.ExamExamineeEntity;
 import com.exam.common.entity.ExamGradeEntity;
 import com.exam.common.other.AllGrade;
 import com.exam.common.other.GradeArea;
-import com.exam.common.util.Sortutil;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparableComparator;
+import org.apache.commons.collections4.ComparatorUtils;
+import org.apache.commons.collections4.comparators.ComparatorChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LX on 2017/8/4.
@@ -59,7 +60,21 @@ public class GradeManagerController {
             }
             List<AllGrade> list =new ArrayList<>();
             List<ExamGradeEntity> entities=gradeDao.findGradeForExam(examinationId);
-            Sortutil.sorts(entities,"grade");//排序
+            //对成绩进行排序
+            Comparator mycmp1 = ComparableComparator.getInstance();
+            mycmp1 = ComparatorUtils.reversedComparator(mycmp1);//降序
+            Comparator mycmp2 = ComparableComparator.getInstance();
+            mycmp2 = ComparatorUtils.nullHighComparator(mycmp2); //允许null
+            // 声明要排序的对象的属性，并指明所使用的排序规则，如果不指明，则用默认排序
+            ArrayList<Object> sortFields = new ArrayList<Object>();
+            sortFields.add(new BeanComparator("grade", mycmp1));
+            sortFields.add(new BeanComparator("grade", mycmp2));
+            // 创建一个排序链
+            ComparatorChain multiSort = new ComparatorChain(sortFields);
+            // 开始真正的排序，按照先主，后副的规则
+            Collections.sort(entities, multiSort);
+
+            //组装
             Iterator<ExamGradeEntity> iterator =entities.iterator();
             while (iterator.hasNext()){
                 ExamGradeEntity examGradeEntity=iterator.next();

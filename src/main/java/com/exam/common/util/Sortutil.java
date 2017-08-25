@@ -11,7 +11,11 @@ import java.util.List;
 //对list中的对象的成员变量进行排序
 public class Sortutil {
     static int i=-1;  //顺序 1升序 -1降序
-    public static void sorts(List<?> list, String s) {
+    public static void sorts(List<?> list, String s,int order) {
+        if(list==null){
+            return;
+        }
+        i=order;
         try {
             Class class1 = list.get(0).getClass(); // 获取一个非空list中 对象的类型信息
             String type = class1.getDeclaredField(s).getType().toString(); // 根据成员变量名获取变量类型
