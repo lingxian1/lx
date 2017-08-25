@@ -19,8 +19,8 @@ $(function(){
         // async:false,
         success: function (result) {
             if(result.status==200){
-                console.log(result);
-                console.log(JSON.stringify(result));
+                // console.log(result);
+                // console.log(JSON.stringify(result));
                 $('#count').html("试题总数："+result.data.count);
                 $('#questionCountAll').html("总分："+result.data.score);
 
@@ -99,7 +99,7 @@ function findinfo() {
                     $('#questionjnum').html(j);
                 }
                 else{
-                    console.log(JSON.stringify(result));
+                    // console.log(JSON.stringify(result));
                     alert(result.message);
                 }
             }
@@ -109,7 +109,7 @@ function findinfo() {
 
 function checkRate(num) {
     var nubmer=num;
-    console.log(num);
+    // console.log(num);
     if (num==""||isNaN(nubmer) || nubmer < 0 || !(/^\d+$/.test(nubmer))&&num!="") {
         return false;
     }

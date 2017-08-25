@@ -13,7 +13,7 @@ function query(){
         // async:false,
         success: function (result) {
             if(result.status==200){
-                console.log(JSON.stringify(result));
+                // console.log(JSON.stringify(result));
                 grid_data=result.data;
                 createform();
             }else if(result.status==10016){
