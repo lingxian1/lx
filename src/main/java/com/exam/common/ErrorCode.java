@@ -18,7 +18,7 @@ public enum ErrorCode {
     USER_EMPTY(10003, "用户不存在"),
     EXAM_FINISHED(10004, "考试已完成"),
     DATA_ERROR(10005, "数据字段格式或长度错误"),
-    EXAM_ID_ERROR(10006, "考试Id错误"),
+    EXAM_ID_ERROR(10006, "考试Id错误或没有考试信息"),
     EXAM_PUBLISH_ERROR(10007, "考试已发布"),
     EXAM_PUBLISH_SCORE_ERROR(10008, "server：考试分值或题目数量不一致"),
     EXAM_SUBMIT_ERROR(10009, "提交失败"),

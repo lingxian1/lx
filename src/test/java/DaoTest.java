@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -181,6 +182,14 @@ public class DaoTest{
     @Test
     public void test15(){
         questionDao.questionClass();
+    }
+
+    @Test
+    public void test16() {
+        Timestamp nowtime=new Timestamp(System.currentTimeMillis());
+
+        System.out.println(nowtime.getTime());
+
     }
 }
 
