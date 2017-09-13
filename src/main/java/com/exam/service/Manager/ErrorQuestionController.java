@@ -69,6 +69,9 @@ public class ErrorQuestionController {
                     }
                 }
             }
+            /*
+            移除大于1的未使用试题
+             */
             List<ExamExaminationPaperEntity> entities= examPaperDao.findBy("examinationId",examinationId,false);
             Iterator<ExamExaminationPaperEntity> iterator=entities.iterator();
             while (iterator.hasNext()){
