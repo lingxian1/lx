@@ -118,8 +118,8 @@ function after() {
     createAnswer(answerStr);
     questionIndex++;
     if(questionIndex>=questionCount){
+        console.log(questionIndex);
         submitAnswer();
-        console.log("done");
     }else {
         if(questionIndex==questionCount-1){
             $("#after").html("提交");
@@ -128,12 +128,39 @@ function after() {
         setAnswer(questionIndex);
         setQuestion();
         setSelects();
+        setStates();
     }
 }
 
-//todo 上一题
+//上一题
 function before() {
-
+    createAnswer(answerStr);
+    $("#after").html("下一题");
+    questionIndex--;
+    if(questionIndex>=0){
+        initAnswer();
+        setAnswer(questionIndex);
+        setQuestion();
+        setSelects();
+        setStates();
+    }else{
+        questionIndex=0;
+    }
+}
+//设置选中效果
+function setStates() {
+    var a=localStorage.getItem(questionID);
+    console.log(a);
+    if(a){
+        answerStr=a;
+        for(var i=0;i<a.toString().length;i++){
+            var temp=a.toString().substring(i,i+1);
+            $('#OK_'+temp).removeClass('hide');
+            if(questionType == "multiple"){
+                count[temp.charCodeAt()-65]=1;
+            }
+        }
+    }
 }
 
 //设置问题及其类型
@@ -201,6 +228,8 @@ function submitAnswer() {
     if (confirm(msg)==true){
         saveAnswer();
     }else{
+        questionIndex--;
+        console.log(questionIndex);
         return false;
     }
 }
@@ -230,6 +259,7 @@ function saveAnswer() {
         success: function (result) {
             console.log(result);
             if(result.status!=200){
+                console.log("done");
                 alert(result.message);
                 location="/examinfo"
             }else{
