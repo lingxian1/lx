@@ -135,7 +135,7 @@ function after() {
 //上一题
 function before() {
     createAnswer(answerStr);
-    $("#after").html("下一题");
+    $("#after").html("<span class='glyphicon glyphicon-chevron-down'></span>下一题");
     questionIndex--;
     if(questionIndex>=0){
         initAnswer();
