@@ -61,6 +61,7 @@ public class ExamManager {
                     entity.setIsDel("否");
                 }
             }
+
             return Response.ok(entities);
         }
     }

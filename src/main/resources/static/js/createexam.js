@@ -55,7 +55,9 @@ jQuery(function($) {
             {name:'examinationEnd',index:'examinationEnd', width:60, editable: true, formatter:"date",formatoptions: {language:'zh-CN',srcformat:'u',newformat:'Y-m-d H:i:s'},unformat: pickDate},
             {name:'isDel',index:'isDel', width:70, editable: false,edittype:"checkbox",editoptions: {value:"00:01"},unformat: aceSwitch}
         ],
-
+        sortable:true,
+        sortname:'examinationId',
+        sortorder:"DESC",
         viewrecords : true,
         rowNum:10,
         rowList:[10,20,30],

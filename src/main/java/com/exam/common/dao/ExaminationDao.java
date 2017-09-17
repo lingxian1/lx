@@ -1,15 +1,17 @@
 package com.exam.common.dao;
 
 import com.exam.common.entity.ExamExaminationEntity;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparableComparator;
+import org.apache.commons.collections4.ComparatorUtils;
+import org.apache.commons.collections4.comparators.ComparatorChain;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static com.exam.common.constant.Constant.ONE_DAY;
 
@@ -57,12 +59,24 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         Iterator<ExamExaminationEntity> iterator= exam.iterator();
         while (iterator.hasNext()){
             ExamExaminationEntity temp=iterator.next();
-            //判断是否发布且在3个月内
-            if(d.getTime()-ONE_DAY*90>temp.getExaminationStart().getTime()||
+            //判断是否发布且在1个月内
+            if(d.getTime()-ONE_DAY*30>temp.getExaminationEnd().getTime()||
                     temp.getIsDel().equals("01")){
                 iterator.remove();
             }
         }
+        //升序
+        Comparator mycmp2 = ComparableComparator.getInstance();
+        mycmp2 = ComparatorUtils.nullHighComparator(mycmp2); //允许null
+        mycmp2=ComparatorUtils.reversedComparator(mycmp2);//逆序
+        // 声明要排序的对象的属性，并指明所使用的排序规则，如果不指明，则用默认排序
+        ArrayList<Object> sortFields = new ArrayList<Object>();
+        //结束时间降序
+        sortFields.add(new BeanComparator("examinationEnd", mycmp2));
+        // 创建一个排序链
+        ComparatorChain multiSort = new ComparatorChain(sortFields);
+        // 开始真正的排序，按照先主，后副的规则
+        Collections.sort(exam, multiSort);
         return exam;
     }
 
