@@ -140,20 +140,22 @@ public class ExamController {
             while (iterator.hasNext()) {
                 ExamAnswerLogEntity temp = iterator.next();
 //                System.out.println("temp:" + temp.getExamineeAnswer());
-                ExamExaminationPaperEntity exam = examPaperDao.findScore(temp.getExaminationId(), temp.getQuestionId());
-                if (exam == null) {
-                    System.out.println("a exam is null");
-                } else {
-                    int score = exam.getScore();
-                    String answer = questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer().toUpperCase();
-                    int realScore = 0;
-                    if (answer.equals(temp.getExamineeAnswer())) {
-                        realScore = score;
+                if(temp.getExaminationId()!=null&&temp.getQuestionId()!=null){
+                    ExamExaminationPaperEntity exam = examPaperDao.findScore(temp.getExaminationId(), temp.getQuestionId());
+                    if (exam == null) {
+                        System.out.println("a exam is null");
+                    } else {
+                        int score = exam.getScore();
+                        String answer = questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer().toUpperCase();
+                        int realScore = 0;
+                        if (answer.equals(temp.getExamineeAnswer())) {
+                            realScore = score;
+                        }
+                        grade += realScore;
+                        temp.setScoreReal(realScore);
+                        temp.setSubmitTime(timestamp);
+                        answerLogDao.save(temp);
                     }
-                    grade += realScore;
-                    temp.setScoreReal(realScore);
-                    temp.setSubmitTime(timestamp);
-                    answerLogDao.save(temp);
                 }
             }
             //设置成绩状态及时间

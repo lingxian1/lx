@@ -247,7 +247,7 @@ function ansToJson() {
         i++;
     }
     var json_sorted = JSON.stringify(jsons);
-    console.log(json_sorted);
+    // console.log(json_sorted);
     return json_sorted;
 }
 //上传答案

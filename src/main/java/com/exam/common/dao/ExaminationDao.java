@@ -65,7 +65,6 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
                 iterator.remove();
             }
         }
-        //升序
         Comparator mycmp2 = ComparableComparator.getInstance();
         mycmp2 = ComparatorUtils.nullHighComparator(mycmp2); //允许null
         mycmp2=ComparatorUtils.reversedComparator(mycmp2);//逆序

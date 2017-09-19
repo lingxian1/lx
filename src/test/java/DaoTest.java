@@ -191,6 +191,13 @@ public class DaoTest{
         System.out.println(nowtime.getTime());
 
     }
+
+    @Test
+    public void test17() {
+        examPaperDao.findScore("444","555");
+        System.out.println("55");
+
+    }
 }
 
 
