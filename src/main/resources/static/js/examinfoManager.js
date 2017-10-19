@@ -10,7 +10,7 @@ $(function(){
                 msg_display(data.data);
             }
             else{
-                alert(result.message);
+                alert("身份认证失败");
                 //TODO 跳转
                 location="/";
             }

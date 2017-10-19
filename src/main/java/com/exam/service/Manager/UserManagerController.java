@@ -1,7 +1,5 @@
 package com.exam.service.Manager;
 
-import com.exam.common.EasyToken.EasyToken;
-import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
 import com.exam.common.dao.ExamineeDao;
@@ -32,39 +30,28 @@ public class UserManagerController {
 
     /**
      * 返回所有考生信息 考生信息管理
-     * @param userId
-     * @param token
+     *
      * @return
      */
     @GetMapping
-    public Response getUser(@RequestParam(defaultValue = "") String userId,
-                            @RequestParam(defaultValue = "")String token){
-        logger.info(userId);
-        logger.info(token);
-        Token token1=new Token(userId,token);
-        String status=new EasyToken().checkToken(token1);
-        if(status.equals("TIMEOUT")){
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        }else if(status.equals("ERROR")){
-            return Response.error(ErrorCode.USER_ERROR);
-        }else {
-            List<ExamExamineeEntity> examExaminationEntities=examineeDao.findAllMessage();
-            Iterator<ExamExamineeEntity> iterator=examExaminationEntities.iterator();
-            while(iterator.hasNext()){
-                ExamExamineeEntity examExamineeEntity=iterator.next();
-                examExamineeEntity.setPassword("");
-                if(examExamineeEntity.getIdentity().equals("2")){
-                    iterator.remove();
-                }
+    public Response getUser() {
+
+        List<ExamExamineeEntity> examExaminationEntities = examineeDao.findAllMessage();
+        Iterator<ExamExamineeEntity> iterator = examExaminationEntities.iterator();
+        while (iterator.hasNext()) {
+            ExamExamineeEntity examExamineeEntity = iterator.next();
+            examExamineeEntity.setPassword("");
+            if (examExamineeEntity.getIdentity().equals("2")) {
+                iterator.remove();
             }
-            return Response.ok(examExaminationEntities);
         }
+        return Response.ok(examExaminationEntities);
     }
+
 
     /**
      * 编辑信息 考生信息管理
-     * @param token
-     * @param uid
+     *
      * @param oper
      * @param id
      * @param examineeId
@@ -76,44 +63,38 @@ public class UserManagerController {
      */
     @PostMapping("/handle")
     public Response login(
-            @CookieValue(value = "token", defaultValue = "") String token,
-            @CookieValue(value = "userId", defaultValue = "") String uid,
             @RequestParam(defaultValue = "") String oper,
             @RequestParam(defaultValue = "") String id,
             @RequestParam(defaultValue = "") String examineeId,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String phone,
             @RequestParam(defaultValue = "") String areaId,
-            @RequestParam(defaultValue = "") String sex){
-        String status=new EasyToken().checkToken(new Token(uid,token));
-        if(status.equals("TIMEOUT")){
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        }else if(status.equals("ERROR")){
-            return Response.error(ErrorCode.USER_ERROR);
-        }else {
-            boolean state = false;
-            switch (oper) {
-                case "add":
-                    state = addUser(name, phone, areaId, sex);
-                    break;
-                case "del":
-                    state = delUser(id);
-                    break;
-                case "edit":
-                    state = editUser(examineeId, name, phone, areaId, sex);
-                    break;
-                default:
-            }
-            if (state) {
-                return Response.ok("操作成功");
-            } else {
-                return Response.error(ErrorCode.EXAM_PHONE_ERROR);
-            }
+            @RequestParam(defaultValue = "") String sex) {
+
+        boolean state = false;
+        switch (oper) {
+            case "add":
+                state = addUser(name, phone, areaId, sex);
+                break;
+            case "del":
+                state = delUser(id);
+                break;
+            case "edit":
+                state = editUser(examineeId, name, phone, areaId, sex);
+                break;
+            default:
+        }
+        if (state) {
+            return Response.ok("操作成功");
+        } else {
+            return Response.error(ErrorCode.EXAM_PHONE_ERROR);
         }
     }
 
+
     /**
      * 更新用户
+     *
      * @param examineeId
      * @param name
      * @param phone
@@ -121,11 +102,11 @@ public class UserManagerController {
      * @param sex
      * @return
      */
-    private boolean editUser(String examineeId,String name,String phone,String areaId,String sex) {
-        if("".equals(phone)||phone.length()>11||"".equals(name)){
+    private boolean editUser(String examineeId, String name, String phone, String areaId, String sex) {
+        if ("".equals(phone) || phone.length() > 11 || "".equals(name)) {
             return false;
         }
-        if(!examineeDao.updateById(examineeId,name,phone,areaId,sex)){
+        if (!examineeDao.updateById(examineeId, name, phone, areaId, sex)) {
             return false;
         }
         return true;
@@ -133,12 +114,13 @@ public class UserManagerController {
 
     /**
      * 删除用户
+     *
      * @param id
      * @return
      */
     private boolean delUser(String id) {
-        ExamExamineeEntity examineeEntity=examineeDao.findById(id);
-        if(examineeEntity==null){
+        ExamExamineeEntity examineeEntity = examineeDao.findById(id);
+        if (examineeEntity == null) {
             return false;
         }
         examineeEntity.setIdentity("2");
@@ -149,20 +131,21 @@ public class UserManagerController {
 
     /**
      * 添加用户
+     *
      * @param name
      * @param phone
      * @param areaId
      * @param sex
      * @return
      */
-    private boolean addUser(String name,String phone,String areaId,String sex) {
-        if("".equals(phone)||phone.length()>11||"".equals(name)){
+    private boolean addUser(String name, String phone, String areaId, String sex) {
+        if ("".equals(phone) || phone.length() > 11 || "".equals(name)) {
             return false;
         }
-        if(!examineeDao.checkPhone(phone)){
+        if (!examineeDao.checkPhone(phone)) {
             return false;
         }
-        ExamExamineeEntity examinee=new ExamExamineeEntity();
+        ExamExamineeEntity examinee = new ExamExamineeEntity();
         examinee.setExamineeId(examineeDao.newUsersId());
         examinee.setName(name);
         examinee.setPassword("123456");

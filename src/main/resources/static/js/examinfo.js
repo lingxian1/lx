@@ -2,7 +2,7 @@ $(function(){
     $.ajax({
         type: "get",
         url: "/examinfo1",
-        data: {"examineeId":getCookie("examineeIdU")},
+        data: {"examineeId":getCookie("userId")},
         success: function (result) {
             if(result.status==200){
                 var data=result;

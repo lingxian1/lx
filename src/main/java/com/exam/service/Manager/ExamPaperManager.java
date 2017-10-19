@@ -143,148 +143,121 @@ public class ExamPaperManager {
      * 设置绑定随机试题并发布
      * return 不会触发事务回滚
      *
-     * @param token
-     * @param uid
      * @param examinationId
      * @return
      */
     @PostMapping("/randomQuestion")
     @Transactional(rollbackFor = Exception.class)
-    public Response randomQuestion(@CookieValue(value = "token", defaultValue = "") String token,
-                                   @CookieValue(value = "userId", defaultValue = "") String uid,
-                                   @RequestParam(defaultValue = "") String examinationId,
-                                   @RequestParam(defaultValue = "") String questions,
-                                   @RequestParam(defaultValue = "") String questionm,
-                                   @RequestParam(defaultValue = "") String questionj,
-                                   @RequestParam(defaultValue = "") String types,
-                                   @RequestParam(defaultValue = "") String typem,
-                                   @RequestParam(defaultValue = "") String typej,
-                                   @RequestParam(defaultValue = "") String questionClass) {
+    public Response randomQuestion(
+            @RequestParam(defaultValue = "") String examinationId,
+            @RequestParam(defaultValue = "") String questions,
+            @RequestParam(defaultValue = "") String questionm,
+            @RequestParam(defaultValue = "") String questionj,
+            @RequestParam(defaultValue = "") String types,
+            @RequestParam(defaultValue = "") String typem,
+            @RequestParam(defaultValue = "") String typej,
+            @RequestParam(defaultValue = "") String questionClass) {
         logger.info(examinationId);
         logger.info(questions + " " + questionm + " " + questionj);
         logger.info(types + " " + typem + " " + typej);
         logger.info(questionClass);
         //type 分值 questions/m/j 成分
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
-        } else {
-            if ("".equals(examinationId) || "".equals(questionClass)) {
-                return Response.error();
-            }
-            Integer qs = new Integer(questions); //单选数量
-            Integer qm = new Integer(questionm);//多选数量
-            Integer qj = new Integer(questionj);//判断数量
-            Integer ss = new Integer(types);//单选分数
-            Integer sm = new Integer(typem);//多选分数
-            Integer sj = new Integer(typej);//判断分数
-            Integer count = qs + qj + qm;//总数量
-            Integer scoreAll = ss * qs + sm * qm + qj * sj;//总分数
-            //0.类型上限检测
-            QuestionType questionType = types(questionClass);
-            if (questionType == null) {
-                return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
-            }
-            if (qs > questionType.getQuestionSignal() || qm > questionType.getQuestionMultiple() ||
-                    qj > questionType.getQuestionJudgement()) {
-                return Response.error(ErrorCode.QUESTION_CLASS_ERROR);
-            }
-            //1.设置成分
-            ExamExaminationEntity examinationEntity = examinationDao.findById(examinationId);
-            Assert.isFalse(examinationEntity == null || examinationEntity.getIsDel().equals("00"), ErrorCode.EXAM_ID_ERROR);
-            Assert.isFalse((!examinationEntity.getQuestionCount().equals(count)) ||
-                    (!examinationEntity.getExaminationScoreAll().equals(scoreAll)), ErrorCode.EXAM_PUBLISH_SCORE_ERROR);
-            examinationEntity.setSignalCount(qs);
-            examinationEntity.setMultipleCount(qm);
-            examinationEntity.setJudgementCount(qj);
-            examinationEntity.setIsDel("00"); //发布考试
-            examinationDao.update(examinationEntity);
-            //2.清空历史绑定--paper表
-            examPaperDao.deleteAllQuestion(examinationId);
-            //3.绑定分类--paper表
-            List<ExamQuestionEntity> questionAll = questionDao.findQuestionClass("questionClassification", questionClass);
-            Iterator<ExamQuestionEntity> iterator = questionAll.iterator();
-            while (iterator.hasNext()) {
-                ExamQuestionEntity Qentity = iterator.next();
-                String qId = Qentity.getQuestionId();
-                String qClass = Qentity.getQuestionType();
-                int score = 0;
-                if (qClass.equals("signal")) {
-                    score = ss;
-                } else if (qClass.equals("multiple")) {
-                    score = sm;
-                } else if (qClass.equals("judgement")) {
-                    score = sj;
-                }
-                ExamExaminationPaperEntity paperEntity = new ExamExaminationPaperEntity();
-                paperEntity.setExaminationId(examinationId);
-                paperEntity.setQuestionId(qId);
-                paperEntity.setScore(score);
-                paperEntity.setAccuracy(2.0);
-                examPaperDao.save(paperEntity);
-            }
-            return Response.ok("操作成功");
+
+        if ("".equals(examinationId) || "".equals(questionClass)) {
+            return Response.error();
         }
+        Integer qs = new Integer(questions); //单选数量
+        Integer qm = new Integer(questionm);//多选数量
+        Integer qj = new Integer(questionj);//判断数量
+        Integer ss = new Integer(types);//单选分数
+        Integer sm = new Integer(typem);//多选分数
+        Integer sj = new Integer(typej);//判断分数
+        Integer count = qs + qj + qm;//总数量
+        Integer scoreAll = ss * qs + sm * qm + qj * sj;//总分数
+        //0.类型上限检测
+        QuestionType questionType = types(questionClass);
+        if (questionType == null) {
+            return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
+        }
+        if (qs > questionType.getQuestionSignal() || qm > questionType.getQuestionMultiple() ||
+                qj > questionType.getQuestionJudgement()) {
+            return Response.error(ErrorCode.QUESTION_CLASS_ERROR);
+        }
+        //1.设置成分
+        ExamExaminationEntity examinationEntity = examinationDao.findById(examinationId);
+        Assert.isFalse(examinationEntity == null || examinationEntity.getIsDel().equals("00"), ErrorCode.EXAM_ID_ERROR);
+        Assert.isFalse((!examinationEntity.getQuestionCount().equals(count)) ||
+                (!examinationEntity.getExaminationScoreAll().equals(scoreAll)), ErrorCode.EXAM_PUBLISH_SCORE_ERROR);
+        examinationEntity.setSignalCount(qs);
+        examinationEntity.setMultipleCount(qm);
+        examinationEntity.setJudgementCount(qj);
+        examinationEntity.setIsDel("00"); //发布考试
+        examinationDao.update(examinationEntity);
+        //2.清空历史绑定--paper表
+        examPaperDao.deleteAllQuestion(examinationId);
+        //3.绑定分类--paper表
+        List<ExamQuestionEntity> questionAll = questionDao.findQuestionClass("questionClassification", questionClass);
+        Iterator<ExamQuestionEntity> iterator = questionAll.iterator();
+        while (iterator.hasNext()) {
+            ExamQuestionEntity Qentity = iterator.next();
+            String qId = Qentity.getQuestionId();
+            String qClass = Qentity.getQuestionType();
+            int score = 0;
+            if (qClass.equals("signal")) {
+                score = ss;
+            } else if (qClass.equals("multiple")) {
+                score = sm;
+            } else if (qClass.equals("judgement")) {
+                score = sj;
+            }
+            ExamExaminationPaperEntity paperEntity = new ExamExaminationPaperEntity();
+            paperEntity.setExaminationId(examinationId);
+            paperEntity.setQuestionId(qId);
+            paperEntity.setScore(score);
+            paperEntity.setAccuracy(2.0);
+            examPaperDao.save(paperEntity);
+        }
+        return Response.ok("操作成功");
     }
+
 
     /**
      * 删除所有绑定
-     * @param token
-     * @param uid
+     *
      * @param examinationId2
      * @return
      */
     @GetMapping("/deleteAll")
-    public Response deleteAll(@CookieValue(value = "token", defaultValue = "") String token,
-                              @CookieValue(value = "userId", defaultValue = "") String uid,
-                              @CookieValue(value = "examinationId2", defaultValue = "") String examinationId2) {
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
-        } else {
-            examPaperDao.deleteAllQuestion(examinationId2);
-            return Response.ok("操作成功");
-        }
+    public Response deleteAll(
+            @CookieValue(value = "examinationId2", defaultValue = "") String examinationId2) {
+
+        examPaperDao.deleteAllQuestion(examinationId2);
+        return Response.ok("操作成功");
+
     }
 
 
     /**
      * 保存绑定的试题 试卷管理
      *
-     * @param token
-     * @param uid
      * @param entities
      * @return
      */
     @PostMapping("/add")
-    public Response addExamPaper(@CookieValue(value = "token", defaultValue = "") String token,
-                                 @CookieValue(value = "userId", defaultValue = "") String uid,
-                                 @RequestBody List<ExamExaminationPaperEntity> entities) {
+    public Response addExamPaper(@RequestBody List<ExamExaminationPaperEntity> entities) {
         if (entities == null) {
             return Response.error(ErrorCode.SYS_NULL_OBJECT);
         }
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
-        } else {
-            for (ExamExaminationPaperEntity entity : entities) {
-                examPaperDao.save(entity);
-            }
-            return Response.ok();
+
+        for (ExamExaminationPaperEntity entity : entities) {
+            examPaperDao.save(entity);
         }
+        return Response.ok();
     }
+
 
     /**
      * 修改绑定的试题 考试管理
-     *
-     * @param token
-     * @param uid
      * @param examinationId2
      * @param oper
      * @param id
@@ -295,8 +268,6 @@ public class ExamPaperManager {
      */
     @PostMapping("/handle")
     public Response changeQuestion(
-            @CookieValue(value = "token", defaultValue = "") String token,
-            @CookieValue(value = "userId", defaultValue = "") String uid,
             @CookieValue(value = "examinationId2", defaultValue = "") String examinationId2,
             @RequestParam(defaultValue = "") String oper,
             @RequestParam(defaultValue = "") String id,
@@ -308,34 +279,28 @@ public class ExamPaperManager {
 //        logger.info("examintionid"+examinationId);
 //        logger.info("questionId"+questionId);
 //        logger.info("score"+score);
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
+
+        boolean state = false;
+        int scoreInt = 0;
+        if (!"".equals(score)) {
+            scoreInt = new Integer(score);
+        }
+        switch (oper) {
+            case "add":
+                state = addQuestion(examinationId, questionId, scoreInt);
+                break;
+            case "del":
+                state = delQuestion(examinationId2, id);
+                break;
+            case "edit":
+                state = editQuestion(examinationId2, questionId, scoreInt);
+                break;
+            default:
+        }
+        if (state) {
+            return Response.ok("操作成功");
         } else {
-            boolean state = false;
-            int scoreInt = 0;
-            if (!"".equals(score)) {
-                scoreInt = new Integer(score);
-            }
-            switch (oper) {
-                case "add":
-                    state = addQuestion(examinationId, questionId, scoreInt);
-                    break;
-                case "del":
-                    state = delQuestion(examinationId2, id);
-                    break;
-                case "edit":
-                    state = editQuestion(examinationId2, questionId, scoreInt);
-                    break;
-                default:
-            }
-            if (state) {
-                return Response.ok("操作成功");
-            } else {
-                return Response.error();
-            }
+            return Response.error();
         }
     }
 

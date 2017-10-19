@@ -47,22 +47,23 @@ public class ExamController {
 
     /**
      * 获取某考试试题
+     *
      * @param examineeId
      * @param examinationId
      * @return
      */
     @GetMapping
-    public Response findExamQuestion(@CookieValue(value = "tokenU", defaultValue = "") String token,
-                                     @CookieValue(value = "examineeIdU", defaultValue = "") String examineeId,
+    public Response findExamQuestion(@CookieValue(value = "token", defaultValue = "") String token,
+                                     @CookieValue(value = "userId", defaultValue = "") String examineeId,
                                      @CookieValue(value = "examinationIdU", defaultValue = "") String examinationId) {
 //        logger.info("findExamQ examineeId"+examineeId);
 //        logger.info("findExamQ examinationId"+examinationId);
-        String status=new EasyToken().checkToken(new Token(examineeId,token));
-        if(status.equals("TIMEOUT")){
+        String status = new EasyToken().checkToken(new Token(examineeId, token));
+        if (status.equals("TIMEOUT")) {
             return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        }else if(status.equals("ERROR")){
+        } else if (status.equals("ERROR")) {
             return Response.error(ErrorCode.USER_ERROR);
-        }else {
+        } else {
             //检查考试是否完成
             ExamGradeEntity temp = gradeDao.findGrade(examineeId, examinationId);
             if (temp != null && temp.getExaminationState().equals("00")) {
@@ -70,15 +71,15 @@ public class ExamController {
             }
             List<ExamQuestionEntity> questionEntities = new ArrayList<>();
             Iterator<ExamExaminationPaperEntity> iterator;
-            ExamExaminationEntity examinationEntity=examinationDao.findById(examinationId);
-            Integer signalCount=examinationEntity.getSignalCount();
-            Integer multipleCount=examinationEntity.getMultipleCount();
-            Integer judgementCountCount=examinationEntity.getJudgementCount();
+            ExamExaminationEntity examinationEntity = examinationDao.findById(examinationId);
+            Integer signalCount = examinationEntity.getSignalCount();
+            Integer multipleCount = examinationEntity.getMultipleCount();
+            Integer judgementCountCount = examinationEntity.getJudgementCount();
 
-            if(signalCount==null&&multipleCount==null&&judgementCountCount==null){
+            if (signalCount == null && multipleCount == null && judgementCountCount == null) {
                 iterator = examPaperDao.findByexam(examinationId).iterator();
-            }else {
-                iterator=examPaperDao.findByexamRandom(examinationId,signalCount,multipleCount,judgementCountCount).iterator();
+            } else {
+                iterator = examPaperDao.findByexamRandom(examinationId, signalCount, multipleCount, judgementCountCount).iterator();
             }
 
             while (iterator.hasNext()) {
@@ -93,82 +94,76 @@ public class ExamController {
 
     /**
      * 处理递交的答案
+     *
      * @param examAnswerLogEntitys
      * @return
      */
     @PostMapping("/answer")
     @Transactional(rollbackFor = Exception.class)
-    public Response getAnswer(@CookieValue(value = "tokenU", defaultValue = "") String token,
-                              @CookieValue(value = "examineeIdU", defaultValue = "") String uid,
-                              @RequestBody  List<ExamAnswerLogEntity> examAnswerLogEntitys) {
+    public Response getAnswer(@RequestBody List<ExamAnswerLogEntity> examAnswerLogEntitys) {
         if (examAnswerLogEntitys == null) {
             return Response.error();
         }
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
-        } else {
-            if(examAnswerLogEntitys==null||examAnswerLogEntitys.size()==0){
-                return Response.error(EXAM_ERROR);
-            }
-            String examineeId = examAnswerLogEntitys.get(0).getExamineeId();
-            String examinationId = examAnswerLogEntitys.get(0).getExaminationId();
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            ExamExaminationEntity entity=examinationDao.findById(examinationId);
-            ExamGradeEntity gradeEntity1 = gradeDao.findGrade(examineeId, examinationId);
-            if(entity==null||gradeEntity1==null){
-                return Response.error(EXAM_ID_ERROR);
-            }
-            //检查考试是否完成
-            if (gradeEntity1 != null && gradeEntity1.getExaminationState().equals("00")) {
-                return Response.error(EXAM_FINISHED);
-            }
 
-            Timestamp endtime = entity.getExaminationEnd();
-            long ansTime=entity.getAnswerTime()*60*1000;
-            //检测是否超时
-            if (endtime == null || new Long(timestamp.getTime()) > new Long(endtime.getTime()) +ansTime+ 15 * 60 * 1000) {
-                return Response.error(ErrorCode.EXAM_SUBMIT_OUT_OF_DATE);
-            }
+        if (examAnswerLogEntitys == null || examAnswerLogEntitys.size() == 0) {
+            return Response.error(EXAM_ERROR);
+        }
+        String examineeId = examAnswerLogEntitys.get(0).getExamineeId();
+        String examinationId = examAnswerLogEntitys.get(0).getExaminationId();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        ExamExaminationEntity entity = examinationDao.findById(examinationId);
+        ExamGradeEntity gradeEntity1 = gradeDao.findGrade(examineeId, examinationId);
+        if (entity == null || gradeEntity1 == null) {
+            return Response.error(EXAM_ID_ERROR);
+        }
+        //检查考试是否完成
+        if (gradeEntity1 != null && gradeEntity1.getExaminationState().equals("00")) {
+            return Response.error(EXAM_FINISHED);
+        }
 
-            Iterator<ExamAnswerLogEntity> iterator = examAnswerLogEntitys.iterator();
-            int grade = 0; //统计总分
+        Timestamp endtime = entity.getExaminationEnd();
+        long ansTime = entity.getAnswerTime() * 60 * 1000;
+        //检测是否超时
+        if (endtime == null || new Long(timestamp.getTime()) > new Long(endtime.getTime()) + ansTime + 15 * 60 * 1000) {
+            return Response.error(ErrorCode.EXAM_SUBMIT_OUT_OF_DATE);
+        }
 
-            //保存每小题分数
-            while (iterator.hasNext()) {
-                ExamAnswerLogEntity temp = iterator.next();
+        Iterator<ExamAnswerLogEntity> iterator = examAnswerLogEntitys.iterator();
+        int grade = 0; //统计总分
+
+        //保存每小题分数
+        while (iterator.hasNext()) {
+            ExamAnswerLogEntity temp = iterator.next();
 //                System.out.println("temp:" + temp.getExamineeAnswer());
-                if(temp.getExaminationId()!=null&&temp.getQuestionId()!=null){
-                    ExamExaminationPaperEntity exam = examPaperDao.findScore(temp.getExaminationId(), temp.getQuestionId());
-                    if (exam == null) {
-                        System.out.println("a exam is null");
-                    } else {
-                        int score = exam.getScore();
-                        String answer = questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer().toUpperCase();
-                        int realScore = 0;
-                        if (answer.equals(temp.getExamineeAnswer())) {
-                            realScore = score;
-                        }
-                        grade += realScore;
-                        temp.setScoreReal(realScore);
-                        temp.setSubmitTime(timestamp);
-                        answerLogDao.save(temp);
+            if (temp.getExaminationId() != null && temp.getQuestionId() != null) {
+                ExamExaminationPaperEntity exam = examPaperDao.findScore(temp.getExaminationId(), temp.getQuestionId());
+                if (exam == null) {
+                    System.out.println("a exam is null");
+                } else {
+                    int score = exam.getScore();
+                    String answer = questionDao.findQuestion(temp.getQuestionId()).getQuestionAnswer().toUpperCase();
+                    int realScore = 0;
+                    if (answer.equals(temp.getExamineeAnswer())) {
+                        realScore = score;
                     }
+                    grade += realScore;
+                    temp.setScoreReal(realScore);
+                    temp.setSubmitTime(timestamp);
+                    answerLogDao.save(temp);
                 }
             }
-            //设置成绩状态及时间
-            ExamGradeEntity gradeEntity = new ExamGradeEntity();
-            gradeEntity.setExamineeId(examineeId);
-            gradeEntity.setExaminationId(examinationId);
-            gradeEntity.setGrade(grade);
-            gradeEntity.setExaminationTime(timestamp);
-            gradeEntity.setExaminationState("00");
-            gradeDao.save(gradeEntity);
-            //考试人数+1
-            examinationDao.addExamineeCount(examinationId);
-            return Response.ok();
         }
+        //设置成绩状态及时间
+        ExamGradeEntity gradeEntity = new ExamGradeEntity();
+        gradeEntity.setExamineeId(examineeId);
+        gradeEntity.setExaminationId(examinationId);
+        gradeEntity.setGrade(grade);
+        gradeEntity.setExaminationTime(timestamp);
+        gradeEntity.setExaminationState("00");
+        gradeDao.save(gradeEntity);
+        //考试人数+1
+        examinationDao.addExamineeCount(examinationId);
+        return Response.ok();
     }
+
 }

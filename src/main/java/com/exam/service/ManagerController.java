@@ -78,4 +78,9 @@ public String hello(){
     public String errorQuestions(){
         return "manager/errorQuestion";
     }
+
+    @RequestMapping("/error1")
+    public String error1(){
+        return "error";
+    }
 }
