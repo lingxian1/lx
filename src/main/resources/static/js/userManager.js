@@ -3,7 +3,7 @@ var grid_data;
 $(function(){
     $.ajax({
         type: "get",
-        url: "/users",
+        url: "/usersManager",
         data: {"userId":getCookie("userId"),"token":getCookie("token")}, //发送登陆ID及Token
         async:false,
         success: function (result) {
@@ -67,7 +67,7 @@ jQuery(function($) {
             }, 0);
         },
 
-        editurl: $path_base+"users/handle",//nothing is saved
+        editurl: $path_base+"usersManager/handle",//nothing is saved
         caption: "考生信息",
         autowidth: true
     });

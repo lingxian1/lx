@@ -221,7 +221,7 @@ function addQuestion() {
     else {
         localStorage.setItem('examinationId',selr);
         console.log(selr);
-        window.open('addquestion.html','addquestion',
+        window.open('/addquestionManager','addquestion',
             'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
     }
 }
@@ -235,7 +235,7 @@ function reviseQuestion() {
     else {
         localStorage.setItem('examinationId',selr);
         console.log(selr);
-        window.open('changequestion.html','changequestion',
+        window.open('/changequestionManager','changequestion',
             'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
     }
 }
@@ -276,7 +276,7 @@ function randomQuestion() {
     else {
         localStorage.setItem('examinationId',selr);
         console.log(selr);
-        window.open('randomquestion.html','randomquestion',
+        window.open('/randomquestionManager','randomquestionManager',
             'height=1000,width=1000,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
     }
 }

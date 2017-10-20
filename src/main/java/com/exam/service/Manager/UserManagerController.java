@@ -18,7 +18,7 @@ import java.util.List;
  * 考生信息管理
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/usersManager")
 public class UserManagerController {
     @Autowired
     ExamineeDao examineeDao;

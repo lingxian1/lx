@@ -21,7 +21,7 @@ import static com.exam.common.ErrorCode.USER_ERROR;
  * 考试信息
  */
 @RestController
-@RequestMapping("/examinfo1")
+@RequestMapping("/examinfo1Examinees")
 public class ExamInfoController {
     @Autowired
     ExaminationDao examinationDao;

@@ -10,7 +10,7 @@ function query(){
     }else {
         $.ajax({
             type: "get",
-            url: "/errorQuestion",             //向springboot请求数据的url
+            url: "/errorQuestionManager",             //向springboot请求数据的url
             data: {"examinationId": info}, //发送登陆ID及Token
             // async:false,
             success: function (result) {

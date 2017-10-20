@@ -13,6 +13,7 @@ public enum ErrorCode {
      */
     DEFAULT_ERROR(500, "error"),
 
+    NO_SUCH_EXAM(50001,"没有该考试"),
     PHONE_OR_PASSWORD_ERROR(10001, "用户名或者密码不正确"),
     USER_ERROR(10002, "用户未登陆请返回登陆页面"),
     USER_EMPTY(10003, "用户不存在"),

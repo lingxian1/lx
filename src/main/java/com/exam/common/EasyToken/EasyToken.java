@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Created by LX on 2017/7/26.
+ * V1.1 加入身份验证 2017/10/20
  * 用于管理端请求验证
  * 惰性验证
  */
@@ -45,10 +46,10 @@ public class EasyToken implements Runnable {
      * @param ups
      * @return
      */
-    public Token createToken(String uid,String ups){
+    public Token createToken(String uid,String ups,String identity){
         long nowTime=System.currentTimeMillis();
         String tokenStr= Md5Utils.stringMD5(uid+ups+nowTime);
-        Token token=new Token(uid,tokenStr);
+        Token token=new Token(uid,tokenStr,identity);
         tokens.put(token,nowTime+outTimes);
         if(nowTime>checkTime){
 //            System.out.println(checkTime);
@@ -62,17 +63,17 @@ public class EasyToken implements Runnable {
     /**
      * 请求验证
      * @param token
-     * @return
+     * @return 身份
      */
     public String checkToken(Token token){
         for (Map.Entry<Token, Long> entry : tokens.entrySet()) {
-            if(entry.getKey().equals(token)){ //重写了equals
+            if(entry.getKey().equals(token)){ //重写了equals 不比较身份
                 Long outTime= entry.getValue().longValue();
                 Long nowTime=System.currentTimeMillis();
                 if(nowTime>outTime){
                     return "TIMEOUT";
                 }
-                return "TRUE";
+                return entry.getKey().getIdentity(); //正确返回身份
             }
         }
        return "ERROR";

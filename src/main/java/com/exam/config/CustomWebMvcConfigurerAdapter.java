@@ -11,9 +11,6 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         //registry.addInterceptor(new ManagerInterceptor()).addPathPatterns("/errorQuestion/**");  //对来自/user/** 这个链接来的请求进行拦截
         InterceptorRegistration ir = registry.addInterceptor(new ManagerInterceptor());
-        ir.excludePathPatterns("/signin");
-        ir.excludePathPatterns("/error1");
-        ir.excludePathPatterns("/");
-        ir.excludePathPatterns("/manager");
+        ir.excludePathPatterns("/signin","/error1","/","/manager");
     }
 }

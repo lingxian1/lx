@@ -11,6 +11,14 @@ public class Token {
 
     private String token;
 
+    private String identity;
+
+    public Token(String uid, String token,String identity) {
+        this.uid = uid;
+        this.token = token;
+        this.identity=identity;
+    }
+
     public Token(String uid, String token) {
         this.uid = uid;
         this.token = token;
@@ -30,6 +38,14 @@ public class Token {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 
     @Override

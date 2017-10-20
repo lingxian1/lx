@@ -13,18 +13,27 @@ public class ManagerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
-        if (cookies!=null && cookies.length>0) {
-            String uid=null;
-            String token=null;
+        if (cookies != null && cookies.length > 0) {
+            String uid = null;
+            String token = null;
             for (Cookie cookie : cookies) {
-                if(cookie.getName().equals("userId")){
-                    uid=cookie.getValue();
+                if (cookie.getName().equals("userId")) {
+                    uid = cookie.getValue();
                 }
-                if(cookie.getName().equals("token")){
-                    token=cookie.getValue();
+                if (cookie.getName().equals("token")) {
+                    token = cookie.getValue();
                 }
             }
-            if(check(token,uid)){
+            System.out.println("context:" + request.getContextPath());
+            System.out.println("uri:" + request.getRequestURI());
+            System.out.println("method:" + request.getMethod());
+            System.out.println("URL:" + request.getRequestURL());
+            System.out.println();
+            String s = check(token, uid);
+            if(s.equals("ERROR")||s.equals("TIMEOUT")){
+                return false;
+            }
+            if (request.getRequestURI().toLowerCase().contains(s)) {
                 return true;
             }
         }
@@ -42,13 +51,8 @@ public class ManagerInterceptor implements HandlerInterceptor {
 
     }
 
-    public boolean check(String token, String uid){
-        String status=new EasyToken().checkToken(new Token(uid,token));
-        if(status.equals("TIMEOUT")){
-            return false;
-        }else if(status.equals("ERROR")){
-            return false;
-        }
-        return true;
+    public String check(String token, String uid) {
+        String status = new EasyToken().checkToken(new Token(uid, token));
+        return status;
     }
 }

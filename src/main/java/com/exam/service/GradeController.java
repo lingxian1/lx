@@ -27,7 +27,7 @@ import static com.exam.common.ErrorCode.USER_ERROR;
  * 获取考试成绩
  */
 @RestController
-@RequestMapping("/getgrade")
+@RequestMapping("/getgradeExaminees")
 public class GradeController {
     @Autowired
     ExaminationDao examinationDao;

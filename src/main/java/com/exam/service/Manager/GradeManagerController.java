@@ -29,7 +29,7 @@ import java.util.*;
  * 考试成绩管理
  */
 @RestController
-@RequestMapping("/grademanager")
+@RequestMapping("/gradeManager")
 public class GradeManagerController {
     @Autowired
     GradeDao gradeDao;

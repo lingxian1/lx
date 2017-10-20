@@ -388,6 +388,6 @@ function createform() {
 }
 
 function qinfo() {
-    window.open('questionclassinfo.html','questionclassinfo',
+    window.open('/questionclassinfoManager','questionclassinfoManager',
         'height=1000,width=600,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
 }

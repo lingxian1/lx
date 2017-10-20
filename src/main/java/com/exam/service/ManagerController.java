@@ -21,19 +21,19 @@ public String hello(){
     public String signin(){
         return "signin";
     }
-    @RequestMapping("/examinfo")
+    @RequestMapping("/examinfoExaminees")
     public String examinfo(){
         return "exam/examinfo";
     }
-    @RequestMapping("/exams")
+    @RequestMapping("/examsExaminees")
     public String exams(){
         return "exam/exams";
     }
-    @RequestMapping("/grade")
+    @RequestMapping("/gradeExaminees")
     public String grade(){
         return "exam/grade";
     }
-    @RequestMapping("/exampoint")
+    @RequestMapping("/exampointExaminees")
     public String exampoint(){
         return "exam/exampoint";
     }
@@ -41,7 +41,7 @@ public String hello(){
     public String question(){
         return "manager/questionmanager";
     }
-    @RequestMapping("/questionclassinfo")
+    @RequestMapping("/questionclassinfoManager")
     public String questionclassinfo(){
         return "manager/questionclassinfo";
     }
@@ -50,19 +50,19 @@ public String hello(){
     public String manager(){
         return "manager/manager";
     }
-    @RequestMapping("/createexam")
+    @RequestMapping("/createexamManager")
     public String createexam(){
         return "manager/createexam";
     }
-    @RequestMapping("/addquestion")
+    @RequestMapping("/addquestionManager")
     public String addquestion(){
         return "manager/addquestion";
     }
-    @RequestMapping("/changequestion")
+    @RequestMapping("/changequestionManager")
     public String changequestion(){
         return "manager/changequestion";
     }
-    @RequestMapping("/randomquestion")
+    @RequestMapping("/randomquestionManager")
     public String randomquestion(){
         return "manager/randomquestion";
     }
@@ -70,11 +70,11 @@ public String hello(){
     public String grademanager(){
         return "manager/grademanager";
     }
-    @RequestMapping("/gradeArea")
+    @RequestMapping("/gradeAreaManager")
     public String gradeArea(){
         return "manager/gradeArea";
     }
-    @RequestMapping("/errorQuestions")
+    @RequestMapping("/errorQuestionsManager")
     public String errorQuestions(){
         return "manager/errorQuestion";
     }

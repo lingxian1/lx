@@ -1,7 +1,5 @@
 package com.exam.service.Manager;
 
-import com.exam.common.EasyToken.EasyToken;
-import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
 import com.exam.common.dao.ExamPaperDao;
@@ -39,76 +37,55 @@ public class ExamPaperManager {
     /**
      * 获取绑定的试题 试卷管理
      *
-     * @param token
-     * @param uid
      * @param examinationId
      * @return
      */
     @GetMapping("/change")
-    public Response addExamPaper(@CookieValue(value = "token", defaultValue = "") String token,
-                                 @CookieValue(value = "userId", defaultValue = "") String uid,
-                                 @RequestParam(defaultValue = "") String examinationId) {
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
-        } else {
-            List<ExamExaminationPaperEntity> entities = examPaperDao.findBy("examinationId", examinationId);
-            List<ChangeQuestion> returndata = new ArrayList<>();
-            Iterator<ExamExaminationPaperEntity> iterator = entities.iterator();
-            while (iterator.hasNext()) {
-                ExamExaminationPaperEntity entity = iterator.next();
-                ExamQuestionEntity entity1 = questionDao.findById(entity.getQuestionId());
-                if (entity1 != null) {
-                    ChangeQuestion changeQuestion = new ChangeQuestion();
-                    changeQuestion.setExaminationId(examinationId);
-                    changeQuestion.setQuestionId(entity1.getQuestionId());
-                    changeQuestion.setQuestionText(entity1.getQuestionText());
-                    changeQuestion.setQuestionType(entity1.getQuestionType());
-                    changeQuestion.setScore(entity.getScore());
+    public Response addExamPaper(@RequestParam(defaultValue = "") String examinationId) {
+        List<ExamExaminationPaperEntity> entities = examPaperDao.findBy("examinationId", examinationId);
+        List<ChangeQuestion> returndata = new ArrayList<>();
+        Iterator<ExamExaminationPaperEntity> iterator = entities.iterator();
+        while (iterator.hasNext()) {
+            ExamExaminationPaperEntity entity = iterator.next();
+            ExamQuestionEntity entity1 = questionDao.findById(entity.getQuestionId());
+            if (entity1 != null) {
+                ChangeQuestion changeQuestion = new ChangeQuestion();
+                changeQuestion.setExaminationId(examinationId);
+                changeQuestion.setQuestionId(entity1.getQuestionId());
+                changeQuestion.setQuestionText(entity1.getQuestionText());
+                changeQuestion.setQuestionType(entity1.getQuestionType());
+                changeQuestion.setScore(entity.getScore());
 
-                    returndata.add(changeQuestion);
-                }
+                returndata.add(changeQuestion);
             }
-            return Response.ok(returndata);
         }
+        return Response.ok(returndata);
     }
+
 
     /**
      * 发布一场考试 试卷管理
      *
-     * @param token
-     * @param uid
      * @param examinationId
      * @return
      */
     @PostMapping("/publish")
-    public Response publishexam(@CookieValue(value = "token", defaultValue = "") String token,
-                                @CookieValue(value = "userId", defaultValue = "") String uid,
-                                @RequestParam(defaultValue = "") String examinationId) {
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
+    public Response publishexam(@RequestParam(defaultValue = "") String examinationId) {
+        ExamExaminationEntity entity1 = examinationDao.findById(examinationId);
+        if (entity1 == null) {
+            return Response.error(ErrorCode.EXAM_ID_ERROR);
+        } else if (entity1.getIsDel().equals("00")) {
+            return Response.error(ErrorCode.EXAM_PUBLISH_ERROR);
         } else {
-            ExamExaminationEntity entity1 = examinationDao.findById(examinationId);
-            if (entity1 == null) {
-                return Response.error(ErrorCode.EXAM_ID_ERROR);
-            } else if (entity1.getIsDel().equals("00")) {
-                return Response.error(ErrorCode.EXAM_PUBLISH_ERROR);
+            int count = entity1.getQuestionCount();
+            int score = entity1.getExaminationScoreAll();
+            int realcount = examPaperDao.findByexamCount(examinationId);
+            int realscore = examPaperDao.sumScore(examinationId);
+            if (count <= realcount && score <= realscore) {
+                examinationDao.publishById(examinationId);
+                return Response.ok("发布成功");
             } else {
-                int count = entity1.getQuestionCount();
-                int score = entity1.getExaminationScoreAll();
-                int realcount = examPaperDao.findByexamCount(examinationId);
-                int realscore = examPaperDao.sumScore(examinationId);
-                if (count <= realcount && score <= realscore) {
-                    examinationDao.publishById(examinationId);
-                    return Response.ok("发布成功");
-                } else {
-                    return Response.error(ErrorCode.EXAM_PUBLISH_SCORE_ERROR);
-                }
+                return Response.error(ErrorCode.EXAM_PUBLISH_SCORE_ERROR);
             }
         }
     }
@@ -116,27 +93,17 @@ public class ExamPaperManager {
     /**
      * 根据分类返回该分类下试题数量（题型数量）
      *
-     * @param token
-     * @param uid
      * @param questionClass
      * @return
      */
     @GetMapping("/findQuestion")
-    public Response findQuestion(@CookieValue(value = "token", defaultValue = "") String token,
-                                 @CookieValue(value = "userId", defaultValue = "") String uid,
-                                 @RequestParam(defaultValue = "") String questionClass) {
-        String status = new EasyToken().checkToken(new Token(uid, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
-        } else {
-            QuestionType type = types(questionClass);
-            if (type == null) {
-                return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
-            }
-            return Response.ok(type);
+    public Response findQuestion(@RequestParam(defaultValue = "") String questionClass) {
+
+        QuestionType type = types(questionClass);
+        if (type == null) {
+            return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
         }
+        return Response.ok(type);
     }
 
     /**
@@ -258,6 +225,7 @@ public class ExamPaperManager {
 
     /**
      * 修改绑定的试题 考试管理
+     *
      * @param examinationId2
      * @param oper
      * @param id

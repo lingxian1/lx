@@ -1,7 +1,7 @@
 $(function(){
     $.ajax({
         type: "get",
-        url: "/examinfo1",
+        url: "/examinfo1Examinees",
         data: {"examineeId":getCookie("userId")},
         success: function (result) {
             if(result.status==200){
@@ -50,5 +50,5 @@ function msg_display(msgs) {
 function goExam(e) {
     console.log(e.id);
     setCookie("examinationIdU",e.id);
-    location = "/exams";        //跳转
+    location = "/examsExaminees";        //跳转
 }

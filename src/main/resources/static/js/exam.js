@@ -30,7 +30,7 @@ $(function(){
     //获取考试信息
     $.ajax({
         type: "get",
-        url: "/examinfo1/examinfo2",             //向springboot请求数据的url
+        url: "/examinfo1Examinees/examinfo2",             //向springboot请求数据的url
         data: {"examineeId":getCookie("userId"),"examinationId":getCookie("examinationIdU")},
         success: function (result) {
             //考试时间
@@ -42,7 +42,7 @@ $(function(){
     }),
         $.ajax({
             type: "get",
-            url: "/question",             //向springboot请求数据的url
+            url: "/questionExaminees",
             data: {"examineeId":getCookie("userId"),"examinationId":getCookie("examinationIdU")},
             success: function (result) {
                 if(result.status==200){
@@ -254,19 +254,19 @@ function ansToJson() {
 function saveAnswer() {
     $.ajax({
         type: "post",
-        url: "/question/answer",             //向springboot请求数据的url
+        url: "/questionExaminees/answer",             //向springboot请求数据的url
         data: ansToJson(),
         success: function (result) {
             console.log(result);
             if(result.status!=200){
                 console.log("done");
                 alert(result.message);
-                location="/examinfo"
+                location="/examinfoExaminees"
             }else{
                 console.log("上传成功");
                 localStorage.clear();//清空本地存储
                 alert("提交成功");
-                location="/examinfo"
+                location="/examinfoExaminees"
             }
         },
         contentType: "application/json",

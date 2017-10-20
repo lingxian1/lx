@@ -49,6 +49,6 @@ function showArea(e) {
 
     localStorage.setItem('examinationId',id);
     console.log(id);
-    window.open('gradeArea.html','gradeArea',
+    window.open('/gradeAreaManager','gradeArea',
         'height=800,width=600,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
 }

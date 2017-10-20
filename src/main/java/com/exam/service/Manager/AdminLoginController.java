@@ -51,7 +51,7 @@ public class AdminLoginController {
         String enpass= Md5Utils.stringMD5(user.getUserPassword()); //数据库获取密码并获取其MD5值
 
         if(enpass.equals(userPassword)){
-            return Response.ok(new EasyToken().createToken(userId,userPassword));
+            return Response.ok(new EasyToken().createToken(userId,userPassword,"manager"));
         }
         else{
             return Response.error(PHONE_OR_PASSWORD_ERROR);

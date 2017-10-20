@@ -1,7 +1,5 @@
 package com.exam.service;
 
-import com.exam.common.EasyToken.EasyToken;
-import com.exam.common.EasyToken.Token;
 import com.exam.common.ErrorCode;
 import com.exam.common.Response;
 import com.exam.common.dao.*;
@@ -17,16 +15,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.exam.common.ErrorCode.EXAM_ERROR;
-import static com.exam.common.ErrorCode.EXAM_FINISHED;
-import static com.exam.common.ErrorCode.EXAM_ID_ERROR;
+import static com.exam.common.ErrorCode.*;
 
 /**
  * Created by LX on 2017/7/24.
  * 试题处理--用户
  */
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/questionExaminees")
 public class ExamController {
     @Autowired
     ExaminationDao examinationDao;
@@ -53,44 +49,38 @@ public class ExamController {
      * @return
      */
     @GetMapping
-    public Response findExamQuestion(@CookieValue(value = "token", defaultValue = "") String token,
-                                     @CookieValue(value = "userId", defaultValue = "") String examineeId,
-                                     @CookieValue(value = "examinationIdU", defaultValue = "") String examinationId) {
+    public Response findExamQuestion(
+            @CookieValue(value = "userId", defaultValue = "") String examineeId,
+            @CookieValue(value = "examinationIdU", defaultValue = "") String examinationId) {
 //        logger.info("findExamQ examineeId"+examineeId);
 //        logger.info("findExamQ examinationId"+examinationId);
-        String status = new EasyToken().checkToken(new Token(examineeId, token));
-        if (status.equals("TIMEOUT")) {
-            return Response.error(ErrorCode.SYS_LOGIN_TIMEOUT);
-        } else if (status.equals("ERROR")) {
-            return Response.error(ErrorCode.USER_ERROR);
-        } else {
-            //检查考试是否完成
-            ExamGradeEntity temp = gradeDao.findGrade(examineeId, examinationId);
-            if (temp != null && temp.getExaminationState().equals("00")) {
-                return Response.error(EXAM_FINISHED);
-            }
-            List<ExamQuestionEntity> questionEntities = new ArrayList<>();
-            Iterator<ExamExaminationPaperEntity> iterator;
-            ExamExaminationEntity examinationEntity = examinationDao.findById(examinationId);
-            Integer signalCount = examinationEntity.getSignalCount();
-            Integer multipleCount = examinationEntity.getMultipleCount();
-            Integer judgementCountCount = examinationEntity.getJudgementCount();
-
-            if (signalCount == null && multipleCount == null && judgementCountCount == null) {
-                iterator = examPaperDao.findByexam(examinationId).iterator();
-            } else {
-                iterator = examPaperDao.findByexamRandom(examinationId, signalCount, multipleCount, judgementCountCount).iterator();
-            }
-
-            while (iterator.hasNext()) {
-                ExamExaminationPaperEntity paper = iterator.next();
-                ExamQuestionEntity question = questionDao.findById(paper.getQuestionId());
-                question.setQuestionAnswer("");//答案置空
-                questionEntities.add(question);
-            }
-            return Response.ok(questionEntities);
+        //检查考试是否完成
+        ExamGradeEntity temp = gradeDao.findGrade(examineeId, examinationId);
+        if (temp != null && temp.getExaminationState().equals("00")) {
+            return Response.error(EXAM_FINISHED);
         }
+        List<ExamQuestionEntity> questionEntities = new ArrayList<>();
+        Iterator<ExamExaminationPaperEntity> iterator;
+        ExamExaminationEntity examinationEntity = examinationDao.findById(examinationId);
+        Integer signalCount = examinationEntity.getSignalCount();
+        Integer multipleCount = examinationEntity.getMultipleCount();
+        Integer judgementCountCount = examinationEntity.getJudgementCount();
+
+        if (signalCount == null && multipleCount == null && judgementCountCount == null) {
+            iterator = examPaperDao.findByexam(examinationId).iterator();
+        } else {
+            iterator = examPaperDao.findByexamRandom(examinationId, signalCount, multipleCount, judgementCountCount).iterator();
+        }
+
+        while (iterator.hasNext()) {
+            ExamExaminationPaperEntity paper = iterator.next();
+            ExamQuestionEntity question = questionDao.findById(paper.getQuestionId());
+            question.setQuestionAnswer("");//答案置空
+            questionEntities.add(question);
+        }
+        return Response.ok(questionEntities);
     }
+
 
     /**
      * 处理递交的答案

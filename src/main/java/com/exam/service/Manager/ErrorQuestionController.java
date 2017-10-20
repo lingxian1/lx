@@ -24,7 +24,7 @@ import java.util.*;
  * 错题管理，正确率分析
  */
 @RestController
-@RequestMapping("/errorQuestion")
+@RequestMapping("/errorQuestionManager")
 public class ErrorQuestionController {
     @Autowired
     ExamPaperDao examPaperDao;
@@ -95,7 +95,7 @@ public class ErrorQuestionController {
      */
     public void statistics(String examinationId, double accuracy) {
         List<ExamExaminationPaperEntity> paperEntities = examPaperDao.findByexam(examinationId);
-        Assert.listExist(paperEntities, ErrorCode.DEFAULT_ERROR);
+        Assert.listExist(paperEntities, ErrorCode.NO_SUCH_EXAM);
         if (paperEntities != null && paperEntities.size() != 0) {
             for (ExamExaminationPaperEntity paper : paperEntities) {
                 List<ExamAnswerLogEntity> answerLogEntities = answerLogDao.findByExamination(examinationId, paper.getQuestionId());

@@ -22,7 +22,7 @@ function signal() {
                 // setCookie("tokenU",result.data.token);
                 setCookie("userId",result.data.uid);
                 setCookie("token",result.data.token);
-                location = "/examinfo";        //跳转
+                location = "/examinfoExaminees";        //跳转
             } else{
                 alert(result.message);
             }

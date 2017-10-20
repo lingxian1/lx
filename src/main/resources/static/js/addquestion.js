@@ -261,7 +261,7 @@ function getinfo(){
                 if(result.status==200){
                     console.log(JSON.stringify(result));
                     alert("提交成功");
-                    location="/addquestion";
+                    location="/addquestionManager";
                 }
                 else{
                     alert(result.message);

@@ -9,7 +9,7 @@ function query(){
     }else {
         $.ajax({
             type: "get",
-            url: "/grademanager/all",             //向springboot请求数据的url
+            url: "/gradeManager/all",             //向springboot请求数据的url
             data: {"examinationId": info}, //发送登陆ID及Token
             // async:false,
             success: function (result) {
@@ -197,7 +197,7 @@ function getAraeInfo() {
     else {
         localStorage.setItem('examinationId',info);
         console.log(info);
-        window.open('gradeArea.html','gradeArea',
+        window.open('/gradeAreaManager','gradeArea',
             'height=800,width=600,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
     }
 }

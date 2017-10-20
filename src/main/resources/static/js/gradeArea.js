@@ -7,7 +7,7 @@ var grid_data;
 $(function(){
     $.ajax({
         type: "get",
-        url: "/grademanager/area",
+        url: "/gradeManager/area",
         data: {"examinationId":localStorage.getItem("examinationId")},
         success: function (result) {
             if(result.status==200){
