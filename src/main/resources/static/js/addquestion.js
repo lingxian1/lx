@@ -25,7 +25,8 @@ $(function(){
             }
             else{
                 alert(result.message);
-                location="/createexam";
+                window.opener=null;
+                window.close();
             }
         }
     })
@@ -261,7 +262,8 @@ function getinfo(){
                 if(result.status==200){
                     console.log(JSON.stringify(result));
                     alert("提交成功");
-                    location="/addquestionManager";
+                    window.opener=null;
+                    window.close();
                 }
                 else{
                     alert(result.message);

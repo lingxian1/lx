@@ -102,6 +102,9 @@ public class ExamManager {
         if (!"".equals(top)) {
             entities = questionDao.findQuestions(questionClass, day, questionType);
             //去重
+            if(entities==null){
+                return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
+            }
             Iterator<ExamQuestionEntity> iterator = entities.iterator();
             while (iterator.hasNext()) {
                 ExamQuestionEntity entity = iterator.next();

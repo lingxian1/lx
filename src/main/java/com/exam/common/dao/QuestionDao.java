@@ -87,7 +87,7 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
      */
     public List<ExamQuestionEntity> findQuestions(String info,int days,String type){
         List<ExamQuestionEntity> entities=findQuestions(info);
-        if(entities.size()==0){
+        if(entities==null||entities.size()==0){
             return null;
         }
         Long time=0L;

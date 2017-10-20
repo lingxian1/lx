@@ -31,6 +31,7 @@ public class ManagerInterceptor implements HandlerInterceptor {
             System.out.println();
             String s = check(token, uid);
             if(s.equals("ERROR")||s.equals("TIMEOUT")){
+                response.sendRedirect(request.getContextPath() + "/error1");//重定向
                 return false;
             }
             if (request.getRequestURI().toLowerCase().contains(s)) {

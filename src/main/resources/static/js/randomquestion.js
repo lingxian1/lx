@@ -65,12 +65,13 @@ function getinfo() {
                 success: function (result) {
                     if (result.status == 200) {
                         alert(result.data);
-
+                       // location="/createexamManager";
+                        window.opener=null;
+                        window.close();
                     }
                     else {
                         alert(result.message);
                     }
-                    location="/createexam";
                 }
             })
         }
