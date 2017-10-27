@@ -266,7 +266,7 @@ function saveAnswer() {
                 console.log("上传成功");
                 localStorage.clear();//清空本地存储
                 alert("提交成功");
-                location="/examinfoExaminees"
+                location="/gradeExaminees"
             }
         },
         contentType: "application/json",

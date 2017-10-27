@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.exam.common.ErrorCode.NO_SUCH_EXAM;
 import static com.exam.common.ErrorCode.USER_ERROR;
 
 /**
@@ -42,7 +43,7 @@ public class ExamInfoController {
         }
         List<ExamExaminationEntity> exams=examinationDao.findUseful();
         if (exams.size() == 0) {
-            return null;
+            return Response.error(NO_SUCH_EXAM);
         }
         //找出所有有效考试
         Iterator<ExamExaminationEntity> iterator = exams.iterator();

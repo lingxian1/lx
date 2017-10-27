@@ -24,11 +24,11 @@ public class ManagerInterceptor implements HandlerInterceptor {
                     token = cookie.getValue();
                 }
             }
-            System.out.println("context:" + request.getContextPath());
-            System.out.println("uri:" + request.getRequestURI());
-            System.out.println("method:" + request.getMethod());
-            System.out.println("URL:" + request.getRequestURL());
-            System.out.println();
+//            System.out.println("context:" + request.getContextPath());
+//            System.out.println("uri:" + request.getRequestURI());
+//            System.out.println("method:" + request.getMethod());
+//            System.out.println("URL:" + request.getRequestURL());
+//            System.out.println();
             String s = check(token, uid);
             if(s.equals("ERROR")||s.equals("TIMEOUT")){
                 response.sendRedirect(request.getContextPath() + "/error1");//重定向
