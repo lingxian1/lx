@@ -34,7 +34,7 @@ $(function(){
         data: {"examineeId":getCookie("userId"),"examinationId":getCookie("examinationIdU")},
         success: function (result) {
             //考试时间
-            console.log(JSON.stringify(result));
+           // console.log(JSON.stringify(result));
             var sumtime=result.data.answerTime;
             questionCount=result.data.questionCount;
             setTime(sumtime);

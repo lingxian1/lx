@@ -6,7 +6,7 @@ $(function(){
         success: function (result) {
             if(result.status==200){
                 var data=result;
-                console.log(JSON.stringify(result));
+                //console.log(JSON.stringify(result));
                 msg_display(data.data);
             }else{
                 console.log(JSON.stringify(result));

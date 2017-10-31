@@ -5,7 +5,7 @@ var flag=0;
 function query(){
     var info = $("[name='info']").val();
     // $("#showclass").removeClass("displayno");
-    console.log(info);
+   // console.log(info);
     $.ajax({
         type: "get",
         url: "/questionsManager",             //向springboot请求数据的url
@@ -28,7 +28,7 @@ function query(){
 }
 
 function createform() {
-    console.log(flag);
+   // console.log(flag);
     var pager_selector = "#grid-pager";
     if(flag==0) {
         flag++;

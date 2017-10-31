@@ -6,7 +6,7 @@ var flag=0;
 var id=localStorage.getItem("examinationId");
 $(function(){
     $('#examinationId').html(id);
-    console.log(id);
+   // console.log(id);
     if(id==null){
         alert("考试未选择");
         location="/";
@@ -19,7 +19,7 @@ $(function(){
         // async:false,
         success: function (result) {
             if(result.status==200){
-                console.log(JSON.stringify(result));
+            //    console.log(JSON.stringify(result));
                 $('#count').html("已绑定数量"+result.data.realcount+"/"+result.data.count);
                 $('#score').html("已绑定分数"+result.data.realscore+"/"+result.data.score);
             }
