@@ -15,3 +15,10 @@
   1.重构身份验证模块
    
   2.修复认证提权BUG
+  
+ ## 1.36  20171031
+  1.更新数据库表结构
+  ```
+  alter table exam_examination add examination_statistics datetime
+  ```
+  

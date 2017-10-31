@@ -23,6 +23,7 @@ public class ExamExaminationEntity {
     private Integer signalCount;
     private Integer multipleCount;
     private Integer judgementCount;
+    private Timestamp examinationStatistics;
 
     @Id
     @Column(name = "examination_ID", nullable = false, length = 10)
@@ -207,5 +208,15 @@ public class ExamExaminationEntity {
 
     public void setJudgementCount(Integer judgementCount) {
         this.judgementCount = judgementCount;
+    }
+
+    @Basic
+    @Column(name = "examination_statistics")
+    public Timestamp getExaminationStatistics() {
+        return examinationStatistics;
+    }
+
+    public void setExaminationStatistics(Timestamp examinationStatistics) {
+        this.examinationStatistics = examinationStatistics;
     }
 }
