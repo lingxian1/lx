@@ -198,6 +198,13 @@ public class DaoTest{
         System.out.println("55");
 
     }
+
+    @Test
+    public void test18(){
+        gradeDao.findGradeForArea("2017091301");
+        gradeDao.findGradeForArea("");
+        gradeDao.findGradeForArea("2017");
+    }
 }
 
 

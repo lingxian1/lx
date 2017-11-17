@@ -9,7 +9,6 @@ import com.exam.common.entity.ExamAreaEntity;
 import com.exam.common.entity.ExamExamineeEntity;
 import com.exam.common.entity.ExamGradeEntity;
 import com.exam.common.other.AllGrade;
-import com.exam.common.other.GradeArea;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.commons.collections4.ComparatorUtils;
@@ -100,38 +99,38 @@ public class GradeManagerController {
         if (areaIds == null) {
             return Response.error();
         }
-        /**
-         * 根据区域找出对应区域考生 遍历 通过查找成绩表对应列 统计平均分
-         */
-        List<GradeArea> list = new ArrayList<>();
-        for (int i = 0; i < areaIds.size(); i++) {
-            List<ExamExamineeEntity> entities = examineeDao.findBy("areaId", areaIds.get(i).getAreaId());
-            if (entities == null) {
-                return Response.error();
-            }
-            int sumGrade = 0;
-            int count = 0;
-            //计算平均分
-            for (ExamExamineeEntity examinee : entities) {
-                ExamGradeEntity gradeEntity = gradeDao.findGrade(examinee.getExamineeId(), examinationId);
-                if (!gradeEntity.getExaminationState().equals("is null")) {
-                    sumGrade += gradeEntity.getGrade();
-                    count++;
-                }
-            }
-
-            GradeArea gradeArea = new GradeArea();
-            gradeArea.setAreaName(areaIds.get(i).getAreaName());
-            gradeArea.setExaminationId(examinationId);
-            gradeArea.setExamineeCount(count);
-            if (count == 0) {
-                gradeArea.setGradeAvg(0);
-            } else {
-                gradeArea.setGradeAvg((double) sumGrade / count);
-            }
-            list.add(gradeArea);
-        }
-        return Response.ok(list);
+//        /**
+//         * 根据区域找出对应区域考生 遍历 通过查找成绩表对应列 统计平均分
+//         */
+ //       List<GradeArea> list = new ArrayList<>();
+//        for (int i = 0; i < areaIds.size(); i++) {
+//            List<ExamExamineeEntity> entities = examineeDao.findBy("areaId", areaIds.get(i).getAreaId());
+//            if (entities == null) {
+//                return Response.error();
+//            }
+//            int sumGrade = 0;
+//            int count = 0;
+//            //计算平均分
+//            for (ExamExamineeEntity examinee : entities) {
+//                ExamGradeEntity gradeEntity = gradeDao.findGrade(examinee.getExamineeId(), examinationId);
+//                if (!gradeEntity.getExaminationState().equals("is null")) {
+//                    sumGrade += gradeEntity.getGrade();
+//                    count++;
+//                }
+//            }
+//
+//            GradeArea gradeArea = new GradeArea();
+//            gradeArea.setAreaName(areaIds.get(i).getAreaName());
+//            gradeArea.setExaminationId(examinationId);
+//            gradeArea.setExamineeCount(count);
+//            if (count == 0) {
+//                gradeArea.setGradeAvg(0);
+//            } else {
+//                gradeArea.setGradeAvg((double) sumGrade / count);
+//            }
+//            list.add(gradeArea);
+//        }
+        return Response.ok(gradeDao.findGradeForArea(examinationId));
     }
 }
 

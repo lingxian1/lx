@@ -185,6 +185,7 @@ public class QuestionDao extends AbstractDao<ExamQuestionEntity> {
 
     /**
      * 分类数统计
+     * sql查询结果转换成对象
      * @return
      */
     public List<QuestionClass> questionClass(){

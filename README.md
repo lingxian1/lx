@@ -21,4 +21,5 @@
   ```
   alter table exam_examination add examination_statistics datetime
   ```
-  
+ ## 1.37-1.38 20171117
+  1.优化错题统计和区域统计逻辑，调高统计效率

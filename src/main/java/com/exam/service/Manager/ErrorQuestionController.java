@@ -6,6 +6,7 @@ import com.exam.common.dao.AnswerLogDao;
 import com.exam.common.dao.ExamPaperDao;
 import com.exam.common.dao.ExaminationDao;
 import com.exam.common.entity.ExamAnswerLogEntity;
+import com.exam.common.entity.ExamExaminationEntity;
 import com.exam.common.entity.ExamExaminationPaperEntity;
 import com.exam.common.util.Assert;
 import org.apache.commons.beanutils.BeanComparator;
@@ -15,8 +16,12 @@ import org.apache.commons.collections4.comparators.ComparatorChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -36,32 +41,30 @@ public class ErrorQuestionController {
 
     @GetMapping
     public Response errorQuestion(@RequestParam(defaultValue = "") String examinationId) {
-        Assert.isFalse("".equals(examinationId) || examinationId.length() > 10, ErrorCode.EXAM_ID_ERROR);
+        Assert.isFalse("".equals(examinationId) || examinationId.length() > 10, ErrorCode.EXAM_ID_ERROR);//断言
 //            if("".equals(examinationId)||examinationId.length()>10){
 //                return Response.error(ErrorCode.EXAM_ID_ERROR);
 //            }
-//            /**
-//             * 1.判断考试是否结束
-//             * 2.未结束，统计并保存数据库
-//             * 3.结束，遍历是否存在2的状态
-//             *      3.1存在，将2状态改为3 统计保存数据库
-//             *      3.2不存在，直接从表中返回正确率
-//             */
-//            ExamExaminationEntity examinationEntity=examinationDao.findById(examinationId);
-//            if(examinationEntity==null){
-//                return Response.error(ErrorCode.EXAM_ID_ERROR);
-//            }
-//
-//            Timestamp endtime=examinationEntity.getExaminationEnd();
-//            Timestamp nowtime=new Timestamp(System.currentTimeMillis());
-//            if(nowtime.getTime()<endtime.getTime()){
-//                System.out.println("examing!!");
-//                statistics(examinationId,2.0);
-//            }else{
-//                System.out.println("examed!!");
-//                statistics(examinationId,3.0);
-//            }
-        statistics(examinationId, 2.0);
+            /**
+             * 1.判断考试统计时间是否为考试结束后
+             * 2.未结束，统计并保存数据库，保存统计时间
+             * 3.结束，直接读取数据
+             */
+            ExamExaminationEntity examinationEntity=examinationDao.findById(examinationId);
+            if(examinationEntity==null){
+                return Response.error(ErrorCode.EXAM_ID_ERROR);
+            }
+
+            Timestamp statisticsTime=examinationEntity.getExaminationStatistics(); //统计时间
+            Timestamp endTime=examinationEntity.getExaminationEnd(); //结束时间
+            Timestamp nowTime=new Timestamp(System.currentTimeMillis());
+            if(statisticsTime==null||statisticsTime.getTime()<endTime.getTime()+15 * 60 * 1000){
+                statistics(examinationId,2.0);
+                // 保存统计时间
+                examinationEntity.setExaminationStatistics(nowTime);
+                examinationDao.update(examinationEntity);
+            }
+
 
         //移除大于1的未使用试题
         List<ExamExaminationPaperEntity> entities = examPaperDao.findBy("examinationId", examinationId, false);

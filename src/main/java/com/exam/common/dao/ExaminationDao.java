@@ -93,6 +93,7 @@ public class ExaminationDao extends AbstractDao<ExamExaminationEntity>{
         update(examExaminationEntity);
     }
 
+
     /**
      * 生成新的考试Id
      * @return

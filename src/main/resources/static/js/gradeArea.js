@@ -32,7 +32,7 @@ function forms() {
         data: grid_data,
         datatype: "local",
         mtype:"POST",
-        height: 450,
+        height: 250,
         colNames: ['考试编号', '区域', '参加人数',
             '平均分'],
         colModel: [

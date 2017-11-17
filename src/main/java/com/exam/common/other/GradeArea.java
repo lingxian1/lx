@@ -7,8 +7,8 @@ package com.exam.common.other;
 public class GradeArea {
     private String areaName;
     private String examinationId;
-    private int examineeCount;
-    private double gradeAvg;
+    private Number examineeCount;
+    private Number gradeAvg;
 
     public String getAreaName() {
         return areaName;
@@ -26,19 +26,19 @@ public class GradeArea {
         this.examinationId = examinationId;
     }
 
-    public int getExamineeCount() {
+    public Number getExamineeCount() {
         return examineeCount;
     }
 
-    public void setExamineeCount(int examineeCount) {
+    public void setExamineeCount(Number examineeCount) {
         this.examineeCount = examineeCount;
     }
 
-    public double getGradeAvg() {
+    public Number getGradeAvg() {
         return gradeAvg;
     }
 
-    public void setGradeAvg(double gradeAvg) {
+    public void setGradeAvg(Number gradeAvg) {
         this.gradeAvg = gradeAvg;
     }
 }
