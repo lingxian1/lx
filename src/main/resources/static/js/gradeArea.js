@@ -5,6 +5,7 @@ var grid_data;
  * 获取区域考试信息
  */
 $(function(){
+    $("#state_info").removeClass("displayno");
     $.ajax({
         type: "get",
         url: "/gradeManager/area",
@@ -12,6 +13,7 @@ $(function(){
         success: function (result) {
             if(result.status==200){
                 //console.log(JSON.stringify(result));
+                $("#state_info").addClass("displayno");
                 grid_data=result.data;
                 forms();
             }

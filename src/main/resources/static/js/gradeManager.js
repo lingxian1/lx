@@ -4,15 +4,18 @@ var grid_selector = "#grid-table";
 var flag=0;
 function query(){
     var info = $("[name='info']").val();
+    $("#state_info").removeClass("displayno");
     if(info==""){
         alert("考试Id为空");
     }else {
+
         $.ajax({
             type: "get",
             url: "/gradeManager/all",             //向springboot请求数据的url
             data: {"examinationId": info}, //发送登陆ID及Token
             // async:false,
             success: function (result) {
+                $("#state_info").addClass("displayno");
                 if (result.status == 200) {
                   //  console.log(JSON.stringify(result));
                     grid_data = result.data;

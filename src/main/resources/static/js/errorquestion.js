@@ -8,12 +8,14 @@ function query(){
     if(info==""){
         alert("考试Id为空");
     }else {
+        $("#state_info").removeClass("displayno");
         $.ajax({
             type: "get",
             url: "/errorQuestionManager",             //向springboot请求数据的url
             data: {"examinationId": info}, //发送登陆ID及Token
             // async:false,
             success: function (result) {
+                $("#state_info").addClass("displayno");
                 if (result.status == 200) {
                  //   console.log(JSON.stringify(result));
                     grid_data = result.data;
