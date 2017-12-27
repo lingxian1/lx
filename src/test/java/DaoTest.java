@@ -50,6 +50,7 @@ public class DaoTest{
     ExamPaperDao examPaperDao;
     @Autowired
     ExamineeDao examineeDao;
+
     @Test
     public void get(){
         System.out.println(creditDao.findAll().size());
@@ -143,41 +144,85 @@ public class DaoTest{
 //       for(ExamExaminationPaperEntity entity:list){
 //           System.out.println(entity.getExaminationId()+"  "+entity.getQuestionId()+"---"+entity.getScore());
 //       }
-        for(int j=0;j<10;j++){
-            List<Integer> list= RandomUtil.getRandom(0,2,1);
-            for(Integer i:list){
-                System.out.println(i);
-            }
-        }
-
-        for(int j=0;j<10;j++){
-            List<Integer> list= RandomUtil.getRandom(1,2,1);
-            for(Integer i:list){
-                System.out.println(i);
-            }
-        }
-
-        for(int j=0;j<10;j++){
-            List<Integer> list= RandomUtil.getRandom(0,3,2);
-            for(Integer i:list){
-                System.out.println(i);
-            }
-        }
-
-        for(int j=0;j<10;j++){
-            List<Integer> list= RandomUtil.getRandom(1,7,2);
-            for(Integer i:list){
-                System.out.println(i);
-            }
-        }
-        List<Integer> list= RandomUtil.getRandom(1,1,-1);
-        for(Integer i:list){
+        List<Integer> list1= RandomUtil.getRandom(2,2,1);
+        for(Integer i:list1){
             System.out.println(i);
         }
-        List<Integer> list2= RandomUtil.getRandom(1,1,0);
+
+        List<Integer> list2= RandomUtil.getRandom(4,2,-1);
         for(Integer i:list2){
             System.out.println(i);
         }
+
+        List<Integer> list3= RandomUtil.getRandom(1,2,1);
+        for(Integer i:list3){
+            System.out.println(i);
+        }
+
+        int list4count=0;
+        for(int j=0;j<100000;j++){
+            int a[]=new int[100];
+            for (Integer index:a){
+                a[index]=0;
+            }
+            List<Integer> list4= RandomUtil.getRandom(1,100,10);
+            for(int index=0;index<list4.size();index++){
+                if(list4.get(index)>=1&&list4.get(index)<100){
+                    a[list4.get(index)]=1;
+                }
+            }
+            int count=0;
+            for (int index=0;index<a.length;index++){
+                if(a[index]==1){
+                    count++;
+                }
+            }
+            if(count==10){
+                list4count++;
+            }
+        }
+        System.out.println(list4count);
+
+//        for(int j=0;j<10;j++){
+//            long start=System.currentTimeMillis();
+//            List<Integer> list= RandomUtil.getRandom(10000,20000,9999);
+//            long end=System.currentTimeMillis();
+//            System.out.println(end-start);
+//            for(Integer i:list){
+//                System.out.println(i);
+//            }
+
+ //       }
+
+
+//        for(int j=0;j<10;j++){
+//            List<Integer> list= RandomUtil.getRandom(1,2,1);
+//            for(Integer i:list){
+//                System.out.println(i);
+//            }
+//        }
+
+//        for(int j=0;j<10;j++){
+//            List<Integer> list= RandomUtil.getRandom(0,3,2);
+//            for(Integer i:list){
+//                System.out.println(i);
+//            }
+//        }
+//
+//        for(int j=0;j<10;j++){
+//            List<Integer> list= RandomUtil.getRandom(1,7,2);
+//            for(Integer i:list){
+//                System.out.println(i);
+//            }
+//        }
+//        List<Integer> list= RandomUtil.getRandom(1,1,-1);
+//        for(Integer i:list){
+//            System.out.println(i);
+//        }
+//        List<Integer> list2= RandomUtil.getRandom(1,1,0);
+//        for(Integer i:list2){
+//            System.out.println(i);
+//        }
     }
     @Test
     public void test15(){
@@ -194,8 +239,10 @@ public class DaoTest{
 
     @Test
     public void test17() {
-        examPaperDao.findScore("444","555");
-        System.out.println("55");
+        for(int i=0;i<10;i++){
+            RandomUtil.getRandom(1,30,10);
+            System.out.println("-------------------------");
+        }
 
     }
 
