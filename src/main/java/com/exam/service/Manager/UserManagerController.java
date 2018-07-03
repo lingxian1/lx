@@ -5,6 +5,7 @@ import com.exam.common.Response;
 import com.exam.common.dao.ExamineeDao;
 import com.exam.common.dao.SysUserDao;
 import com.exam.common.entity.ExamExamineeEntity;
+import com.exam.common.util.Md5Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,6 @@ public class UserManagerController {
         }
         return Response.ok(examExaminationEntities);
     }
-
 
     /**
      * 编辑信息 考生信息管理
@@ -148,7 +148,9 @@ public class UserManagerController {
         ExamExamineeEntity examinee = new ExamExamineeEntity();
         examinee.setExamineeId(examineeDao.newUsersId());
         examinee.setName(name);
-        examinee.setPassword("123456");
+        String defaultSalt = Md5Utils.stringMD5("123456");
+        examinee.setPassword(Md5Utils.stringMD5(defaultSalt+defaultSalt));
+        examinee.setSalt(defaultSalt);
         examinee.setPhone(phone);
         examinee.setIdentity("1");
         examinee.setSex(sex);
@@ -156,4 +158,5 @@ public class UserManagerController {
         examineeDao.save(examinee);
         return true;
     }
+
 }

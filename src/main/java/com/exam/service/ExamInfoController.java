@@ -2,20 +2,20 @@ package com.exam.service;
 
 import com.exam.common.Response;
 import com.exam.common.dao.ExaminationDao;
+import com.exam.common.dao.ExamineeDao;
 import com.exam.common.dao.GradeDao;
 import com.exam.common.entity.ExamExaminationEntity;
+import com.exam.common.entity.ExamExamineeEntity;
+import com.exam.common.util.Md5Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static com.exam.common.ErrorCode.NO_SUCH_EXAM;
-import static com.exam.common.ErrorCode.USER_ERROR;
+import static com.exam.common.ErrorCode.*;
 
 /**
  * Created by LX on 2017/7/21.
@@ -28,6 +28,8 @@ public class ExamInfoController {
     ExaminationDao examinationDao;
     @Autowired
     GradeDao gradeDao;
+    @Autowired
+    ExamineeDao examineeDao;
     private Logger logger = LoggerFactory.getLogger(ExamInfoController.class);
 
     /**
@@ -73,5 +75,32 @@ public class ExamInfoController {
         }
         ExamExaminationEntity examExaminationEntity=examinationDao.findById(examinationId);
         return Response.ok(examExaminationEntity);
+    }
+
+    @PostMapping("/changePassword")
+    public Response changePassword(@RequestParam(defaultValue = "") String old,
+                                   @RequestParam(defaultValue = "") String new0,
+                                   @CookieValue(value = "userId", defaultValue = "") String examineeId){
+        ExamExamineeEntity examExamineeEntity=examineeDao.findByStr("examineeId",examineeId);
+        if(examExamineeEntity==null){
+            return Response.error(USER_EMPTY);
+        }else if(examExamineeEntity.getIdentity()!=null && examExamineeEntity.getIdentity().equals("2")){
+            return Response.error(USER_DELETE);
+        }
+        String temp=examExamineeEntity.getSalt()+old;
+        if(examExamineeEntity.getPassword().equals(Md5Utils.stringMD5(temp))){
+            String getsalt = Md5Utils.stringMD5(examineeId+System.currentTimeMillis());
+            String newpass = Md5Utils.stringMD5(getsalt+new0);
+            examExamineeEntity.setSalt(getsalt);
+            examExamineeEntity.setPassword(newpass);
+            examineeDao.update(examExamineeEntity);
+            return Response.ok();
+        }else{
+            return Response.error(PASSWORD_ERROR);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Md5Utils.stringMD5("111111"));
     }
 }

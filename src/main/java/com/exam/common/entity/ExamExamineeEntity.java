@@ -3,7 +3,7 @@ package com.exam.common.entity;
 import javax.persistence.*;
 
 /**
- * Created by LX on 2017/7/27.
+ * Created by LX on 2018/7/3.
  */
 @Entity
 @Table(name = "exam_examinee", schema = "exam", catalog = "")
@@ -15,6 +15,7 @@ public class ExamExamineeEntity {
     private String identity;
     private String password;
     private String sex;
+    private String salt;
 
     @Id
     @Column(name = "examinee_ID", nullable = false, length = 10)
@@ -67,7 +68,7 @@ public class ExamExamineeEntity {
     }
 
     @Basic
-    @Column(name = "password", nullable = true, length = 15)
+    @Column(name = "password", nullable = true, length = 32)
     public String getPassword() {
         return password;
     }
@@ -86,20 +87,31 @@ public class ExamExamineeEntity {
         this.sex = sex;
     }
 
+    @Basic
+    @Column(name = "salt", nullable = true, length = 32)
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ExamExamineeEntity that = (ExamExamineeEntity) o;
+        ExamExamineeEntity entity = (ExamExamineeEntity) o;
 
-        if (examineeId != null ? !examineeId.equals(that.examineeId) : that.examineeId != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
-        if (areaId != null ? !areaId.equals(that.areaId) : that.areaId != null) return false;
-        if (identity != null ? !identity.equals(that.identity) : that.identity != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
+        if (examineeId != null ? !examineeId.equals(entity.examineeId) : entity.examineeId != null) return false;
+        if (name != null ? !name.equals(entity.name) : entity.name != null) return false;
+        if (phone != null ? !phone.equals(entity.phone) : entity.phone != null) return false;
+        if (areaId != null ? !areaId.equals(entity.areaId) : entity.areaId != null) return false;
+        if (identity != null ? !identity.equals(entity.identity) : entity.identity != null) return false;
+        if (password != null ? !password.equals(entity.password) : entity.password != null) return false;
+        if (sex != null ? !sex.equals(entity.sex) : entity.sex != null) return false;
+        if (salt != null ? !salt.equals(entity.salt) : entity.salt != null) return false;
 
         return true;
     }
@@ -113,6 +125,7 @@ public class ExamExamineeEntity {
         result = 31 * result + (identity != null ? identity.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (salt != null ? salt.hashCode() : 0);
         return result;
     }
 }

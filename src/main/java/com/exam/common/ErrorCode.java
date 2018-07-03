@@ -17,6 +17,8 @@ public enum ErrorCode {
     PHONE_OR_PASSWORD_ERROR(10001, "用户名或者密码不正确"),
     USER_ERROR(10002, "用户未登陆请返回登陆页面"),
     USER_EMPTY(10003, "用户不存在"),
+    USER_DELETE(9999, "用户已删除"),
+    PASSWORD_ERROR(9998, "密码错误"),
     EXAM_FINISHED(10004, "考试已完成"),
     DATA_ERROR(10005, "数据字段格式或长度错误"),
     EXAM_ID_ERROR(10006, "考试Id错误或没有考试信息"),

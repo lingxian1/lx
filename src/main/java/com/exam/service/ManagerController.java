@@ -37,6 +37,11 @@ public String hello(){
     public String exampoint(){
         return "exam/exampoint";
     }
+    @RequestMapping("/changePasswordExaminees")
+    public String changePassword(){
+        return "exam/changepassword";
+    }
+
     @RequestMapping("/questionmanager")
     public String question(){
         return "manager/questionmanager";
@@ -45,7 +50,6 @@ public String hello(){
     public String questionclassinfo(){
         return "manager/questionclassinfo";
     }
-
     @RequestMapping("/manager")
     public String manager(){
         return "manager/manager";
@@ -78,6 +82,7 @@ public String hello(){
     public String errorQuestions(){
         return "manager/errorQuestion";
     }
+
 
     @RequestMapping("/error1")
     public String error1(){

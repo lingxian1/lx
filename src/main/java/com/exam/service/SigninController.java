@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.exam.common.ErrorCode.DATA_ERROR;
-import static com.exam.common.ErrorCode.PHONE_OR_PASSWORD_ERROR;
-import static com.exam.common.ErrorCode.USER_EMPTY;
+import static com.exam.common.ErrorCode.*;
 
 /**
  * Created by LX on 2017/7/21.
@@ -47,9 +45,11 @@ public class SigninController {
         ExamExamineeEntity examExamineeEntity=examineeDao.findByStr("phone",phone);
         if(examExamineeEntity==null){
             return Response.error(USER_EMPTY);
+        }else if(examExamineeEntity.getIdentity()!=null && examExamineeEntity.getIdentity().equals("2")){
+            return Response.error(USER_DELETE);
         }
-        String enpass= Md5Utils.stringMD5(examExamineeEntity.getPassword()); //数据库获取密码并获取其MD5值
-        if(enpass.equals(password)){
+        String temp=examExamineeEntity.getSalt()+password;
+        if(examExamineeEntity.getPassword().equals(Md5Utils.stringMD5(temp))){
 //            examExamineeEntity.setPassword("");//不返回密码
 //            logger.info(examExamineeEntity.getExamineeId());
 //            return Response.ok(examExamineeEntity);
@@ -58,4 +58,5 @@ public class SigninController {
         else
             return Response.error(PHONE_OR_PASSWORD_ERROR);
     }
+
 }

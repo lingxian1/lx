@@ -28,9 +28,17 @@
    1.优化随机抽题算法，调高效率
    
    2.调整部分注释
- ## 1.41 20180703
+ ## 1.41-1.42 20180703
    1.修改一个错误拼写
   ```
   ALTER TABLE exam_examination CHANGE signal_count single_count INT
   UPDATE exam_question SET question_type =REPLACE(question_type,'signal','single') where question_type = 'signal'
   ```
+   2.强化登陆密码保存并提供修改密码功能
+   ```
+   ALTER TABLE exam_examinee MODIFY password VARCHAR(32)
+   ALTER TABLE exam_examinee add salt varchar(32)
+   UPDATE exam_examinee SET password = '281ab141a12f67f5238719cd876ce96e'
+   UPDATE exam_examinee SET salt = 'e10adc3949ba59abbe56e057f20f883e'
+   ```
+   

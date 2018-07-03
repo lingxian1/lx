@@ -1,4 +1,4 @@
-function signal() {
+function signin() {
     var uid = $("[name='uid']").val();
     var password = $("[name='password']").val();
     console.log(password);

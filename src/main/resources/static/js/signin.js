@@ -1,4 +1,4 @@
-function single() {
+function elogin() {
     var phone = $("[name='uid']").val();
     var password = $("[name='password']").val();
     console.log(password);
