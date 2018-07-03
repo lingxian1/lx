@@ -7,7 +7,7 @@ var questionIndex = 0;
 var questionID="";
 //题目类型
 // var questionType = "multiple";
-var questionType = "signal";
+var questionType = "single";
 //问题
 var question = "题目获取中...";
 //选项数量
@@ -167,7 +167,7 @@ function setStates() {
 function setQuestion() {
     var index=questionIndex+1;
     var temp;
-    if(questionType=="signal"){
+    if(questionType=="single"){
         temp="单选题";
     }else if(questionType=="multiple") {
         temp="多选题";
@@ -196,7 +196,7 @@ function setSelects() {
 
 //被选中效果 questionType全局
 function isSelected(e) {
-    if (questionType == "signal"||questionType=="judgement") {
+    if (questionType == "single"||questionType=="judgement") {
         $('[id^="OK_"]').addClass('hide');
         $('#OK_'+e.id.substr(e.id.length-1,1)).removeClass('hide');
         answerStr=e.id.substr(e.id.length-1,1);

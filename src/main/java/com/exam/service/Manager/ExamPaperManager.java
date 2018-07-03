@@ -146,7 +146,7 @@ public class ExamPaperManager {
         if (questionType == null) {
             return Response.error(ErrorCode.QUESTION_TYPE_ERROR);
         }
-        if (qs > questionType.getQuestionSignal() || qm > questionType.getQuestionMultiple() ||
+        if (qs > questionType.getQuestionSingle() || qm > questionType.getQuestionMultiple() ||
                 qj > questionType.getQuestionJudgement()) {
             return Response.error(ErrorCode.QUESTION_CLASS_ERROR);
         }
@@ -155,7 +155,7 @@ public class ExamPaperManager {
         Assert.isFalse(examinationEntity == null || examinationEntity.getIsDel().equals("00"), ErrorCode.EXAM_ID_ERROR);
         Assert.isFalse((!examinationEntity.getQuestionCount().equals(count)) ||
                 (!examinationEntity.getExaminationScoreAll().equals(scoreAll)), ErrorCode.EXAM_PUBLISH_SCORE_ERROR);
-        examinationEntity.setSignalCount(qs);
+        examinationEntity.setsingleCount(qs);
         examinationEntity.setMultipleCount(qm);
         examinationEntity.setJudgementCount(qj);
         examinationEntity.setIsDel("00"); //发布考试
@@ -170,7 +170,7 @@ public class ExamPaperManager {
             String qId = Qentity.getQuestionId();
             String qClass = Qentity.getQuestionType();
             int score = 0;
-            if (qClass.equals("signal")) {
+            if (qClass.equals("single")) {
                 score = ss;
             } else if (qClass.equals("multiple")) {
                 score = sm;
@@ -333,7 +333,7 @@ public class ExamPaperManager {
         while (iterator.hasNext()) {
             ExamQuestionEntity entity = iterator.next();
             String temp = entity.getQuestionType();
-            if (temp.equals("signal")) {
+            if (temp.equals("single")) {
                 s++;
             } else if (temp.equals("multiple")) {
                 m++;
@@ -343,7 +343,7 @@ public class ExamPaperManager {
         }
         QuestionType questionType = new QuestionType();
         questionType.setQuestionAll(count);
-        questionType.setQuestionSignal(s);
+        questionType.setQuestionSingle(s);
         questionType.setQuestionMultiple(m);
         questionType.setQuestionJudgement(j);
 

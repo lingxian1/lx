@@ -62,14 +62,14 @@ public class ExamController {
         List<ExamQuestionEntity> questionEntities = new ArrayList<>();
         Iterator<ExamExaminationPaperEntity> iterator;
         ExamExaminationEntity examinationEntity = examinationDao.findById(examinationId);
-        Integer signalCount = examinationEntity.getSignalCount();
+        Integer singleCount = examinationEntity.getsingleCount();
         Integer multipleCount = examinationEntity.getMultipleCount();
         Integer judgementCountCount = examinationEntity.getJudgementCount();
 
-        if (signalCount == null && multipleCount == null && judgementCountCount == null) {
+        if (singleCount == null && multipleCount == null && judgementCountCount == null) {
             iterator = examPaperDao.findByexam(examinationId).iterator();
         } else {
-            iterator = examPaperDao.findByexamRandom(examinationId, signalCount, multipleCount, judgementCountCount).iterator();
+            iterator = examPaperDao.findByexamRandom(examinationId, singleCount, multipleCount, judgementCountCount).iterator();
         }
 
         while (iterator.hasNext()) {

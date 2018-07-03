@@ -50,7 +50,7 @@ public class ExamPaperDao extends AbstractDao<ExamExaminationPaperEntity>{
         for(int i=0;i<entities.size();i++){
             ExamExaminationPaperEntity entity=entities.get(i);
             String type=questionDao.findById(entity.getQuestionId()).getQuestionType();
-            if("signal".equals(type)){
+            if("single".equals(type)){
                 lists.add(i);
             }else if("multiple".equals(type)){
                 listm.add(i);

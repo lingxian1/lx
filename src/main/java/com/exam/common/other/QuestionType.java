@@ -6,7 +6,7 @@ package com.exam.common.other;
  */
 public class QuestionType {
     private Integer QuestionAll;
-    private Integer QuestionSignal;
+    private Integer QuestionSingle;
     private Integer QuestionMultiple;
     private Integer QuestionJudgement;
 
@@ -18,12 +18,12 @@ public class QuestionType {
         QuestionAll = questionAll;
     }
 
-    public Integer getQuestionSignal() {
-        return QuestionSignal;
+    public Integer getQuestionSingle() {
+        return QuestionSingle;
     }
 
-    public void setQuestionSignal(Integer questionSignal) {
-        QuestionSignal = questionSignal;
+    public void setQuestionSingle(Integer questionSingle) {
+        QuestionSingle = questionSingle;
     }
 
     public Integer getQuestionMultiple() {

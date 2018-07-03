@@ -82,6 +82,50 @@ public class GradeManagerController {
         return Response.ok(list);
     }
 
+    /**
+     * 某场考试所有成绩
+     * @param examinationId
+     * @return
+     */
+    @GetMapping("/getGrade")
+    public Response gradeExport(@RequestParam(defaultValue = "") String examinationId) {
+        if ("".equals(examinationId) || examinationId.length() > 10) {
+            return Response.error(ErrorCode.EXAM_ID_ERROR);
+        }
+        List<AllGrade> list = new ArrayList<>();
+        List<ExamGradeEntity> entities = gradeDao.findGradeForExam(examinationId);
+        //对成绩进行排序
+        Comparator mycmp1 = ComparableComparator.getInstance();
+        mycmp1 = ComparatorUtils.reversedComparator(mycmp1);//降序
+        Comparator mycmp2 = ComparableComparator.getInstance();
+        mycmp2 = ComparatorUtils.nullHighComparator(mycmp2); //允许null
+        // 声明要排序的对象的属性，并指明所使用的排序规则，如果不指明，则用默认排序
+        ArrayList<Object> sortFields = new ArrayList<Object>();
+        sortFields.add(new BeanComparator("grade", mycmp1));
+        sortFields.add(new BeanComparator("grade", mycmp2));
+        // 创建一个排序链
+        ComparatorChain multiSort = new ComparatorChain(sortFields);
+        // 开始真正的排序，按照先主，后副的规则
+        Collections.sort(entities, multiSort);
+
+        //组装
+        Iterator<ExamGradeEntity> iterator = entities.iterator();
+        while (iterator.hasNext()) {
+            ExamGradeEntity examGradeEntity = iterator.next();
+            String examineeId = examGradeEntity.getExamineeId();
+            ExamExamineeEntity examineeEntity = examineeDao.findById(examineeId);
+            AllGrade allGrade = new AllGrade();
+            allGrade.setExamineeId(examineeId);
+            allGrade.setGrade(examGradeEntity.getGrade());
+            allGrade.setExaminationTime(examGradeEntity.getExaminationTime());
+            allGrade.setPhone(examineeEntity.getPhone());
+            allGrade.setName(examineeEntity.getName());
+            allGrade.setAreaName(areaDao.findById(examineeEntity.getAreaId()).getAreaName());
+            list.add(allGrade);
+        }
+        return Response.ok(list);
+    }
+
 
     /**
      * 区域统计--考试成绩管理

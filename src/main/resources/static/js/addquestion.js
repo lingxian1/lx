@@ -240,7 +240,7 @@ function getinfo(){
             console.log("index:"+index);
             //某单元格内容
             var celldata = $('#grid-table').jqGrid('getCell',value,3);
-            if(celldata=="signal"){
+            if(celldata=="single"){
                 score=types;
             }else if(celldata="multiple"){
                 score=typem;

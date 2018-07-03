@@ -28,3 +28,9 @@
    1.优化随机抽题算法，调高效率
    
    2.调整部分注释
+ ## 1.41 20180703
+   1.修改一个错误拼写
+  ```
+  ALTER TABLE exam_examination CHANGE signal_count single_count INT
+  UPDATE exam_question SET question_type =REPLACE(question_type,'signal','single') where question_type = 'signal'
+  ```

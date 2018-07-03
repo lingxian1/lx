@@ -20,7 +20,7 @@ public class ExamExaminationEntity {
     private Integer examineeCount;
     private String examinationInfo;
     private String isDel;
-    private Integer signalCount;
+    private Integer singleCount;
     private Integer multipleCount;
     private Integer judgementCount;
     private Timestamp examinationStatistics;
@@ -181,13 +181,13 @@ public class ExamExaminationEntity {
     }
 
     @Basic
-    @Column(name = "signal_count", nullable = true)
-    public Integer getSignalCount() {
-        return signalCount;
+    @Column(name = "single_count", nullable = true)
+    public Integer getsingleCount() {
+        return singleCount;
     }
 
-    public void setSignalCount(Integer signalCount) {
-        this.signalCount = signalCount;
+    public void setsingleCount(Integer singleCount) {
+        this.singleCount = singleCount;
     }
 
     @Basic

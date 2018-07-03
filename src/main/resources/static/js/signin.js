@@ -1,4 +1,4 @@
-function signal() {
+function single() {
     var phone = $("[name='uid']").val();
     var password = $("[name='password']").val();
     console.log(password);
