@@ -391,3 +391,28 @@ function qinfo() {
     window.open('/questionclassinfoManager','questionclassinfoManager',
         'height=1000,width=600,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
 }
+
+function uploadExcel() {
+    var xhr;
+    //上传文件方法
+    var fileObj = document.getElementById("file").files[0]; // js 获取文件对象
+    var url = "/fileManager/uploadQuestion"; // 接收上传文件的后台地址
+    var form = new FormData(); // FormData 对象
+    form.append("file", fileObj); // 文件对象
+    xhr = new XMLHttpRequest();  // XMLHttpRequest 对象
+    xhr.open("post", url, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+    xhr.onload = uploadComplete; //请求完成
+    xhr.send(form); //开始上传，发送form数据
+}
+    //上传成功响应
+function uploadComplete(evt) {
+    //服务断接收完文件返回的结果
+    var data = JSON.parse(evt.target.responseText);
+    if(data.status===200) {
+        alert("上传成功！");
+    }else{
+        alert(data.message);
+    }
+    var obj=document.getElementById("file");
+    obj.outerHTML=obj.outerHTML;
+}

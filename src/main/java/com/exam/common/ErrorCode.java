@@ -32,6 +32,8 @@ public enum ErrorCode {
     QUESTION_CLASS_ERROR(10014, "分类上限错误"),
     EXAM_ERROR(10015, "考试无效"),
     QUESTION_TYPE_LENGTH_ERROR(10016, "分类长度错误不能大于20"),
+    FILE_UPLOAD_FAIL(10017,"文件上传失败"),
+    FILE_TYPE_ERROR(10018,"文件类型错误"),
     SYSTEM_PERSISTENT_INCORRECT_KEY(2, "持久化层查询键错误/编程错误"),
     SYS_NULL_OBJECT(3, "为空的对象"),
     SYS_LOGIN_TIMEOUT(4, "登陆过期"),

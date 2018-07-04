@@ -107,10 +107,14 @@
 <section id="main-content">
     <section class="wrapper">
             <div class="row nomargin">
-
-                <input name="info" type="text" placeholder="输入分类"/>
-                <button class='btn btn-info btn-sm' onclick="query()">查询</button>
-                <button class='btn btn-info btn-sm' id="showclass" onclick="qinfo()" style="float: right">查看分类</button>
+                <input name="info" type="text" placeholder="输入分类" style="float: left;margin-right: 10px;"/>
+                <button class='btn btn-info btn-sm' onclick="query()" style="float: left;margin-right: 10px;">查询</button>
+                <button class='btn btn-info btn-sm' id="showclass" onclick="qinfo()" style="float: left">查看分类</button>
+                <div id="upload" style="float: right;">
+                    <span style="float:  left;margin-top:  11px;margin-right:  15px;font-weight: bold;">导入试题:</span>
+                    <input type="file" name="file" id="file" style="float: left;margin-top: 10px;"/>
+                    <button class='btn btn-info btn-sm' id="uploadExcel" onclick="uploadExcel()" style="float: left">上传Excel</button>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-12" >

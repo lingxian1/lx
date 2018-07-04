@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ExcelUtil {
     /**
-     * 读取Excel并包装为目标类list 目前仅支持Integer String
+     * 读取Excel并包装为目标类对象list 目前仅支持Integer String
      * @param input 文件流
      * @param title 表头所在行 从0开始
      * @param start 开始扫描的行 从0开始
