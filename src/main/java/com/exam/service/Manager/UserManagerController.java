@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.exam.common.ErrorCode.USER_DELETE;
+import static com.exam.common.ErrorCode.USER_EMPTY;
+
 /**
  * Created by LX on 2017/7/26.
  * 考生信息管理
@@ -47,6 +50,20 @@ public class UserManagerController {
             }
         }
         return Response.ok(examExaminationEntities);
+    }
+
+    @PostMapping("/resetPs")
+    public Response resetPs(@RequestParam(defaultValue = "") String phone){
+        ExamExamineeEntity examExamineeEntity=examineeDao.findByStr("phone",phone);
+        if(examExamineeEntity==null){
+            return Response.error(USER_EMPTY);
+        }else if(examExamineeEntity.getIdentity()!=null && examExamineeEntity.getIdentity().equals("2")){
+            return Response.error(USER_DELETE);
+        }
+        examExamineeEntity.setPassword("281ab141a12f67f5238719cd876ce96e");
+        examExamineeEntity.setSalt("e10adc3949ba59abbe56e057f20f883e");
+        examineeDao.update(examExamineeEntity);
+        return Response.ok();
     }
 
     /**

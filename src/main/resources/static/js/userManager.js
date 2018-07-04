@@ -187,3 +187,20 @@ jQuery(function($) {
 function reload1() {
     location.reload(true)
 }
+
+function resetPs() {
+    var phone = $("[name='info']").val();
+    $.ajax({
+        type: "post",
+        url: "/usersManager/resetPs",
+        data: {"userId":getCookie("userId"),"token":getCookie("token"),"phone":phone}, //发送登陆ID及Token
+        success: function (result) {
+            if(result.status==200){
+                alert("重置成功：已重置为123456");
+            }
+            else{
+                alert(result.message);
+            }
+        }
+    })
+}
