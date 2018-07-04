@@ -198,9 +198,7 @@ function resetPs() {
             if(result.status==200){
                 alert("重置成功：已重置为123456");
             }
-            else{
-                alert(result.message);
-            }
+            alert(result.message);
         }
     })
 }

@@ -203,4 +203,23 @@ public class ExamQuestionEntity {
         result = 31 * result + (questionOther != null ? questionOther.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ExamQuestionEntity{" +
+                "questionId='" + questionId + '\'' +
+                ", questionText='" + questionText + '\'' +
+                ", questionType='" + questionType + '\'' +
+                ", questionChooseCount=" + questionChooseCount +
+                ", questionChooseA='" + questionChooseA + '\'' +
+                ", questionChooseB='" + questionChooseB + '\'' +
+                ", questionChooseC='" + questionChooseC + '\'' +
+                ", questionChooseD='" + questionChooseD + '\'' +
+                ", questionAnswer='" + questionAnswer + '\'' +
+                ", questionClassification='" + questionClassification + '\'' +
+                ", questionCreateTime=" + questionCreateTime +
+                ", isDel='" + isDel + '\'' +
+                ", questionOther='" + questionOther + '\'' +
+                '}';
+    }
 }

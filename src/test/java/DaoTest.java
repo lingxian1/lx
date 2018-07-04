@@ -1,5 +1,6 @@
 import com.exam.Application;
 import com.exam.common.dao.*;
+import com.exam.common.entity.ExamQuestionEntity;
 import com.exam.common.util.RandomUtil;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
@@ -11,8 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
+
+import static com.exam.common.util.ExcelUtil.readExcel;
 
 
 @SpringBootTest(classes = Application.class)
@@ -251,6 +257,16 @@ public class DaoTest{
         gradeDao.findGradeForArea("2017091301");
         gradeDao.findGradeForArea("");
         gradeDao.findGradeForArea("2017");
+    }
+
+    @Test
+    public void t1() throws Exception{
+        File file = new File("d:\\question.xlsx");
+        InputStream inputStream = new FileInputStream(file);
+        List<ExamQuestionEntity> list= (List<ExamQuestionEntity>)readExcel(inputStream,1,3, ExamQuestionEntity.class);
+        for(ExamQuestionEntity e :list){
+            System.out.println(e.toString());
+        }
     }
 }
 
