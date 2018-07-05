@@ -6,6 +6,7 @@ import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
 import com.exam.service.GradeController;
 import com.exam.service.Manager.AdminLoginController;
+import com.exam.service.Manager.FileController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -268,6 +269,8 @@ public class DaoTest{
             System.out.println(e.toString());
         }
     }
+    @Autowired
+    FileController fileController;
 }
 
 

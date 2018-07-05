@@ -36,6 +36,8 @@ public class ManagerInterceptor implements HandlerInterceptor {
             }
             if (request.getRequestURI().toLowerCase().contains(s)) {
                 return true;
+            }else{
+                return false;
             }
         }
         response.sendRedirect(request.getContextPath() + "/error1");//重定向

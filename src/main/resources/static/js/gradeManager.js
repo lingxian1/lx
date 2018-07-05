@@ -4,11 +4,10 @@ var grid_selector = "#grid-table";
 var flag=0;
 function query(){
     var info = $("[name='info']").val();
-    $("#state_info").removeClass("displayno");
     if(info==""){
         alert("考试Id为空");
     }else {
-
+        $("#state_info").removeClass("displayno");
         $.ajax({
             type: "get",
             url: "/gradeManager/all",             //向springboot请求数据的url
@@ -20,6 +19,9 @@ function query(){
                   //  console.log(JSON.stringify(result));
                     grid_data = result.data;
                     createform();
+                    $("#ss").remove();
+                    var contentRight=$("#exportExcel");
+                    contentRight.append('<a id="ss" style="font-weight: bold" href="/fileManager/getGrade/'+info+'">导出Excel</a>')
                 }
                 else if (result.status == 10002) {
                     alert(result.message);
@@ -204,3 +206,5 @@ function getAraeInfo() {
             'height=800,width=600,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
     }
 }
+
+
