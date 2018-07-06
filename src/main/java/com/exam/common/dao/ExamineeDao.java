@@ -32,6 +32,19 @@ public class ExamineeDao extends AbstractDao<ExamExamineeEntity> {
     }
 
     /**
+     * 关键字段查询
+     * @param str
+     * @param value
+     * @return
+     */
+    public ExamExamineeEntity findByStr(String str,String value,Boolean isLike){
+        List<ExamExamineeEntity> examExamineeEntities = super.findBy(str, value, isLike);
+        if (examExamineeEntities.size() == 0) {
+            return null;
+        }
+        return examExamineeEntities.get(0);
+    }
+    /**
      * 查找所有考生信息
      * @return
      */

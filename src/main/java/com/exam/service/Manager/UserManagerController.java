@@ -54,7 +54,7 @@ public class UserManagerController {
 
     @PostMapping("/resetPs")
     public Response resetPs(@RequestParam(defaultValue = "") String phone){
-        ExamExamineeEntity examExamineeEntity=examineeDao.findByStr("phone",phone);
+        ExamExamineeEntity examExamineeEntity=examineeDao.findByStr("phone",phone, false);
         if(examExamineeEntity==null){
             return Response.error(USER_EMPTY);
         }else if(examExamineeEntity.getIdentity()!=null && examExamineeEntity.getIdentity().equals("2")){
