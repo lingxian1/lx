@@ -38,26 +38,26 @@ $(function(){
             var sumtime=result.data.answerTime;
             questionCount=result.data.questionCount;
             setTime(sumtime);
+            $.ajax({
+                type: "get",
+                url: "/questionExaminees",
+                data: {"examineeId":getCookie("userId"),"examinationId":getCookie("examinationIdU")},
+                success: function (result) {
+                    if(result.status==200){
+                        data=result.data;
+                        setAnswer(0);
+                        setQuestion();
+                        setSelects();
+                    }else{
+                        console.log(result.message);
+                        alert(result.message);
+                        location="/signin";
+                    }
+
+                }
+            })
         }
     }),
-        $.ajax({
-            type: "get",
-            url: "/questionExaminees",
-            data: {"examineeId":getCookie("userId"),"examinationId":getCookie("examinationIdU")},
-            success: function (result) {
-                if(result.status==200){
-                    data=result.data;
-                    setAnswer(0);
-                    setQuestion();
-                    setSelects();
-                }else{
-                    console.log(result.message);
-                    alert(result.message);
-                    location="/signin";
-                }
-
-            }
-        }),
         initAnswer()
 });
 
