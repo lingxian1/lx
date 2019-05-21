@@ -1,6 +1,7 @@
 import com.exam.Application;
 import com.exam.common.dao.*;
 import com.exam.common.entity.ExamQuestionEntity;
+import com.exam.common.util.Md5Utils;
 import com.exam.common.util.RandomUtil;
 import com.exam.service.ExamController;
 import com.exam.service.ExamInfoController;
@@ -271,6 +272,11 @@ public class DaoTest{
     }
     @Autowired
     FileController fileController;
+
+    @Test
+    public void tttt(){
+        System.out.println(Md5Utils.stringMD5("123456"));
+    }
 }
 
 

@@ -92,7 +92,7 @@ function findinfo() {
                     $("#panel1").removeClass("displayno");
                     $("#panel2").removeClass("displayno");
                     $("#panel3").removeClass("displayno");
-                    s=result.data.questionsingle;
+                    s=result.data.questionSingle;
                     m=result.data.questionMultiple;
                     j=result.data.questionJudgement;
                     $('#questionsnum').html(s);
